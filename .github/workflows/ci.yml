@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test-database:
+    name: Migrations + pgTAP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # Sobe Postgres local via Docker (grátis, incluso no runner do GitHub Actions)
+      - name: Start Supabase local
+        run: supabase start
+
+      # Aplica as migrations na ordem — se uma migration quebrar, o CI falha aqui,
+      # antes de qualquer teste rodar
+      - name: Apply migrations
+        run: supabase db reset
+
+      # Roda os testes pgTAP (supabase/tests/*.sql)
+      - name: Run pgTAP tests
+        run: supabase test db
+
+      - name: Stop Supabase local
+        if: always()
+        run: supabase stop
+
+  build-frontend:
+    name: Build (Vite)
+    runs-on: ubuntu-latest
+    needs: test-database
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run build
+
+      # O deploy em si é feito pela integração nativa do Cloudflare Pages
+      # com o repositório Git (configurada direto no dashboard da Cloudflare,
+      # sem necessidade de step de deploy aqui) — este job só garante que o
+      # build passa antes de mergear, funcionando como gate de PR.
