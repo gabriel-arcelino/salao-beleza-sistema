@@ -1,4 +1,4 @@
-# Spec: Relatorios gerenciais
+# Spec: Relatórios gerenciais
 
 > feature: relatorios-gerenciais
 > status: rascunho
@@ -11,49 +11,134 @@
   - Toda história de usuário precisa de pelo menos um critério de aceite.
   - Todo critério de aceite precisa de Dado/Quando/Então completos.
   - Os códigos são únicos no projeto inteiro (nunca reutilize um número).
-  - Suposições e Perguntas em aberto são OBRIGATÓRIAS: se não há nenhuma,
+  - Suposições e Perguntas em aberto são OBRIGATÓRIAS: se não houver nenhuma,
     escreva "Nenhuma." — mas desconfie: quase toda feature esconde uma.
 -->
 
 ## Contexto
 
-Uma frase sobre o problema que esta feature resolve e para quem.
+### Fatos usados como base
+
+- O plano da Fase 4 prevê dois relatórios: fechamento de caixa e comissão por profissional.
+- O relatório de caixa deve aceitar um intervalo de datas; o relatório de comissão deve aceitar competência e profissional.
+- O plano prevê funções SQL, API em `src/lib/api/relatorios.ts`, páginas próprias e integração das páginas ao `App.tsx`.
+- Para o caixa, o plano indica `paid_at` nos pagamentos e `data_pagamento` nas despesas como momentos financeiros; o plano também menciona `closed_at` nos fechamentos de comissão.
+- A prática atual do projeto é retornar os registros disponíveis, sem paginação própria nas APIs.
+
+### Inferência de implementação
+
+- Os totais e detalhamentos serão calculados no banco e consumidos pela API, mantendo a mesma convenção de segurança das funções SQL existentes.
+- As páginas reutilizarão os padrões atuais de formulário, tabela/card e tratamento visual de resultado.
+
+### Decisões ainda abertas
+
+- A regra exata de saldo inicial/final do caixa e a forma de tratar estornos precisam ser confirmadas antes da implementação.
+- A inclusão de ajustes e adiantamentos no relatório de comissão precisa ser definida.
+- A política de acesso por perfil e o limite de competência por fuso horário precisam ser confirmados.
 
 ## Histórias
 
-<!-- História de usuário: quem precisa, o que precisa e por quê. -->
+### US-001 — Gerente consulta o fechamento de caixa por intervalo
 
-### US-001 — [título da história]
+Como gerente, quero consultar o fechamento de caixa em um intervalo de datas, para acompanhar as entradas, saídas e o saldo do salão.
 
-Como [papel], quero [ação], para que [valor].
+#### AC-001 — O relatório apresenta o total de vendas do intervalo
 
-<!-- Critério de aceite: o resultado observável que um teste consegue checar.
-     Escreva para GENTE: título e Então descrevem o que o usuário vê
-     ("a tela avisa X"), não o detalhe técnico ("endpoint retorna 403") —
-     o detalhe pode ir entre parênteses. -->
+- **Dado** pagamentos com `paid_at` dentro do intervalo selecionado
+- **Quando** o gerente solicita o relatório de caixa
+- **Então** o relatório apresenta `total_vendas` igual à soma de `valor_bruto` desses pagamentos
 
-#### AC-001 — [título do critério de aceite]
+#### AC-002 — O relatório apresenta o total de entradas do intervalo
 
-- **Dado** [estado inicial]
-- **Quando** [ação]
-- **Então** [resultado esperado e observável]
+- **Dado** pagamentos com `paid_at` dentro do intervalo selecionado
+- **Quando** o gerente solicita o relatório de caixa
+- **Então** o relatório apresenta `total_entradas` igual à soma de `valor_liquido` desses pagamentos
+
+#### AC-003 — O relatório apresenta o total de saídas do intervalo
+
+- **Dado** despesas com `data_pagamento` e fechamentos de comissão com `closed_at` dentro do intervalo selecionado
+- **Quando** o gerente solicita o relatório de caixa
+- **Então** o relatório apresenta `total_saidas` igual à soma de `valor` das despesas mais a soma de `total_pago` dos fechamentos de comissão
+
+#### AC-004 — O relatório apresenta o saldo inicial
+
+- **Dado** que existe um fechamento de caixa anterior elegível com status `FECHADO`
+- **Quando** o gerente solicita o relatório de caixa
+- **Então** o relatório apresenta `saldo_inicial` igual ao `saldo_devedor_gerado` desse fechamento anterior, ou `0` se não houver fechamento anterior elegível, conforme a regra provisória ASM-001
+
+#### AC-005 — O relatório apresenta o saldo final
+
+- **Dado** o `saldo_inicial`, `total_entradas` e `total_saidas` do intervalo selecionado
+- **Quando** o gerente solicita o relatório de caixa
+- **Então** o relatório apresenta `saldo_final` igual a `saldo_inicial + total_entradas - total_saidas`
+
+### US-002 — Gerente consulta a comissão por profissional e competência
+
+Como gerente, quero consultar as comissões de um profissional em uma competência, para conferir o detalhamento e os totais antes do fechamento.
+
+#### AC-006 — O relatório apresenta o detalhamento das comissões
+
+- **Dado** comandas finalizadas do profissional com itens de comissão na competência selecionada
+- **Quando** o gerente solicita o relatório de comissão
+- **Então** o relatório apresenta uma linha por item com `comanda_id`, número, nome do cliente, tipo do item, descrição, quantidade, preço unitário, total, percentual de comissão e valor de comissão
+
+#### AC-007 — O relatório apresenta o total bruto da competência
+
+- **Dado** os itens de comissão elegíveis do profissional na competência selecionada
+- **Quando** o gerente solicita o relatório de comissão
+- **Então** o relatório apresenta `total_bruto` igual à soma dos totais desses itens
+
+#### AC-008 — O relatório apresenta o total de comissão da competência
+
+- **Dado** os itens de comissão elegíveis do profissional na competência selecionada
+- **Quando** o gerente solicita o relatório de comissão
+- **Então** o relatório apresenta `total_comissao` igual à soma dos `comissao_valor_snapshot` desses itens, sem incluir ajustes ou adiantamentos até que Q-002 seja respondida
+
+### US-003 — Gerente filtra e visualiza os relatórios na interface
+
+Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, para usar as informações sem consultar o banco diretamente.
+
+#### AC-009 — A interface filtra o relatório de caixa
+
+- **Dado** que o gerente está na página de fechamento de caixa
+- **Quando** informa data inicial, data final e aciona o filtro
+- **Então** a página exibe os resultados correspondentes ao intervalo informado
+
+#### AC-010 — A interface filtra o relatório de comissão
+
+- **Dado** que o gerente está na página de comissão por profissional
+- **Quando** seleciona competência, seleciona um profissional e aciona o filtro
+- **Então** a página exibe o detalhamento e os totais correspondentes à seleção
+
+#### AC-011 — A interface informa quando não há dados
+
+- **Dado** que não existe registro elegível para os filtros informados
+- **Quando** o gerente solicita um relatório
+- **Então** a página exibe uma mensagem informativa de ausência de dados e não apresenta totais como se houvesse resultado
 
 ## Fora de escopo
 
-- O que esta feature explicitamente NÃO faz.
+- Exportação dos relatórios em CSV ou PDF.
+- Agendamento ou envio dos relatórios por e-mail.
+- Alteração das regras de fechamento financeiro ou de comissão.
+- Criação de paginação nova para as APIs nesta fase.
+- Implementação de documentos fiscais ou retenções que não façam parte da comissão informada na fonte.
 
 ## Suposições
 
-<!-- O que estamos ASSUMINDO sem confirmação. Status: aberta | confirmada | invalidada -->
-
 | ID | Suposição | Status | Resolução |
 |---|---|---|---|
-| ASM-001 | [o que está sendo assumido em silêncio?] | aberta | — |
+| ASM-001 | Para esta especificação provisória, `saldo_inicial` usa o `saldo_devedor_gerado` do fechamento anterior com status `FECHADO`, ou `0` quando não houver fechamento elegível. | aberta | — |
+| ASM-002 | Até decisão em contrário, as APIs dos relatórios mantêm a prática atual de retornar todos os registros disponíveis, sem paginação própria. | aberta | — |
+| ASM-003 | Até Q-002 ser respondida, `total_comissao` representa a soma dos valores de comissão dos itens, sem ajustes ou adiantamentos. | aberta | — |
 
 ## Perguntas em aberto
 
-<!-- O que ainda não sabemos. Status: aberta | respondida -->
-
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
-| Q-001 | [o que precisa ser decidido pelo dono do produto?] | aberta | — |
+| Q-001 | O relatório de caixa deve manter `saldo_inicial` e `saldo_final`? Em caso positivo, qual regra deve valer: fechamento anterior `FECHADO`, acumulado anterior ao intervalo ou outra regra? | aberta | — |
+| Q-002 | Ajustes e adiantamentos de comissão devem aparecer no relatório? Se sim, devem ser linhas detalhadas, compor apenas `total_comissao` ou ambos? | aberta | — |
+| Q-003 | Estornos totais e parciais de pagamento devem excluir o pagamento, reduzir `valor_bruto`/`valor_liquido` ou aparecer em uma coluna separada? | aberta | — |
+| Q-004 | Qual fuso horário e qual regra de início/fim definem a competência mensal e os intervalos financeiros? | aberta | — |
+| Q-005 | Quais perfis podem acessar cada relatório e qual deve ser o comportamento de `PROFISSIONAL` no relatório de caixa? | aberta | — |
+| Q-006 | O relatório de comissão deve incluir apenas comissões já processadas, apenas não processadas ou ambos os estados? | aberta | — |

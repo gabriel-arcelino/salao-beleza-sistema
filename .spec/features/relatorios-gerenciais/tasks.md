@@ -18,8 +18,32 @@
     (atalho: `onp-spec tarefa <feature> <T-xxx> <status>`)
 -->
 
-## T-001 — [título da tarefa] [pendente]
+## T-001 — Implementar função SQL do relatório de caixa [pendente]
 
-- Refs: US-001, AC-001
-- Arquivos: src/exemplo.js
-- Notas: [decisões, dependências de outras tarefas]
+- Refs: US-001, AC-001, AC-002, AC-003, AC-004, AC-005
+- Arquivos: supabase/migrations/0012_relatorio_caixa.sql, supabase/tests/012_relatorio_caixa.sql
+- Notas: manter decisões de saldo, estornos e fusos horários alinhadas às respostas de Q-001, Q-003 e Q-004.
+
+## T-002 — Implementar função SQL do relatório de comissão [pendente]
+
+- Refs: US-002, AC-006, AC-007, AC-008
+- Arquivos: supabase/migrations/0013_relatorio_comissao.sql, supabase/tests/013_relatorio_comissao.sql
+- Notas: manter inclusão de ajustes, adiantamentos e estado de processamento alinhada às respostas de Q-002 e Q-006.
+
+## T-003 — Expor endpoints e tipos dos relatórios [pendente]
+
+- Refs: US-001, US-002, AC-001, AC-002, AC-003, AC-004, AC-005, AC-006, AC-007, AC-008
+- Arquivos: src/lib/api/relatorios.ts, src/types.ts
+- Notas: preservar as convenções existentes de cliente Supabase, segurança e tipagem.
+
+## T-004 — Criar páginas de filtragem e visualização dos relatórios [pendente]
+
+- Refs: US-003, AC-009, AC-010, AC-011
+- Arquivos: src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+- Notas: reutilizar os padrões atuais de formulário, tabela/card e mensagem de ausência de dados.
+
+## T-005 — Integrar os relatórios à navegação [pendente]
+
+- Refs: US-003, AC-009, AC-010
+- Arquivos: src/App.tsx
+- Notas: manter a estrutura atual de abas individuais e adicionar as entradas de relatório previstas no plano.
