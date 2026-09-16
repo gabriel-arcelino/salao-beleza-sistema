@@ -130,15 +130,15 @@ Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, 
 |---|---|---|---|
 | ASM-001 | `saldo_inicial` é o total de entradas menos o total de saídas até o dia antes do início do intervalo (conforme resposta de Q-001). | confirmada | Q-001 |
 | ASM-002 | Até decisão em contrário, as APIs dos relatórios mantêm a prática atual de retornar todos os registros disponíveis, sem paginação própria. | aberta | — |
-| ASM-003 | Até Q-002 ser respondida, `total_comissao` representa a soma dos valores de comissão dos itens, sem ajustes ou adiantamentos. | aberta | — |
+| ASM-003 | total_comissao representa a soma dos valores de comissão dos itens, incluindo ajustes e adiantamentos (conforme resposta de Q-002). | confirmada | Q-002 |
 
 ## Perguntas em aberto
 
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
 | Q-001 | O relatório de caixa deve manter `saldo_inicial` e `saldo_final`? Em caso positivo, qual regra deve valer: fechamento anterior `FECHADO`, acumulado anterior ao intervalo ou outra regra? | respondida | Sim, o relatório de caixa deve manter saldo_inicial e saldo_final. Regra: saldo_inicial é o total de entradas menos o total de saídas até o dia antes do início do intervalo. saldo_final é o total de entradas menos o total de saídas até o fim do intervalo. Equivalentemente: saldo_inicial = (total de entradas até inicio-1) - (total de saídas até inicio-1); saldo_final = (total de entradas até fim) - (total de saídas até fim). |
-| Q-002 | Ajustes e adiantamentos de comissão devem aparecer no relatório? Se sim, devem ser linhas detalhadas, compor apenas `total_comissao` ou ambos? | aberta | — |
+| Q-002 | Ajustes e adiantamentos de comissão devem aparecer no relatório? Se sim, devem ser linhas detalhadas, compor apenas `total_comissao` ou ambos? | respondida | Ambos: devem aparecer como linhas detalhadas (quando existirem) e também compor o total_comissao (total_comissao = soma dos comissao_valor_snapshot - total de adiantamentos + total de ajustes, limitado a não negativo). |
 | Q-003 | Estornos totais e parciais de pagamento devem excluir o pagamento, reduzir `valor_bruto`/`valor_liquido` ou aparecer em uma coluna separada? | respondida | Estornos totais excluem o pagamento (não são considerados). Estornos parciais são refletidos no valor_liquido (já descontado), portanto não aparecem em uma coluna separada. |
 | Q-004 | Qual fuso horário e qual regra de início/fim definem a competência mensal e os intervalos financeiros? | respondida | Utilizamos o fuso horário do salão (America/Sao_Paulo). Para os intervalos, consideramos a data (sem hora) no fuso horário do salão. Para agrupamento por mês, usamos to_char(campo_data, 'YYYY-MM') e para filtros de intervalo usamos campo_data::date, ambos no fuso horário do salão. |
 | Q-005 | Quais perfis podem acessar cada relatório e qual deve ser o comportamento de `PROFISSIONAL` no relatório de caixa? | respondida | Apenas os perfis ADMIN e GERENTE podem acessar o relatório de caixa. O perfil PROFISSIONAL não tem acesso a este relatório. |
-| Q-006 | O relatório de comissão deve incluir apenas comissões já processadas, apenas não processadas ou ambos os estados? | aberta | — |
+| Q-006 | O relatório de comissão deve incluir apenas comissões já processadas, apenas não processadas ou ambos os estados? | respondida | Apenas comissões não processadas (comissao_processada = false), pois o relatório tem como objetivo conferir o detalhamento e os totais antes do fechamento (conforme US-002). |

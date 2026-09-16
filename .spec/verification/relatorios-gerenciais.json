@@ -1,10 +1,10 @@
 {
   "feature": "relatorios-gerenciais",
-  "timestamp": "2026-09-16T13:55:04.789Z",
-  "gitRev": "9266f39",
+  "timestamp": "2026-09-16T17:26:30.728Z",
+  "gitRev": "7faebc7",
   "command": "node scripts/onp-pgtap-verify.cjs",
   "reporter": "tap",
-  "exitCode": 0,
+  "exitCode": 1,
   "testsParsed": 61,
   "results": {
     "AC-001": {
