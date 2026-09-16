@@ -136,9 +136,9 @@ Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, 
 
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
-| Q-001 | O relatório de caixa deve manter `saldo_inicial` e `saldo_final`? Em caso positivo, qual regra deve valer: fechamento anterior `FECHADO`, acumulado anterior ao intervalo ou outra regra? | aberta | — |
+| Q-001 | O relatório de caixa deve manter `saldo_inicial` e `saldo_final`? Em caso positivo, qual regra deve valer: fechamento anterior `FECHADO`, acumulado anterior ao intervalo ou outra regra? | respondida | Sim, o relatório de caixa deve manter saldo_inicial e saldo_final. Regra: saldo_inicial é o total de entradas menos o total de saídas até o dia antes do início do intervalo. saldo_final é o total de entradas menos o total de saídas até o fim do intervalo. Equivalentemente: saldo_inicial = (total de entradas até inicio-1) - (total de saídas até inicio-1); saldo_final = (total de entradas até fim) - (total de saídas até fim). |
 | Q-002 | Ajustes e adiantamentos de comissão devem aparecer no relatório? Se sim, devem ser linhas detalhadas, compor apenas `total_comissao` ou ambos? | aberta | — |
-| Q-003 | Estornos totais e parciais de pagamento devem excluir o pagamento, reduzir `valor_bruto`/`valor_liquido` ou aparecer em uma coluna separada? | aberta | — |
-| Q-004 | Qual fuso horário e qual regra de início/fim definem a competência mensal e os intervalos financeiros? | aberta | — |
-| Q-005 | Quais perfis podem acessar cada relatório e qual deve ser o comportamento de `PROFISSIONAL` no relatório de caixa? | aberta | — |
+| Q-003 | Estornos totais e parciais de pagamento devem excluir o pagamento, reduzir `valor_bruto`/`valor_liquido` ou aparecer em uma coluna separada? | respondida | Estornos totais excluem o pagamento (não são considerados). Estornos parciais são refletidos no valor_liquido (já descontado), portanto não aparecem em uma coluna separada. |
+| Q-004 | Qual fuso horário e qual regra de início/fim definem a competência mensal e os intervalos financeiros? | respondida | Utilizamos o fuso horário do salão (America/Sao_Paulo). Para os intervalos, consideramos a data (sem hora) no fuso horário do salão. Para agrupamento por mês, usamos to_char(campo_data, 'YYYY-MM') e para filtros de intervalo usamos campo_data::date, ambos no fuso horário do salão. |
+| Q-005 | Quais perfis podem acessar cada relatório e qual deve ser o comportamento de `PROFISSIONAL` no relatório de caixa? | respondida | Apenas os perfis ADMIN e GERENTE podem acessar o relatório de caixa. O perfil PROFISSIONAL não tem acesso a este relatório. |
 | Q-006 | O relatório de comissão deve incluir apenas comissões já processadas, apenas não processadas ou ambos os estados? | aberta | — |

@@ -5,19 +5,19 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "relatorios-gerenciais",
       "ref": "T-001",
-      "ocorrencias": 7,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-15T02:34:22.513Z",
-      "ultimaVez": "2026-09-15T02:53:39.432Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-001": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-001",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/App.tsx": {
       "codigo": "ARQUIVO_ORFAO",
@@ -32,172 +32,172 @@
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/clientes.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/comandas.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/comandas.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/config_comissoes.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/config_comissoes.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/estoque.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/estoque.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/produtos.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/produtos.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/profissionais.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/profissionais.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/servicos.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/servicos.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/salon.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/salon.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/lib/supabaseClient.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/supabaseClient.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/main.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/main.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ClientesPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ClientesPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ComandasPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ComandasPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ConfigComissoesPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ConfigComissoesPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/DashboardPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/DashboardPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/LoginPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/LoginPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ProdutosPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ProdutosPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ProfissionaisPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ProfissionaisPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/RelatorioEstoquePage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/RelatorioEstoquePage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/pages/ServicosPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ServicosPage.tsx",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_ORFAO::—::src/types.ts": {
       "codigo": "ARQUIVO_ORFAO",
@@ -212,10 +212,10 @@
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/vite-env.d.ts",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "GLOB_SEM_ARQUIVOS::—::P-002": {
       "codigo": "GLOB_SEM_ARQUIVOS",
@@ -230,118 +230,118 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "relatorios-gerenciais",
       "ref": "T-002",
-      "ocorrencias": 6,
+      "ocorrencias": 8,
       "primeiraVez": "2026-09-15T02:44:58.539Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_INEXISTENTE::relatorios-gerenciais::T-003": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "relatorios-gerenciais",
       "ref": "T-003",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.539Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "ARQUIVO_INEXISTENTE::relatorios-gerenciais::T-004": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "relatorios-gerenciais",
       "ref": "T-004",
-      "ocorrencias": 6,
+      "ocorrencias": 8,
       "primeiraVez": "2026-09-15T02:44:58.539Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-002": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-002",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.539Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-003": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-003",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.539Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.577Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-004": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-004",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-005": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-005",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-006": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-006",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-007": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-007",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-008": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-008",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-009": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-009",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-010": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-010",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     },
     "AC_SEM_TESTE::relatorios-gerenciais::AC-011": {
       "codigo": "AC_SEM_TESTE",
       "feature": "relatorios-gerenciais",
       "ref": "AC-011",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-15T02:44:58.540Z",
-      "ultimaVez": "2026-09-15T02:53:39.433Z",
-      "gitRev": "7c82a9d"
+      "ultimaVez": "2026-09-15T23:55:39.578Z",
+      "gitRev": "8a4bb65"
     }
   }
 }
