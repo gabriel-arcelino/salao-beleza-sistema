@@ -62,9 +62,9 @@ Como gerente, quero consultar o fechamento de caixa em um intervalo de datas, pa
 
 #### AC-004 — O relatório apresenta o saldo inicial
 
-- **Dado** que existe um fechamento de caixa anterior elegível com status `FECHADO`
+- **Dado** o intervalo selecionado com data de início e data de fim
 - **Quando** o gerente solicita o relatório de caixa
-- **Então** o relatório apresenta `saldo_inicial` igual ao `saldo_devedor_gerado` desse fechamento anterior, ou `0` se não houver fechamento anterior elegível, conforme a regra provisória ASM-001
+- **Então** o relatório apresenta `saldo_inicial` igual ao total de entradas menos o total de saídas até o dia antes do início do intervalo, onde entradas são a soma de `valor_liquido` dos pagamentos com `paid_at` < início e saídas são a soma de `valor` das despesas com `data_pagamento` < início mais a soma de `total_pago` dos fechamentos de comissão com `closed_at` < início. Se não houver registros, o valor é `0`.
 
 #### AC-005 — O relatório apresenta o saldo final
 
@@ -128,7 +128,7 @@ Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, 
 
 | ID | Suposição | Status | Resolução |
 |---|---|---|---|
-| ASM-001 | Para esta especificação provisória, `saldo_inicial` usa o `saldo_devedor_gerado` do fechamento anterior com status `FECHADO`, ou `0` quando não houver fechamento elegível. | aberta | — |
+| ASM-001 | `saldo_inicial` é o total de entradas menos o total de saídas até o dia antes do início do intervalo (conforme resposta de Q-001). | confirmada | Q-001 |
 | ASM-002 | Até decisão em contrário, as APIs dos relatórios mantêm a prática atual de retornar todos os registros disponíveis, sem paginação própria. | aberta | — |
 | ASM-003 | Até Q-002 ser respondida, `total_comissao` representa a soma dos valores de comissão dos itens, sem ajustes ou adiantamentos. | aberta | — |
 
