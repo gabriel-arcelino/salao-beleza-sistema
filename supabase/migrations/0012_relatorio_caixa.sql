@@ -58,9 +58,8 @@ begin
             valor_liquido
         from public.pagamentos
         where salon_id = v_salon_id
-          and paid_at::date >= (select inicio_minus_one from date_helpers)
           and paid_at::date <= (select max_dt from max_date)
-          and (estorno is null or estorno = false)
+          and (estornado is null or estornado = false)
     ),
     despesas_data as (
         select
@@ -68,17 +67,15 @@ begin
             valor
         from public.despesas
         where salon_id = v_salon_id
-          and data_pagamento >= (select inicio_minus_one from date_helpers)
           and data_pagamento <= (select max_dt from max_date)
     ),
     fechamentos_comissao_data as (
         select
-            closed_at::date as pago_date,
+            fechado_em::date as pago_date,
             total_pago
         from public.fechamentos_comissao
         where salon_id = v_salon_id
-          and closed_at::date >= (select inicio_minus_one from date_helpers)
-          and closed_at::date <= (select max_dt from max_date)
+          and fechado_em::date <= (select max_dt from max_date)
     ),
     agg as (
         select

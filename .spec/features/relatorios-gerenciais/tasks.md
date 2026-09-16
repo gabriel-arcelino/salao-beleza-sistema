@@ -18,8 +18,7 @@
     (atalho: `onp-spec tarefa <feature> <T-xxx> <status>`)
 -->
 
-## T-001 — Implementar função SQL do relatório de caixa [pendente]
-
+## T-001 — Implementar função SQL do relatório de caixa [concluida]
 - Refs: US-001, AC-001, AC-002, AC-003, AC-004, AC-005
 - Arquivos: supabase/migrations/0012_relatorio_caixa.sql, supabase/tests/012_relatorio_caixa.sql
 - Notas: manter decisões de saldo, estornos e fusos horários alinhadas às respostas de Q-001, Q-003 e Q-004.

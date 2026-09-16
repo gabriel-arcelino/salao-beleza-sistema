@@ -1,0 +1,37 @@
+{
+  "feature": "relatorios-gerenciais",
+  "timestamp": "2026-09-16T13:25:01.361Z",
+  "gitRev": "4adfd01",
+  "command": "node scripts/onp-pgtap-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 61,
+  "results": {
+    "AC-001": {
+      "status": "pass",
+      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
+      "method": "tap"
+    },
+    "AC-002": {
+      "status": "pass",
+      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
+      "method": "tap"
+    },
+    "AC-003": {
+      "status": "pass",
+      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
+      "method": "tap"
+    },
+    "AC-004": {
+      "status": "pass",
+      "testName": "interval after all data (Feb 2026) @spec:AC-004 @spec:AC-005",
+      "method": "tap"
+    },
+    "AC-005": {
+      "status": "pass",
+      "testName": "empty interval before any data @spec:AC-005",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
