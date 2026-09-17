@@ -63,7 +63,7 @@ Durante o setup e testes, foram identificadas e aplicadas as seguintes resoluç�
 - [x] `fn_relatorio_comissao` implementada e testada (migration 0013 + test 013) — 5 testes passando (AC-006, AC-007, AC-008 verificados)
 - [x] `src/lib/api/relatorios.ts` criado com endpoints `getRelatorioCaixa` e `getRelatorioComissao`
 - [x] `src/pages/RelatorioCaixaPage.tsx` criado (filtro por intervalo + tabela/card de resultados + mensagem de vazio)
-- [x] `src/pages/RelatorioComissaoPage.tsx` criado (filtro por competência e profissional + tabela de itens e totais + mensagem de vazio)
+- [x] `src/pages/RelatorioComissaoPage.tsx` criado (filtro por competência/profissional + tabela de itens + totais + mensagem de vazio)
 - [x] Tipos `RelatorioCaixa`, `RelatorioComissao`, `RelatorioComissaoItem` adicionados a `src/types.ts`
 
 ## Próximos Passos

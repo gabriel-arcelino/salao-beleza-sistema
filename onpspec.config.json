@@ -1,5 +1,5 @@
 {
-  "testCommand": "node scripts/onp-pgtap-verify.cjs",
+  "testCommand": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "testGlobs": [
     "test/**",

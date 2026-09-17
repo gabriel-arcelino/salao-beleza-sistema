@@ -35,7 +35,7 @@
 - Arquivos: src/lib/api/relatorios.ts, src/types.ts
 - Notas: preservar as convenções existentes de cliente Supabase, segurança e tipagem.
 
-## T-004 — Criar páginas de filtragem e visualização dos relatórios [em-andamento]
+## T-004 — Criar páginas de filtragem e visualização dos relatórios [concluida]
 
 - Refs: US-003, AC-009, AC-010, AC-011
 - Arquivos: src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx

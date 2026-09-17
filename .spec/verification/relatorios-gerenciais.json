@@ -1,11 +1,11 @@
 {
   "feature": "relatorios-gerenciais",
-  "timestamp": "2026-09-17T00:53:14.673Z",
-  "gitRev": "303a7f6",
-  "command": "node scripts/onp-pgtap-verify.cjs",
+  "timestamp": "2026-09-17T01:57:03.319Z",
+  "gitRev": "d098058",
+  "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 66,
+  "testsParsed": 74,
   "results": {
     "AC-001": {
       "status": "pass",
@@ -45,6 +45,21 @@
     "AC-008": {
       "status": "pass",
       "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
+      "method": "tap"
+    },
+    "AC-009": {
+      "status": "pass",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=519.82ms {",
+      "method": "tap"
+    },
+    "AC-010": {
+      "status": "pass",
+      "testName": "RelatorioComissaoPage @spec:AC-010 @spec:AC-011 # time=524.74ms {",
+      "method": "tap"
+    },
+    "AC-011": {
+      "status": "pass",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=519.82ms {",
       "method": "tap"
     }
   },
