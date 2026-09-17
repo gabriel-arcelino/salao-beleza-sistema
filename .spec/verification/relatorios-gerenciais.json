@@ -1,11 +1,11 @@
 {
   "feature": "relatorios-gerenciais",
-  "timestamp": "2026-09-16T17:26:30.728Z",
-  "gitRev": "7faebc7",
+  "timestamp": "2026-09-16T22:40:39.518Z",
+  "gitRev": "0350887",
   "command": "node scripts/onp-pgtap-verify.cjs",
   "reporter": "tap",
-  "exitCode": 1,
-  "testsParsed": 61,
+  "exitCode": 0,
+  "testsParsed": 66,
   "results": {
     "AC-001": {
       "status": "pass",
@@ -30,6 +30,21 @@
     "AC-005": {
       "status": "pass",
       "testName": "empty interval before any data @spec:AC-005",
+      "method": "tap"
+    },
+    "AC-006": {
+      "status": "pass",
+      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
+      "method": "tap"
+    },
+    "AC-007": {
+      "status": "pass",
+      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
+      "method": "tap"
+    },
+    "AC-008": {
+      "status": "pass",
+      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
       "method": "tap"
     }
   },

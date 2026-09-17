@@ -36,7 +36,7 @@ on conflict do nothing;
 
 -- Insert comanda (finalizada) within competência 2026-01
 insert into public.comandas (id, salon_id, uuid_cliente, cliente_id, profissional_id, status, subtotal, desconto, total, opened_at, closed_at, created_by, closed_by, created_at, updated_at)
-values ('dddddddd-dddd-dddd-dddd-dddddddddddd', '00000000-0000-0000-0000-000000000001', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'FINALIZADA', 100.00, 0, 100.00, now(), now(), '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', now(), now())
+values ('dddddddd-dddd-dddd-dddd-dddddddddddd', '00000000-0000-0000-0000-000000000001', 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'FINALIZADA', 100.00, 0, 100.00, '2026-01-05', '2026-01-15', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', now(), now())
 on conflict do nothing;
 
 -- Insert comanda_item for the above comanda (serviço)
@@ -46,7 +46,7 @@ on conflict do nothing;
 
 -- Insert a comanda_item that is already processed (should be excluded)
 insert into public.comandas (id, salon_id, uuid_cliente, cliente_id, profissional_id, status, subtotal, desconto, total, opened_at, closed_at, created_by, closed_by, created_at, updated_at)
-values ('11111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-000000000001', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'FINALIZADA', 50.00, 0, 50.00, now(), now(), '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', now(), now())
+values ('11111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-000000000001', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'FINALIZADA', 50.00, 0, 50.00, '2026-01-08', '2026-01-20', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', now(), now())
 on conflict do nothing;
 
 insert into public.comanda_itens (id, salon_id, comanda_id, tipo, servico_id, descricao_snapshot, quantidade, preco_unitario, total, profissional_id, comissao_percentual_snapshot, comissao_valor_snapshot, comissao_processada)

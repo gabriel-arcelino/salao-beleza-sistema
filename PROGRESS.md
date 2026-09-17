@@ -59,6 +59,8 @@ Durante o setup e testes, foram identificadas e aplicadas as seguintes resoluç�
 - [x] API de estoque (`src/lib/api/estoque.ts`)
 - [x] Tipo `estoque_atual` adicionado a `Produto` em `src/types.ts`
 
+- [x] `fn_relatorio_comissao` implementada e testada (migration 0013 + test 013) — 5 testes passando (AC-006, AC-007, AC-008 verificados)
+
 ## Próximos Passos
 1. Executar `npm run dev` e validar manualmente o Dashboard + fluxo de comanda
 2. Fase 4: Relatórios gerenciais avançados (fechamento de caixa, comissão por profissional)

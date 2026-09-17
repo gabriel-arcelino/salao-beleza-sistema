@@ -63,32 +63,10 @@ begin
           and ci.profissional_id = p_profissional_id_param
           and c.status = 'FINALIZADA'
           and to_char(c.closed_at, 'YYYY-MM') = p_competencia
+          and ci.comissao_processada = false
     ),
-    totals as (
-        select
-            coalesce(sum(total), 0) as total_bruto,
-            coalesce(sum(comissao_valor_snapshot), 0) as total_comissao_raw
-        from items_data
-    ),
-    adiantamentos as (
-        select coalesce(sum(valor), 0) as total_adiantamentos
-        from public.despesas
-        where salon_id = (select salon_id from salon_check)
-          and profissional_id = p_profissional_id_param
-          and categoria = 'ADIANTAMENTO'
-          and to_char(data_competencia, 'YYYY-MM') = p_competencia
-    ),
-    ajustes as (
-        select coalesce(sum(valor), 0) as total_ajustes
-        from public.ajustes_comissao
-        where salon_id = (select salon_id from salon_check)
-          and profissional_id = p_profissional_id_param
-          and competencia_lancamento = p_competencia
-    )
-    select
-        p_competencia as competencia,
-        p_profissional_id_param as profissional_id,
-        coalesce(
+    items_agg as (
+        select coalesce(
             jsonb_agg(
                 jsonb_build_object(
                     'comandaId', comanda_id,
@@ -105,10 +83,36 @@ begin
                 order by comanda_id
             ) filter (where comanda_id is not null),
             '[]'::jsonb
-        ) as items,
-        total_bruto,
-        greatest((select total_comissao_raw from totals) - (select total_adiantamentos from adiantamentos) + (select total_ajustes from ajustes), 0) as total_comissao
-    from items_data, totals, adiantamentos, ajustes
-    group by total_bruto, total_comissao_raw, total_adiantamentos, total_ajustes;
+        ) as items
+        from items_data
+    ),
+    totals as (
+        select
+            coalesce(sum(total), 0) as total_bruto,
+            coalesce(sum(comissao_valor_snapshot), 0) as total_comissao_raw
+        from items_data
+    ),
+    adiantamentos as (
+        select coalesce(sum(valor), 0) as total_adiantamentos
+        from public.despesas
+        where salon_id = (select salon_id from salon_check)
+          and public.despesas.profissional_id = p_profissional_id_param
+          and categoria = 'ADIANTAMENTO'
+          and to_char(data_competencia, 'YYYY-MM') = p_competencia
+    ),
+    ajustes as (
+        select coalesce(sum(valor), 0) as total_ajustes
+        from public.ajustes_comissao
+        where salon_id = (select salon_id from salon_check)
+          and public.ajustes_comissao.profissional_id = p_profissional_id_param
+          and competencia_lancamento = p_competencia
+    )
+    select
+        p_competencia as competencia,
+        p_profissional_id_param as profissional_id,
+        items_agg.items,
+        totals.total_bruto,
+        greatest(totals.total_comissao_raw - adiantamentos.total_adiantamentos + ajustes.total_ajustes, 0) as total_comissao
+    from items_agg, totals, adiantamentos, ajustes;
 end;
 $$;

@@ -23,7 +23,7 @@
 - Arquivos: supabase/migrations/0012_relatorio_caixa.sql, supabase/tests/012_relatorio_caixa.sql
 - Notas: manter decisões de saldo, estornos e fusos horários alinhadas às respostas de Q-001, Q-003 e Q-004.
 
-## T-002 — Implementar função SQL do relatório de comissão [pendente]
+## T-002 — Implementar função SQL do relatório de comissão [concluida]
 
 - Refs: US-002, AC-006, AC-007, AC-008
 - Arquivos: supabase/migrations/0013_relatorio_comissao.sql, supabase/tests/013_relatorio_comissao.sql
