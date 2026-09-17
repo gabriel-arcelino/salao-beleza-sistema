@@ -134,6 +134,35 @@ export interface Pagamento {
   created_at: string;
 }
 
+export interface RelatorioCaixa {
+  data_inicio: string;
+  data_fim: string;
+  total_vendas: number;
+  total_entradas: number;
+  total_saidas: number;
+  saldo_inicial: number;
+  saldo_final: number;
+}
+
+export interface RelatorioComissaoItem {
+  comandaId: string;
+  numero: number;
+  clienteNome: string;
+  itemTipo: "SERVICO" | "PRODUTO";
+  descricaoSnapshot: string;
+  quantidade: number;
+  precoUnitario: number;
+  total: number;
+  comissaoPercentualSnapshot: number | null;
+  comissaoValorSnapshot: number | null;
+}
+
+export interface RelatorioComissao {
+  items: RelatorioComissaoItem[];
+  totalBruto: number;
+  totalComissao: number;
+}
+
 export interface ComandaComItens extends Comanda {
   itens: ComandaItem[];
   pagamentos: Pagamento[];

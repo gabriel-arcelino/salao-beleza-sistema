@@ -29,7 +29,7 @@
 - Arquivos: supabase/migrations/0013_relatorio_comissao.sql, supabase/tests/013_relatorio_comissao.sql
 - Notas: manter inclusão de ajustes, adiantamentos e estado de processamento alinhada às respostas de Q-002 e Q-006.
 
-## T-003 — Expor endpoints e tipos dos relatórios [pendente]
+## T-003 — Expor endpoints e tipos dos relatórios [concluida]
 
 - Refs: US-001, US-002, AC-001, AC-002, AC-003, AC-004, AC-005, AC-006, AC-007, AC-008
 - Arquivos: src/lib/api/relatorios.ts, src/types.ts

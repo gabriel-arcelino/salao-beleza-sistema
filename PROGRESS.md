@@ -59,7 +59,10 @@ Durante o setup e testes, foram identificadas e aplicadas as seguintes resoluç�
 - [x] API de estoque (`src/lib/api/estoque.ts`)
 - [x] Tipo `estoque_atual` adicionado a `Produto` em `src/types.ts`
 
+- [x] `fn_relatorio_caixa` implementada (migration 0012 + test 012)
 - [x] `fn_relatorio_comissao` implementada e testada (migration 0013 + test 013) — 5 testes passando (AC-006, AC-007, AC-008 verificados)
+- [x] `src/lib/api/relatorios.ts` criado com endpoints `getRelatorioCaixa` e `getRelatorioComissao`
+- [x] Tipos `RelatorioCaixa`, `RelatorioComissao`, `RelatorioComissaoItem` adicionados a `src/types.ts`
 
 ## Próximos Passos
 1. Executar `npm run dev` e validar manualmente o Dashboard + fluxo de comanda
