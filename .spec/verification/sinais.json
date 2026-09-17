@@ -32,172 +32,172 @@
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/clientes.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.190Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.092Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/comandas.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/comandas.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/config_comissoes.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/config_comissoes.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/estoque.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/estoque.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/produtos.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/produtos.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/profissionais.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/profissionais.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/api/servicos.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/api/servicos.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/salon.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/salon.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/lib/supabaseClient.ts": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/lib/supabaseClient.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/main.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/main.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ClientesPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ClientesPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ComandasPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ComandasPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.514Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ConfigComissoesPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ConfigComissoesPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/DashboardPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/DashboardPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/LoginPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/LoginPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ProdutosPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ProdutosPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ProfissionaisPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ProfissionaisPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/RelatorioEstoquePage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/RelatorioEstoquePage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/pages/ServicosPage.tsx": {
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/pages/ServicosPage.tsx",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "ARQUIVO_ORFAO::—::src/types.ts": {
       "codigo": "ARQUIVO_ORFAO",
@@ -212,10 +212,10 @@
       "codigo": "ARQUIVO_ORFAO",
       "feature": "—",
       "ref": "src/vite-env.d.ts",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-15T02:34:22.515Z",
-      "ultimaVez": "2026-09-17T12:57:38.191Z",
-      "gitRev": "dab7ec3"
+      "ultimaVez": "2026-09-17T13:14:32.096Z",
+      "gitRev": "85c5af4"
     },
     "GLOB_SEM_ARQUIVOS::—::P-002": {
       "codigo": "GLOB_SEM_ARQUIVOS",
