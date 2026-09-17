@@ -41,7 +41,7 @@
 - Arquivos: src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
 - Notas: reutilizar os padrões atuais de formulário, tabela/card e mensagem de ausência de dados.
 
-## T-005 — Integrar os relatórios à navegação [pendente]
+## T-005 — Integrar os relatórios à navegação [concluida]
 
 - Refs: US-003, AC-009, AC-010
 - Arquivos: src/App.tsx

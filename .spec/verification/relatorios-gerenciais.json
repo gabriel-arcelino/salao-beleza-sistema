@@ -1,65 +1,25 @@
 {
   "feature": "relatorios-gerenciais",
-  "timestamp": "2026-09-17T01:57:03.319Z",
-  "gitRev": "d098058",
+  "timestamp": "2026-09-17T12:42:47.606Z",
+  "gitRev": "2ac4aa1",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
-  "exitCode": 0,
-  "testsParsed": 74,
+  "exitCode": 1,
+  "testsParsed": 8,
   "results": {
-    "AC-001": {
-      "status": "pass",
-      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
-      "method": "tap"
-    },
-    "AC-002": {
-      "status": "pass",
-      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
-      "method": "tap"
-    },
-    "AC-003": {
-      "status": "pass",
-      "testName": "interval with data (Jan 2026) @spec:AC-001 @spec:AC-002 @spec:AC-003 @spec:AC-005",
-      "method": "tap"
-    },
-    "AC-004": {
-      "status": "pass",
-      "testName": "interval after all data (Feb 2026) @spec:AC-004 @spec:AC-005",
-      "method": "tap"
-    },
-    "AC-005": {
-      "status": "pass",
-      "testName": "empty interval before any data @spec:AC-005",
-      "method": "tap"
-    },
-    "AC-006": {
-      "status": "pass",
-      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
-      "method": "tap"
-    },
-    "AC-007": {
-      "status": "pass",
-      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
-      "method": "tap"
-    },
-    "AC-008": {
-      "status": "pass",
-      "testName": "empty competencia before any data @spec:AC-006 @spec:AC-007 @spec:AC-008",
-      "method": "tap"
-    },
     "AC-009": {
       "status": "pass",
-      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=519.82ms {",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=801.00ms {",
       "method": "tap"
     },
     "AC-010": {
       "status": "pass",
-      "testName": "RelatorioComissaoPage @spec:AC-010 @spec:AC-011 # time=524.74ms {",
+      "testName": "RelatorioComissaoPage @spec:AC-010 @spec:AC-011 # time=916.91ms {",
       "method": "tap"
     },
     "AC-011": {
       "status": "pass",
-      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=519.82ms {",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=801.00ms {",
       "method": "tap"
     }
   },

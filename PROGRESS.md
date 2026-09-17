@@ -66,6 +66,11 @@ Durante o setup e testes, foram identificadas e aplicadas as seguintes resoluç�
 - [x] `src/pages/RelatorioComissaoPage.tsx` criado (filtro por competência/profissional + tabela de itens + totais + mensagem de vazio)
 - [x] Tipos `RelatorioCaixa`, `RelatorioComissao`, `RelatorioComissaoItem` adicionados a `src/types.ts`
 
+- [x] `App.tsx` atualizado: importadas `RelatorioCaixaPage` e `RelatorioComissaoPage`; adicionadas abas "Fechamento de Caixa" (`relatorio-caixa`) e "Comissão por Profissional" (`relatorio-comissao`) ao array `ABAS`
+- [x] Testes frontend `tests/relatorio-caixa.spec.tsx` e `tests/relatorio-comissao.spec.tsx` (AC-009, AC-010, AC-011)
+- [x] Adapter combinado `scripts/onp-combined-verify.cjs` (pgTAP + vitest TAP)
+- [x] Config `vitest.config.ts` (jsdom, reporter tap)
+
 ## Próximos Passos
 1. Executar `npm run dev` e validar manualmente o Dashboard + fluxo de comanda
 2. Fase 4: Relatórios gerenciais avançados (fechamento de caixa, comissão por profissional)

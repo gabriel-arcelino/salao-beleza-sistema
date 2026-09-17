@@ -7,6 +7,8 @@ import { ConfigComissoesPage } from "./pages/ConfigComissoesPage";
 import { ComandasPage } from "./pages/ComandasPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { RelatorioEstoquePage } from "./pages/RelatorioEstoquePage";
+import { RelatorioCaixaPage } from "./pages/RelatorioCaixaPage";
+import { RelatorioComissaoPage } from "./pages/RelatorioComissaoPage";
 import { LoginPage } from "./pages/LoginPage";
 import { supabase } from "./lib/supabaseClient";
 
@@ -20,6 +22,8 @@ const ABAS = [
   { id: "comissoes", label: "Configurar Comissão", Component: ConfigComissoesPage },
   { id: "comandas", label: "Comandas", Component: ComandasPage },
   { id: "relatorio-estoque", label: "Relatório de Estoque", Component: RelatorioEstoquePage },
+  { id: "relatorio-caixa", label: "Fechamento de Caixa", Component: RelatorioCaixaPage },
+  { id: "relatorio-comissao", label: "Comissão por Profissional", Component: RelatorioComissaoPage },
 ] as const;
 
 function App() {
