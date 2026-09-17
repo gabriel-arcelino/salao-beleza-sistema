@@ -6,8 +6,9 @@ const path = require('path');
 let anyFailed = false;
 
 // 1. Roda pgTAP (adaptador existente)
-const pgTap = spawnSync('node', [path.join(__dirname, 'onp-pgtap-verify.cjs')], { encoding: 'utf-8', stdio: 'inherit' });
+const pgTap = spawnSync('node', [path.join(__dirname, 'onp-pgtap-verify.cjs')], { encoding: 'utf-8', stdio: 'pipe', maxBuffer: 64 * 1024 * 1024 });
 if (pgTap.status !== 0) anyFailed = true;
+if (pgTap.stdout) process.stdout.write(pgTap.stdout);
 
 // 2. Roda vitest (frontend) e captura TAP para mapear @spec: tags
 const vitest = spawnSync('node', [path.join(__dirname, '..', 'node_modules', 'vitest', 'vitest.mjs'), 'run', '--reporter=tap', '--config=vitest.config.ts'], {
