@@ -37,11 +37,11 @@ Como usuário do sistema, quero que o Dashboard apresente uma aparência consist
 - **Quando** o usuário está na aba Dashboard
 - **Então** a interface exibe uma mensagem de erro visível (ex: p com texto descritivo) sem quebrar o layout
 
-#### AC-016 — Formulários no Dashboard possuem rótulos e atributos de acessibilidade básicos
+#### AC-016 — Elementos interativos no Dashboard possuem atributos de acessibilidade básicos
 
-- **Dado** há campos de entrada no Dashboard (ex: filtros futuros ou configurações simples)
-- **Quando** o usuário interage com esses campos
-- **Então** cada campo possui um label associado (htmlFor) ou aria-label, e o estado de foco é perceptível visualmente
+- **Dado** o Dashboard exibe elementos interativos (cards de alerta e CMV, botões futuros ou componentes reutilizáveis)
+- **Quando** o usuário interage com esses elementos
+- **Então** cada elemento interativo possui `aria-label` ou `label` associado quando aplicável, e o estado de foco é perceptível visualmente
 
 ### US-005 — Como usuário, quero componentes reutilizáveis mínimos para estados de interface
 
@@ -89,4 +89,8 @@ Como gerente, quero que a página do Dashboard continue consumindo as mesmas API
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
 | Q-005 | A paleta de cores deve ser definida como variáveis CSS globais, constantes TypeScript ou ambos? | aberta | Ambos: constantes TypeScript para uso programático; variáveis CSS para estilos inline quando necessário. |
-| Q-006 | Quais componentes reutilizáveis são estritamente necessários na primeira fatia? | respondida | Card, Button, Loading, Empty, Error e FormField — todos com uso real no Dashboard. |
+| Q-006 | Quais componentes reutilizáveis são estritamente necessários na primeira fatia? | respondida | Card, Loading, Empty, Error — todos com uso real no Dashboard. Button e FormField são candidatos para etapas posteriores quando houver uso real na primeira fatia. |
+
+
+
+

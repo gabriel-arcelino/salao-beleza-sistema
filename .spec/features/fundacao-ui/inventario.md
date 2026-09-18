@@ -197,8 +197,8 @@ av sem ria-label); botoes sem ria-pressed.
 - Justificativa: usado no Dashboard (dois cards lado a lado); padrao de order, orderRadius, padding, ox-shadow ausente mas replicavel. Se criado, deve aceitar 	itle e children como props.
 - Arquivos afetados: DashboardPage.tsx; potencialmente RelatorioCaixaPage.tsx (cards de resultados) se evoluido.
 
-### Button
-- Justificativa: usado em App.tsx (abas, sair), ComandasPage.tsx (multiplos botoes), RelatorioCaixaPage.tsx e RelatorioComissaoPage.tsx (filtrar). Sem componente, cada pagina define style manualmente.
+### Button (candidato — etapa posterior)
+- Justificativa: candidato documentado, mas sem uso real no Dashboard (primeira fatia). Se criado, deve ser usado apenas quando houver justificacao real na pagina migrada. Sem componente, cada pagina define style manualmente.
 - Arquivos afetados: App.tsx, ComandasPage.tsx, RelatorioCaixaPage.tsx, RelatorioComissaoPage.tsx.
 
 ### Loading
@@ -241,3 +241,4 @@ av sem ria-label); botoes sem ria-pressed.
 - Responsividade: pontos criticos documentados (grid do Dashboard, tabelas de relatorio, formularios em ComandasPage).
 - Estado: DashboardPage.tsx tem loading parcial (apenas CMV) e vazio implicito; ComandasPage.tsx nao trata lista vazia.
 - Nenhuma tarefa posterior executada.
+
