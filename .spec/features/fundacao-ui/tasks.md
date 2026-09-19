@@ -2,36 +2,32 @@
 
 > feature: fundacao-ui
 
-## T-006 — Inventariar padrões visuais e de acesso atuais [em-andamento]
-- Refs: US-004, AC-012, AC-013, AC-014, AC-015
+## T-006 — Inventariar padrões visuais e de acesso atuais [concluída]
+- Refs: — (inventário sem associação artificial a ACs)
 - Arquivos: .spec/features/fundacao-ui/inventario.md (criado — evidência T-006); nenhum arquivo de código alterado
-- Notas: registrar os estilos inline existentes em App.tsx, DashboardPage.tsx e main.tsx; documentar o que já existe (cores, fontes, espaçamento) para definir o que falta. Não criar tarefas artificiais para arquivos legados não modificados.
+- Notas: atividade de inventário já realizada; resultado documentado em inventario.md. Nenhum arquivo em src/ modificado. Não criar tarefas artificiais para código legado não alterado.
 
-## T-007 — Criar tokens visuais mínimos [pendente]
+## T-007 — Fundação de tokens visuais [pendente]
 - Refs: US-004, AC-012
 - Arquivos: src/ui/tokens/colors.ts, src/ui/tokens/typography.ts, src/ui/tokens/spacing.ts (futuro — ainda não existe)
-- Notas: definir constantes TypeScript para cores principais, tamanho de fonte base e unidades de espaçamento. Preservar a abordagem atual sem introduzir CSS-in-JS pesado ou bibliotecas externas.
+- Notas: definir constantes TypeScript para cores, tipografia e espaçamento; preservar arquitetura atual sem bibliotecas externas.
 
-## T-008 — Criar componentes reutilizáveis de estado [pendente]
-- Refs: US-005, AC-017
-- Arquivos: src/ui/components/Card.tsx, src/ui/components/Loading.tsx, src/ui/components/EmptyState.tsx, src/ui/components/ErrorMessage.tsx, src/ui/components/FormField.tsx (futuro — ainda não existe)
-- Notas: cada componente aceita propriedades de texto configuráveis; sem dependências externas; usado real no Dashboard.
+## T-008 — Componentes reutilizáveis de estado [pendente]
+- Refs: US-005, AC-014, AC-015, AC-016, AC-017
+- Arquivos: src/ui/components/Loading.tsx, src/ui/components/EmptyState.tsx, src/ui/components/ErrorMessage.tsx, src/ui/components/Card.tsx (futuro — ainda não existe)
+- Notas: componentes simples, com propriedades configuráveis; sem dependências externas. Button e FormField não fazem parte desta task.
 
-## T-009 — Integrar fundação no Dashboard [pendente]
-- Refs: US-004, AC-012, AC-013, AC-014, AC-015, AC-016, US-006, AC-018
-- Arquivos: src/pages/DashboardPage.tsx (futuro — ainda não alterado); src/App.tsx (não alterado — preservado)
-- Notas: aplicar tokens, componentes de estado e acessibilidade básica no Dashboard; preservar contratos getProdutosEstoqueNegativo() e calcularCMV() sem alteração.
+## T-009 — Integração no Dashboard [pendente]
+- Refs: US-004, AC-013; US-005, AC-014, AC-015; US-006, AC-018, AC-019
+- Arquivos: src/pages/DashboardPage.tsx (futuro — ainda não alterado); App.tsx não alterado (preservado)
+- Notas: aplicar tokens e componentes reutilizáveis no Dashboard; preservar contratos `getProdutosEstoqueNegativo()` e `calcularCMV()`; adicionar identificação e foco em elementos interativos.
 
-## T-010 — Adicionar testes de interface para estados do Dashboard [pendente]
-- Refs: US-005, AC-017, US-004, AC-013, AC-014, AC-015
+## T-010 — Testes automatizados [pendente]
+- Refs: AC-012, AC-013, AC-014, AC-015, AC-016, AC-017, AC-018, AC-019
 - Arquivos: tests/ui/DashboardStates.test.tsx (futuro — ainda não criado)
-- Notas: usar Vitest + Testing Library + jsdom; verificar loading, vazio, erro e renderização dos tokens visuais; não alterar testes pgTAP existentes.
+- Notas: Vitest + Testing Library + jsdom; validar tokens, componentes de estado, card e acessibilidade básica no Dashboard; não alterar testes pgTAP existentes.
 
-## T-011 — Executar verificação e audit da fundação [pendente]
-- Refs: US-004, US-005, US-006, AC-012, AC-013, AC-014, AC-015, AC-016, AC-017, AC-018
-- Arquivos: .spec/verification/fundacao-ui.json (futuro — ainda não criado); .spec/features/fundacao-ui/tasks.md (futuro — ainda não atualizado)
-- Notas: rodar npm run build, npm run lint, testes de interface; registrar evidência; não marcar nenhuma tarefa como concluída sem prova PASS.
-
-
-
-
+## T-011 — Verificação e auditoria final [pendente]
+- Refs: AC-012 até AC-019
+- Arquivos: .spec/verification/fundacao-ui.json (futuro — ainda não criado)
+- Notas: rodar `npm run build`, `npm run lint` e testes de interface; registrar evidência; não marcar nenhuma task como concluída sem prova PASS; não alterar `spec.md`, `inventario.md`, código legado, testes, `package.json` ou outros arquivos não relacionados.
