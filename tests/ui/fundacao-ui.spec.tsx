@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import { render, screen } from "@testing-library/react";
 
@@ -8,41 +8,36 @@ import { render, screen } from "@testing-library/react";
 // AC-015 — Estado vazio reutilizável
 // AC-016 — Estado de erro reutilizável
 // AC-017 — Card reutilizável
-// AC-018 — Semântica acessível dos componentes
+// AC-018 — Componentes de interface possuem semântica acessível
 // AC-019 — Dashboard preserva os contratos existentes
 
 describe("Fundacao UI @spec:fundacao-ui", () => {
-  describe("AC-012 — Tokens visuais básicos disponíveis @spec:AC-012", () => {
-    it("verifica que módulos centrais de tokens fornecem exports reutilizáveis", () => {
-      // Os módulos de tokens são criados pela feature; este teste valida a intenção
-      // de centralização sem exigir análise global de literais.
-      try {
-        const colors = require("../src/ui/tokens/colors");
-        expect(colors && typeof colors === "object").toBeTruthy();
-      } catch {
-        // Módulo ainda não implementado — aceitável nesta fase.
-      }
+  describe("@spec:AC-012 — Tokens visuais básicos disponíveis", () => {
+    it("verifica que os módulos centrais de tokens possuem exports reutilizáveis", async () => {
+      const colors = await import("../src/ui/tokens/colors");
+      expect(colors).toBeDefined();
+      expect(typeof colors).toBe("object");
+      expect(Object.keys(colors).length).toBeGreaterThan(0);
 
-      try {
-        const typography = require("../src/ui/tokens/typography");
-        expect(typography && typeof typography === "object").toBeTruthy();
-      } catch {
-        // Módulo ainda não implementado — aceitável nesta fase.
-      }
+      const typography = await import("../src/ui/tokens/typography");
+      expect(typography).toBeDefined();
+      expect(typeof typography).toBe("object");
+      expect(Object.keys(typography).length).toBeGreaterThan(0);
 
-      try {
-        const spacing = require("../src/ui/tokens/spacing");
-        expect(spacing && typeof spacing === "object").toBeTruthy();
-      } catch {
-        // Módulo ainda não implementado — aceitável nesta fase.
-      }
+      const spacing = await import("../src/ui/tokens/spacing");
+      expect(spacing).toBeDefined();
+      expect(typeof spacing).toBe("object");
+      expect(Object.keys(spacing).length).toBeGreaterThan(0);
     });
   });
 
-  describe("AC-013 — Página representativa utiliza a fundação visual @spec:AC-013", () => {
-    it("verifica que Dashboard renderiza utilizando tokens da fundação", async () => {
+  describe("@spec:AC-013 — Página representativa utiliza a fundação visual", () => {
+    it("verifica que o Dashboard renderiza utilizando tokens da fundação", async () => {
+      // Nota: a fundação ainda não oferece uma convenção observável definida
+      // pela especificação para comprovar diretamente o uso dos tokens no DOM.
+      // Este teste registra a limitação e valida a renderização básica.
       const mockGetProdutos = vi.fn().mockResolvedValue([]);
-      const mockCalcularCMV = vi.fn().mockResolvedValue(0);
+      const mockCalcularCMV = vi.fn().mockResolvedValue(100);
 
       vi.mock("../src/lib/api/estoque", () => ({
         getProdutosEstoqueNegativo: mockGetProdutos,
@@ -56,97 +51,77 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
     });
   });
 
-  describe("AC-014 — Estado de loading reutilizável @spec:AC-014", () => {
-    it("renderiza Loading com mensagem configurável", () => {
-      try {
-        const { Loading } = require("../src/ui/components/Loading");
-        render(<Loading message="Carregando dados..." />);
-        expect(screen.getByText("Carregando dados...")).toBeInTheDocument();
-      } catch {
-        // Componente ainda não implementado — aceitável nesta fase.
-        expect(true).toBe(true);
-      }
+  describe("@spec:AC-014 — Estado de loading reutilizável", () => {
+    it("renderiza Loading com mensagem configurável", async () => {
+      const { Loading } = await import("../src/ui/components/Loading");
+      render(<Loading message="Carregando dados..." />);
+      expect(screen.getByText("Carregando dados...")).toBeInTheDocument();
     });
   });
 
-  describe("AC-015 — Estado vazio reutilizável @spec:AC-015", () => {
-    it("renderiza EmptyState com mensagem configurável", () => {
-      try {
-        const { EmptyState } = require("../src/ui/components/EmptyState");
-        render(<EmptyState message="Nenhum registro encontrado." />);
-        expect(screen.getByText("Nenhum registro encontrado.")).toBeInTheDocument();
-      } catch {
-        expect(true).toBe(true);
-      }
+  describe("@spec:AC-015 — Estado vazio reutilizável", () => {
+    it("renderiza EmptyState com mensagem configurável", async () => {
+      const { EmptyState } = await import("../src/ui/components/EmptyState");
+      render(<EmptyState message="Nenhum registro encontrado." />);
+      expect(screen.getByText("Nenhum registro encontrado.")).toBeInTheDocument();
     });
   });
 
-  describe("AC-016 — Estado de erro reutilizável @spec:AC-016", () => {
-    it("renderiza ErrorMessage com mensagem e semântica de alerta", () => {
-      try {
-        const { ErrorMessage } = require("../src/ui/components/ErrorMessage");
-        render(<ErrorMessage message="Falha na operação." />);
-        expect(screen.getByText("Falha na operação.")).toBeInTheDocument();
-        expect(screen.getByRole("alert")).toBeInTheDocument();
-      } catch {
-        expect(true).toBe(true);
-      }
+  describe("@spec:AC-016 — Estado de erro reutilizável", () => {
+    it("renderiza ErrorMessage com mensagem e semântica de alerta", async () => {
+      const { ErrorMessage } = await import("../src/ui/components/ErrorMessage");
+      render(<ErrorMessage message="Falha na operação." />);
+      expect(screen.getByText("Falha na operação.")).toBeInTheDocument();
+      expect(screen.getByRole("alert")).toBeInTheDocument();
     });
   });
 
-  describe("AC-017 — Card reutilizável @spec:AC-017", () => {
-    it("renderiza Card permitindo composição de conteúdo", () => {
-      try {
-        const { Card } = require("../src/ui/components/Card");
-        render(
-          <Card>
-            <h4>Título do Card</h4>
-            <p>Conteúdo composto.</p>
-          </Card>
-        );
-        expect(screen.getByText("Título do Card")).toBeInTheDocument();
-        expect(screen.getByText("Conteúdo composto.")).toBeInTheDocument();
-      } catch {
-        expect(true).toBe(true);
-      }
+  describe("@spec:AC-017 — Card reutilizável", () => {
+    it("renderiza Card permitindo composição de conteúdo", async () => {
+      const { Card } = await import("../src/ui/components/Card");
+      render(
+        <Card>
+          <h4>Título do Card</h4>
+          <p>Conteúdo composto.</p>
+        </Card>
+      );
+      expect(screen.getByText("Título do Card")).toBeInTheDocument();
+      expect(screen.getByText("Conteúdo composto.")).toBeInTheDocument();
     });
   });
 
-  describe("AC-018 — Semântica acessível dos componentes @spec:AC-018", () => {
-    it("Loading possui role status, ErrorMessage possui role alert e EmptyState é identificável", () => {
-      try {
-        const { Loading } = require("../src/ui/components/Loading");
-        const { ErrorMessage } = require("../src/ui/components/ErrorMessage");
-        const { EmptyState } = require("../src/ui/components/EmptyState");
+  describe("@spec:AC-018 — Componentes de interface possuem semântica acessível", () => {
+    it("verifica semântica acessível de Loading, EmptyState e ErrorMessage", async () => {
+      const { Loading } = await import("../src/ui/components/Loading");
+      const { EmptyState } = await import("../src/ui/components/EmptyState");
+      const { ErrorMessage } = await import("../src/ui/components/ErrorMessage");
 
-        const { container: containerLoading } = render(<Loading message="Aguarde..." />);
-        expect(containerLoading.querySelector('[role="status"]')).not.toBeNull();
+      const { container: containerLoading } = render(<Loading message="Aguarde..." />);
+      expect(containerLoading.querySelector('[role="status"]')).not.toBeNull();
 
-        const { container: containerError } = render(<ErrorMessage message="Erro." />);
-        expect(containerError.querySelector('[role="alert"]')).not.toBeNull();
+      const { container: containerError } = render(<ErrorMessage message="Erro." />);
+      expect(containerError.querySelector('[role="alert"]')).not.toBeNull();
 
-        const { container: containerEmpty } = render(<EmptyState message="Vazio." />);
-        expect(screen.getByText("Vazio.")).toBeInTheDocument();
-      } catch {
-        // Componentes ainda não implementados.
-        expect(true).toBe(true);
-      }
+      render(<EmptyState message="Vazio." />);
+      expect(screen.getByText("Vazio.")).toBeInTheDocument();
     });
   });
 
-  describe("AC-019 — Dashboard preserva os contratos existentes @spec:AC-019", () => {
+  describe("@spec:AC-019 — Dashboard preserva os contratos existentes", () => {
+    beforeEach(() => {
+      vi.clearAllMocks();
+    });
+
     it("utiliza getProdutosEstoqueNegativo e calcularCMV sem acesso direto ao Supabase", async () => {
-      const mockGetProdutos = vi.fn().mockResolvedValue([{ id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 }]);
+      const mockGetProdutos = vi.fn().mockResolvedValue([
+        { id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 },
+      ]);
       const mockCalcularCMV = vi.fn().mockResolvedValue(1234.56);
 
-      vi.mock("../src/lib/api/estoque", async (importOriginal) => {
-        const original = await importOriginal();
-        return {
-          ...original,
-          getProdutosEstoqueNegativo: mockGetProdutos,
-          calcularCMV: mockCalcularCMV,
-        };
-      });
+      vi.mock("../src/lib/api/estoque", () => ({
+        getProdutosEstoqueNegativo: mockGetProdutos,
+        calcularCMV: mockCalcularCMV,
+      }));
 
       const { DashboardPage } = await import("../src/pages/DashboardPage");
       render(<DashboardPage />);
