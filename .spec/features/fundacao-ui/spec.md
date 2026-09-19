@@ -24,8 +24,10 @@ Como usuário do sistema, quero que os elementos visuais utilizados pela aplica�
 #### AC-012 — Tokens visuais básicos disponíveis
 
 * **Dado** que a fundação visual está implementada
-* **Quando** uma página ou componente precisar utilizar valores de cor, tipografia ou espaçamento definidos pela fundação
-* **Então** esses valores devem estar disponíveis de forma centralizada e reutilizável, sem exigir a repetição dos mesmos valores literais em cada componente.
+* **Quando** um componente da interface precisar utilizar cor, tipografia ou espaçamento da fundação
+* **Então** esses valores devem estar disponíveis por meio de módulos centrais de tokens, com exports reutilizáveis para os componentes da UI.
+
+O objetivo é tornar verificável a existência e a centralização dos tokens, sem exigir neste AC uma análise global de todos os literais do projeto.
 
 #### AC-013 — Página representativa utiliza a fundação visual
 
@@ -67,9 +69,11 @@ Como usuário do sistema, quero que os elementos de interface modificados nesta 
 
 #### AC-018 — Componentes de interface possuem semântica acessível
 
-* **Dado** que os componentes de interface da fundação são renderizados
-* **Quando** forem utilizados para representar estados de loading, vazio ou erro
-* **Então** devem fornecer semântica apropriada para que seu estado possa ser identificado por tecnologias assistivas.
+* **Dado** que os componentes `Loading`, `EmptyState` e `ErrorMessage` são renderizados
+* **Quando** forem utilizados para representar seus respectivos estados
+* **Então** cada componente deve fornecer semântica acessível compatível com seu propósito, incluindo `role="status"` para `Loading` e `role="alert"` para `ErrorMessage`.
+
+Para `EmptyState`, não fixe neste AC um `role` específico. A verificação deverá considerar a semântica acessível adequada ao conteúdo e à estrutura apresentada.
 
 #### AC-019 — Dashboard preserva os contratos existentes
 
