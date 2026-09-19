@@ -19,7 +19,7 @@
 
 ## T-009 — Integração no Dashboard [pendente]
 - Refs: US-004, AC-013; US-005, AC-014, AC-015; US-006, AC-018, AC-019
-- Arquivos: src/pages/DashboardPage.tsx (futuro — ainda não alterado); App.tsx não alterado (preservado)
+- Arquivos: src/pages/DashboardPage.tsx (futuro — ainda não alterado)
 - Notas: aplicar tokens e componentes reutilizáveis no Dashboard; preservar contratos `getProdutosEstoqueNegativo()` e `calcularCMV()`; adicionar identificação e foco em elementos interativos.
 
 ## T-010 — Testes automatizados [pendente]
@@ -29,5 +29,5 @@
 
 ## T-011 — Verificação e auditoria final [pendente]
 - Refs: AC-012 até AC-019
-- Arquivos: .spec/verification/fundacao-ui.json (futuro — ainda não criado)
+- Arquivos: — (nenhum arquivo de implementação; `.spec/verification/fundacao-ui.json` é gerado automaticamente pelo `onp-spec verify`)
 - Notas: rodar `npm run build`, `npm run lint` e testes de interface; registrar evidência; não marcar nenhuma task como concluída sem prova PASS; não alterar `spec.md`, `inventario.md`, código legado, testes, `package.json` ou outros arquivos não relacionados.
