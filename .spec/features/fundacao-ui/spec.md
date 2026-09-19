@@ -1,96 +1,117 @@
-﻿# Spec: Fundacao ui
+﻿# Spec: Fundação UI
 
 > feature: fundacao-ui
 > status: rascunho
 
 ## Contexto
 
-A Fase 5 inicia a consolidação da UI/UX sem reescrever o frontend existente. A aplicação atual usa React 18.3 + Vite + TypeScript, sem Tailwind, sem bibliotecas externas de componentes, sem Recharts, sem Lucide. A navegação é por abas em App.tsx; as páginas são componentes funcionais simples com estilos inline. O objetivo desta feature é criar uma fundação mínima e verificável: tokens visuais básicos, poucos componentes reutilizáveis apenas quando justificados, estados de loading/vazio/erro, acessibilidade básica de formulários, e migração de apenas uma página representativa (Dashboard). As regras de negócio existentes (fechamento transacional, RLS, comissão, estoque) são preservadas integralmente.
+A Fase 5 inicia a consolidação da UI/UX sem reescrever o frontend existente.
+
+A aplicação atual utiliza React 18.3 + Vite + TypeScript, sem Tailwind, sem biblioteca externa de componentes, sem Recharts e sem Lucide. As páginas utilizam predominantemente estilos inline e não existe uma fundação visual compartilhada.
+
+Esta feature tem como objetivo estabelecer uma fundação mínima, reutilizável e verificável para a interface, sem transformar o frontend em um design system completo.
+
+A primeira implementação utilizará o Dashboard como página representativa para validar a fundação. A migração das demais páginas ocorrerá em features posteriores.
+
+As regras de negócio existentes, contratos das APIs, RLS, RPCs e estrutura de dados devem permanecer inalterados.
 
 ## Histórias
 
-### US-004 — Como usuário, quero uma fundação visual consistente no Dashboard
+### US-004 — Fundação visual reutilizável
 
-Como usuário do sistema, quero que o Dashboard apresente uma aparência consistente (paleta, tipografia, espaçamento, estados de interface) para que a navegação e a leitura dos indicadores sejam confiáveis e previsíveis, sem alterar as regras financeiras ou a estrutura de dados existentes.
+Como usuário do sistema, quero que os elementos visuais utilizados pela aplicação sigam padrões consistentes, para que a interface seja previsível e fácil de compreender.
 
-#### AC-012 — Dashboard exibe tokens visuais aplicados
+#### AC-012 — Tokens visuais básicos disponíveis
 
-- **Dado** a aplicação está carregada e autenticada
-- **Quando** o usuário acessa a aba Dashboard
-- **Então** a página utiliza cores, tipografia e espaçamento definidos nos tokens visuais básicos, observáveis no elemento raiz do Dashboard
+* **Dado** que a fundação visual está implementada
+* **Quando** uma página ou componente precisar utilizar valores de cor, tipografia ou espaçamento definidos pela fundação
+* **Então** esses valores devem estar disponíveis de forma centralizada e reutilizável, sem exigir a repetição dos mesmos valores literais em cada componente.
 
-#### AC-013 — Dashboard apresenta estado de loading observável
+#### AC-013 — Página representativa utiliza a fundação visual
 
-- **Dado** o usuário está na aba Dashboard e os dados ainda estão sendo carregados
-- **Quando** a requisição às APIs de estoque e CMV está em andamento
-- **Então** a interface exibe um indicador de carregamento (texto ou elemento visual) antes de mostrar os resultados
+* **Dado** que o Dashboard é a página escolhida para validar a fundação
+* **Quando** o Dashboard for renderizado
+* **Então** seus elementos visuais principais devem utilizar os padrões definidos pela fundação, preservando seu comportamento e conteúdo atuais.
 
-#### AC-014 — Dashboard apresenta mensagem de vazio quando não há dados
+### US-005 — Estados de interface reutilizáveis
 
-- **Dado** não existem produtos com estoque negativo
-- **Quando** o usuário acessa a aba Dashboard
-- **Então** a seção de alerta de estoque exibe uma mensagem informativa de que não há produtos com estoque negativo, em vez de uma lista vazia ou um erro
+Como usuário do sistema, quero receber feedback visual consistente durante carregamentos, ausência de dados e erros, para compreender o estado atual da aplicação.
 
-#### AC-015 — Dashboard apresenta erro de forma observável
+#### AC-014 — Estado de loading reutilizável
 
-- **Dado** ocorre uma falha na consulta ao banco (ex: erro de rede ou RPC)
-- **Quando** o usuário está na aba Dashboard
-- **Então** a interface exibe uma mensagem de erro visível (ex: p com texto descritivo) sem quebrar o layout
+* **Dado** que uma operação da interface está em andamento
+* **Quando** a aplicação precisar informar que está aguardando dados
+* **Então** deve existir um componente de loading reutilizável que permita configurar pelo menos sua mensagem exibida.
 
-#### AC-016 — Elementos interativos no Dashboard possuem atributos de acessibilidade básicos
+#### AC-015 — Estado vazio reutilizável
 
-- **Dado** o Dashboard exibe elementos interativos (cards de alerta e CMV, botões futuros ou componentes reutilizáveis)
-- **Quando** o usuário interage com esses elementos
-- **Então** cada elemento interativo possui `aria-label` ou `label` associado quando aplicável, e o estado de foco é perceptível visualmente
+* **Dado** que uma consulta não possui registros para exibir
+* **Quando** a interface precisar representar essa situação
+* **Então** deve existir um componente de estado vazio reutilizável que permita configurar sua mensagem.
 
-### US-005 — Como usuário, quero componentes reutilizáveis mínimos para estados de interface
+#### AC-016 — Estado de erro reutilizável
 
-Como usuário e desenvolvedor, quero que os estados de interface (loading, vazio, erro, card básico) sejam representados por componentes simples e reutilizáveis, para evitar duplicação e manter consistência, sem introduzir bibliotecas externas.
+* **Dado** que uma operação da interface falhou
+* **Quando** a aplicação precisar informar o problema ao usuário
+* **Então** deve existir um componente de erro reutilizável que permita configurar a mensagem apresentada.
 
-#### AC-017 — Componentes de estado são reutilizáveis e observáveis
+#### AC-017 — Card reutilizável
 
-- **Dado** existe pelo menos um componente para cada estado: Loading, EmptyState, ErrorMessage, Card
-- **Quando** esses componentes são utilizados no Dashboard
-- **Então** a renderização é observável (elemento DOM presente) e o componente aceita propriedades de texto configuráveis
+* **Dado** que diferentes partes da interface precisam apresentar conteúdo agrupado visualmente
+* **Quando** um card for utilizado
+* **Então** deve existir um componente reutilizável que permita composição de conteúdo sem exigir repetição do mesmo conjunto de estilos estruturais.
 
-### US-006 — Como gerente, quero que a migração do Dashboard preserve os contratos existentes
+### US-006 — Acessibilidade básica e preservação de contratos
 
-Como gerente, quero que a página do Dashboard continue consumindo as mesmas APIs e apresentando os mesmos indicadores (estoque negativo, CMV), para que as regras financeiras e a auditoria não sejam afetadas pela mudança visual.
+Como usuário do sistema, quero que os elementos de interface modificados nesta feature mantenham semântica e acessibilidade básicas, sem alterar o funcionamento existente do sistema.
 
-#### AC-018 — Dashboard preserva contratos de dados existentes
+#### AC-018 — Elementos interativos possuem identificação e foco adequados
 
-- **Dado** o Dashboard é carregado após as alterações visuais
-- **Quando** o usuário visualiza os indicadores
-- **Então** os valores de estoque negativo e CMV correspondem aos mesmos contratos (getProdutosEstoqueNegativo, calcularCMV) e não há alteração nas respostas das APIs
+* **Dado** que esta feature criar ou modificar elementos interativos
+* **Quando** o usuário utilizar esses elementos
+* **Então** eles devem possuir nome acessível quando necessário e indicação visual de foco perceptível.
+
+#### AC-019 — Dashboard preserva os contratos existentes
+
+* **Dado** que a fundação visual foi aplicada ao Dashboard
+* **Quando** os indicadores forem carregados
+* **Então** o Dashboard deve continuar utilizando `getProdutosEstoqueNegativo()` e `calcularCMV()` e preservar os valores e comportamentos fornecidos por esses contratos.
+
+## Decisões desta feature
+
+* A fundação inicial será pequena e incremental; não será criado um design system completo.
+* Tokens serão centralizados e disponibilizados para uso programático e estilização da interface.
+* Componentes reutilizáveis somente serão criados quando houver justificativa de uso real.
+* Dashboard será a primeira página utilizada para validar a fundação.
+* A implementação deve preservar a arquitetura atual e evitar novas camadas sem necessidade.
+* A migração das demais páginas será tratada em features posteriores.
 
 ## Fora de escopo
 
-- Tailwind CSS ou qualquer framework CSS externo.
-- Recharts ou bibliotecas de gráficos.
-- Lucide React ou bibliotecas de ícones.
-- Biblioteca externa de componentes.
-- Refatoração global das páginas.
-- Criação de novas camadas domain/, repositories/, services/ sem necessidade real.
-- Alteração em supabase/migrations/, RLS, RPCs ou contratos de banco.
-- Novas funcionalidades de negócio (ex: DRE, notificações, agenda, CRM).
-- Testes de banco (pgTAP) para esta feature; apenas testes de interface são adicionados.
+* Tailwind CSS ou qualquer framework CSS externo.
+* Recharts ou bibliotecas de gráficos.
+* Lucide ou biblioteca externa de ícones.
+* Biblioteca externa de componentes.
+* Refatoração global das páginas existentes.
+* Criação de novas camadas `domain/`, `repositories/` ou `services/` sem necessidade real.
+* Alterações em `supabase/migrations/`, RLS, RPCs ou contratos de banco.
+* Novas funcionalidades de negócio.
+* Implementação completa de responsividade em todas as páginas.
+* Auditoria completa de conformidade WCAG 2.1 AA.
+* Criação de Button ou FormField como componente obrigatório desta primeira fatia.
 
 ## Suposições
 
-| ID | Suposição | Status | Resolução |
-|---|---|---|---|
-| ASM-005 | Os tokens visuais básicos não precisam ser definidos como design system completo, apenas como constantes reutilizáveis no escopo inicial. | confirmada | — |
-| ASM-006 | A migração de apenas uma página (Dashboard) é suficiente para validar a fundação sem impactar o restante do sistema. | confirmada | — |
-| ASM-007 | Os componentes reutilizáveis só serão criados se houver uso real em pelo menos uma página (Dashboard) nesta fase. | confirmada | — |
-| ASM-008 | A acessibilidade básica atende ao requisito da Fase 5 sem exigir auditoria de conformidade completa (WCAG 2.1 AA) neste momento. | aberta | — |
+| ID      | Suposição                                                                                         | Status     | Resolução                                                              |
+| ------- | ------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------- |
+| ASM-005 | Os tokens visuais iniciais não precisam constituir um design system completo.                     | confirmada | A fundação será mínima e incremental.                                  |
+| ASM-006 | Uma página representativa é suficiente para validar a primeira versão da fundação.                | confirmada | O Dashboard será utilizado como página representativa.                 |
+| ASM-007 | Componentes reutilizáveis devem ter uso real antes de serem introduzidos.                         | confirmada | Card, Loading, EmptyState e ErrorMessage possuem justificativa de uso. |
+| ASM-008 | A primeira fatia tratará acessibilidade básica, sem buscar conformidade completa com WCAG 2.1 AA. | confirmada | A conformidade ampla ficará para etapa posterior.                      |
 
 ## Perguntas em aberto
 
-| ID | Pergunta | Status | Resposta |
-|---|---|---|---|
-| Q-005 | A paleta de cores deve ser definida como variáveis CSS globais, constantes TypeScript ou ambos? | aberta | Ambos: constantes TypeScript para uso programático; variáveis CSS para estilos inline quando necessário. |
-| Q-006 | Quais componentes reutilizáveis são estritamente necessários na primeira fatia? | respondida | Card, Loading, Empty, Error — todos com uso real no Dashboard. Button e FormField são candidatos para etapas posteriores quando houver uso real na primeira fatia. |
-
-
-
-
+| ID    | Pergunta                                                             | Status     | Resposta                                                                                                                                      |
+| ----- | -------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q-007 | Como os tokens visuais serão disponibilizados para uso na interface? | respondida | Serão disponibilizados por constantes TypeScript e variáveis CSS quando necessário.                                                           |
+| Q-008 | Quais componentes reutilizáveis fazem parte da primeira fatia?       | respondida | Card, Loading, EmptyState e ErrorMessage. Button e FormField ficam para etapas posteriores quando houver uso real que justifique sua criação. |
