@@ -3,7 +3,6 @@
 > feature: fundacao-ui
 
 ## T-006 — Inventariar padrões visuais e de acesso atuais [concluída]
-- Refs: — (inventário sem associação artificial a ACs)
 - Arquivos: .spec/features/fundacao-ui/inventario.md (criado — evidência T-006); nenhum arquivo de código alterado
 - Notas: atividade de inventário já realizada; resultado documentado em inventario.md. Nenhum arquivo em src/ modificado. Não criar tarefas artificiais para código legado não alterado.
 
@@ -28,6 +27,5 @@
 - Notas: Vitest + Testing Library + jsdom; validar tokens, componentes de estado, card e acessibilidade básica no Dashboard; não alterar testes pgTAP existentes.
 
 ## T-011 — Verificação e auditoria final [pendente]
-- Refs: AC-012 até AC-019
-- Arquivos: — (nenhum arquivo de implementação; `.spec/verification/fundacao-ui.json` é gerado automaticamente pelo `onp-spec verify`)
-- Notas: rodar `npm run build`, `npm run lint` e testes de interface; registrar evidência; não marcar nenhuma task como concluída sem prova PASS; não alterar `spec.md`, `inventario.md`, código legado, testes, `package.json` ou outros arquivos não relacionados.
+- Refs: AC-012, AC-013, AC-014, AC-015, AC-016, AC-017, AC-018, AC-019
+- Notas: rodar `npm run build`, `npm run lint` e testes de interface; registrar evidência; `.spec/verification/fundacao-ui.json` é gerado automaticamente pelo `onp-spec verify` (não é arquivo de implementação); não marcar nenhuma task como concluída sem prova PASS; não alterar `spec.md`, `inventario.md`, código legado, testes, `package.json` ou outros arquivos não relacionados.
