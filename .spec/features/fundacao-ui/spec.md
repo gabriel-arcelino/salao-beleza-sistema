@@ -65,11 +65,11 @@ Como usuário do sistema, quero receber feedback visual consistente durante carr
 
 Como usuário do sistema, quero que os elementos de interface modificados nesta feature mantenham semântica e acessibilidade básicas, sem alterar o funcionamento existente do sistema.
 
-#### AC-018 — Elementos interativos possuem identificação e foco adequados
+#### AC-018 — Componentes de interface possuem semântica acessível
 
-* **Dado** que esta feature criar ou modificar elementos interativos
-* **Quando** o usuário utilizar esses elementos
-* **Então** eles devem possuir nome acessível quando necessário e indicação visual de foco perceptível.
+* **Dado** que os componentes de interface da fundação são renderizados
+* **Quando** forem utilizados para representar estados de loading, vazio ou erro
+* **Então** devem fornecer semântica apropriada para que seu estado possa ser identificado por tecnologias assistivas.
 
 #### AC-019 — Dashboard preserva os contratos existentes
 
