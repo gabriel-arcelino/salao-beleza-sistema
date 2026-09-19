@@ -19,11 +19,11 @@
 ## T-009 — Integração no Dashboard [pendente]
 - Refs: US-004, AC-013, US-005, AC-014, AC-015, US-006, AC-018, AC-019
 - Arquivos: src/pages/DashboardPage.tsx
-- Notas: aplicar tokens e componentes reutilizáveis no Dashboard; preservar contratos `getProdutosEstoqueNegativo()` e `calcularCMV()`; adicionar identificação e foco em elementos interativos.
+- Notas: aplicar tokens e componentes reutilizáveis no Dashboard; preservar contratos `getProdutosEstoqueNegativo()` e `calcularCMV()`; garantir que os componentes de estado utilizados pelo Dashboard mantenham a semântica acessível definida no AC-018.
 
 ## T-010 — Testes automatizados [pendente]
 - Refs: AC-012, AC-013, AC-014, AC-015, AC-016, AC-017, AC-018, AC-019
-- Arquivos: tests/ui/DashboardStates.test.tsx
+- Arquivos: tests/ui/fundacao-ui.spec.tsx
 - Notas: Vitest + Testing Library + jsdom; validar tokens, componentes de estado, card e acessibilidade básica no Dashboard; não alterar testes pgTAP existentes.
 
 ## T-011 — Verificação e auditoria final [pendente]
