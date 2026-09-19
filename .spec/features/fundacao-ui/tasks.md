@@ -17,7 +17,7 @@
 - Notas: componentes simples, com propriedades configuráveis; sem dependências externas. Button e FormField não fazem parte desta task.
 
 ## T-009 — Integração no Dashboard [pendente]
-- Refs: US-004, AC-013; US-005, AC-014, AC-015; US-006, AC-018, AC-019
+- Refs: US-004, AC-013, US-005, AC-014, AC-015, US-006, AC-018, AC-019
 - Arquivos: src/pages/DashboardPage.tsx (futuro — ainda não alterado)
 - Notas: aplicar tokens e componentes reutilizáveis no Dashboard; preservar contratos `getProdutosEstoqueNegativo()` e `calcularCMV()`; adicionar identificação e foco em elementos interativos.
 
