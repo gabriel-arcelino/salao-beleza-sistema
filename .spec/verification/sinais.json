@@ -518,19 +518,19 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "fundacao-ui",
       "ref": "T-007",
-      "ocorrencias": 18,
+      "ocorrencias": 21,
       "primeiraVez": "2026-09-18T22:15:21.912Z",
-      "ultimaVez": "2026-09-19T19:39:38.462Z",
-      "gitRev": "cf7eb89"
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
     },
     "ARQUIVO_INEXISTENTE::fundacao-ui::T-008": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "fundacao-ui",
       "ref": "T-008",
-      "ocorrencias": 27,
+      "ocorrencias": 31,
       "primeiraVez": "2026-09-18T22:15:21.912Z",
-      "ultimaVez": "2026-09-19T19:39:38.462Z",
-      "gitRev": "cf7eb89"
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
     },
     "ARQUIVO_INEXISTENTE::fundacao-ui::T-009": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -666,6 +666,87 @@
       "primeiraVez": "2026-09-19T19:21:17.968Z",
       "ultimaVez": "2026-09-19T19:39:38.462Z",
       "gitRev": "cf7eb89"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-012": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-012",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-013": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-013",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-014": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-014",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-015": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-015",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-016": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-016",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-017": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-017",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-018": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-018",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "AC_SEM_PROVA::fundacao-ui::AC-019": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "fundacao-ui",
+      "ref": "AC-019",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
+    },
+    "VERIFY_OBSOLETO::relatorios-gerenciais::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "relatorios-gerenciais",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-20T01:20:10.996Z",
+      "ultimaVez": "2026-09-20T01:20:10.996Z",
+      "gitRev": "36800cf"
     }
   }
 }
