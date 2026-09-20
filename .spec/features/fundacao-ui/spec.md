@@ -25,15 +25,17 @@ Como usuário do sistema, quero que os elementos visuais utilizados pela aplica�
 
 * **Dado** que a fundação visual está implementada
 * **Quando** um componente da interface precisar utilizar cor, tipografia ou espaçamento da fundação
-* **Então** esses valores devem estar disponíveis por meio de módulos centrais de tokens, com exports reutilizáveis para os componentes da UI.
+* **Então** esses valores devem estar disponíveis por meio de módulos centrais de tokens (`colors.ts`, `typography.ts`, `spacing.ts`), com constantes de nomes explícitos e valores literais verificáveis para pelo menos uma cor primária, uma unidade de espaçamento e uma definição tipográfica.
 
-O objetivo é tornar verificável a existência e a centralização dos tokens, sem exigir neste AC uma análise global de todos os literais do projeto.
+Cada constante deve ser reutilizável por componentes da UI. Os valores devem refletir os padrões visuais observados na aplicação atual (ex: `crimson`, `#e0e0e0`, `fontFamily: "sans-serif"`, `gap: 16`, `padding: 16`). A verificação será feita por importação dinâmica e inspeção dos valores exportados, não apenas pela existência dos arquivos.
 
 #### AC-013 — Página representativa utiliza a fundação visual
 
 * **Dado** que o Dashboard é a página escolhida para validar a fundação
 * **Quando** o Dashboard for renderizado
-* **Então** seus elementos visuais principais devem utilizar os padrões definidos pela fundação, preservando seu comportamento e conteúdo atuais.
+* **Então** seus elementos visuais principais devem utilizar pelo menos um componente reutilizável da fundação visual (`Card`, `Loading`, `EmptyState` ou `ErrorMessage`) para estruturar conteúdo, e esse componente deve consumir os tokens centrais de cores, tipografia ou espaçamento. A evidência deve ser observável no DOM (presença do componente e de seus padrões visuais) e no arquivo fonte (`DashboardPage.tsx` deve importar o componente e pelo menos um módulo de tokens para configuração ou estilização). O comportamento e conteúdo atuais do Dashboard devem ser preservados, incluindo a utilização de `getProdutosEstoqueNegativo()` e `calcularCMV()`.
+
+A convenção de observação adotada é a Opção C: combinação de componente reutilizável no DOM + consumo de tokens no arquivo fonte. Não é necessário que `DashboardPage` aplique todos os tokens diretamente no JSX, mas o componente utilizado (`Card`, `Loading`, etc.) deve ser configurado ou estilizado com base nos módulos centrais.
 
 ### US-005 — Estados de interface reutilizáveis
 
@@ -61,7 +63,7 @@ Como usuário do sistema, quero receber feedback visual consistente durante carr
 
 * **Dado** que diferentes partes da interface precisam apresentar conteúdo agrupado visualmente
 * **Quando** um card for utilizado
-* **Então** deve existir um componente reutilizável que permita composição de conteúdo sem exigir repetição do mesmo conjunto de estilos estruturais.
+* **Então** deve existir um componente `Card` que aceite composição de conteúdo via `children` sem exigir props obrigatórias além de `children`, e que aplique um conjunto mínimo de estilos estruturais reutilizáveis (incluindo `border`, `borderRadius` e `padding`). O componente não deve exigir que o usuário repita esses estilos no componente pai. A evidência deve demonstrar que `Card` é utilizado por pelo menos uma página representativa (Dashboard) e que os estilos estruturais estão presentes no DOM do componente.
 
 ### US-006 — Acessibilidade básica e preservação de contratos
 
@@ -71,15 +73,18 @@ Como usuário do sistema, quero que os elementos de interface modificados nesta 
 
 * **Dado** que os componentes `Loading`, `EmptyState` e `ErrorMessage` são renderizados
 * **Quando** forem utilizados para representar seus respectivos estados
-* **Então** cada componente deve fornecer semântica acessível compatível com seu propósito, incluindo `role="status"` para `Loading` e `role="alert"` para `ErrorMessage`.
+* **Então** cada componente deve fornecer semântica acessível compatível com seu propósito:
+  - `Loading`: `role="status"` e `aria-live="polite"`;
+  - `ErrorMessage`: `role="alert"` e `aria-live="assertive"`;
+  - `EmptyState`: `role="region"` e `aria-label` derivado do conteúdo ou da mensagem configurada (não apenas um elemento de texto sem marcação semântica).
 
-Para `EmptyState`, não fixe neste AC um `role` específico. A verificação deverá considerar a semântica acessível adequada ao conteúdo e à estrutura apresentada.
+A mensagem configurada deve ser preservada em todos os casos. A verificação deve confirmar a presença desses atributos no DOM de cada componente.
 
 #### AC-019 — Dashboard preserva os contratos existentes
 
 * **Dado** que a fundação visual foi aplicada ao Dashboard
 * **Quando** os indicadores forem carregados
-* **Então** o Dashboard deve continuar utilizando `getProdutosEstoqueNegativo()` e `calcularCMV()` e preservar os valores e comportamentos fornecidos por esses contratos.
+* **Então** o Dashboard deve continuar importando `getProdutosEstoqueNegativo()` e `calcularCMV()` de `src/lib/api/estoque` (sem introduzir novas camadas intermediárias como `domain/`, `repositories/` ou `services/`), e os valores retornados por esses contratos devem ser utilizados corretamente na interface. A evidência deve ser dupla: (a) a importação dos contratos está preservada no arquivo fonte do Dashboard; (b) os valores retornados aparecem no DOM renderizado (ex: lista de produtos com estoque negativo e valor numérico do CMV).
 
 ## Decisões desta feature
 
