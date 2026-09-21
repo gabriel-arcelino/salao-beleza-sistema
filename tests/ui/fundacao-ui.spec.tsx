@@ -18,15 +18,9 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(colors).toBeDefined();
       const colorExports = Object.keys(colors);
       expect(colorExports.length).toBeGreaterThan(0);
-      const primaryColorName = colorExports.find(
-        (k) =>
-          typeof colors[k as keyof typeof colors] === "string" &&
-          ["#e0e0e0", "crimson", "#000000", "#ffffff", "#ff0000", "#00ff00", "#0000ff"].includes(
-            colors[k as keyof typeof colors] as string
-          )
-      );
-      expect(primaryColorName).toBeDefined();
-      expect(typeof colors[primaryColorName as keyof typeof colors]).toBe("string");
+      // AC-012 exige nomes convencionados: COLOR_PRIMARY, SPACING_MD, FONT_BODY
+      expect(colors).toHaveProperty("COLOR_PRIMARY");
+      expect(colors.COLOR_PRIMARY).toBe("crimson");
 
       const typography = await import("../src/ui/tokens/typography");
       expect(typography).toBeDefined();
@@ -81,6 +75,15 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
       expect(screen.getByText("Produto Teste")).toBeInTheDocument();
       expect(screen.getByText(/1234\.56/)).toBeInTheDocument();
+
+      // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
+      const fs = await import("fs");
+      const dashboardSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      expect(dashboardSource).toContain("src/lib/api/estoque");
+      // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
+      expect(dashboardSource).not.toContain("domain/");
+      expect(dashboardSource).not.toContain("repositories/");
+      expect(dashboardSource).not.toContain("services/");
       expect(mockGetProdutos).toHaveBeenCalledTimes(1);
       expect(mockCalcularCMV).toHaveBeenCalledTimes(1);
     });
@@ -144,6 +147,16 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(hasBorder).toBe(true);
       expect(hasBorderRadius).toBe(true);
       expect(hasPadding).toBe(true);
+
+      // Evidência adicional: Card é utilizado pelo Dashboard (verificação estática no arquivo fonte)
+      const fs_17 = await import("fs");
+      const dashboardPageSource_17 = fs_17.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      expect(dashboardPageSource_17.includes("Card")).toBe(true);
+
+      // Evidência adicional: Card é utilizado pelo Dashboard (verificação estática no arquivo fonte)
+      const fs = await import("fs");
+      const dashboardPageSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      expect(dashboardPageSource.includes("Card")).toBe(true);
     });
   });
 
@@ -163,11 +176,17 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(errorRole).not.toBeNull();
       expect(errorRole).toHaveAttribute("aria-live", "assertive");
 
-      const { container: containerEmpty } = render(<EmptyState message="Vazio." />);
-      const emptyRole = containerEmpty.querySelector('[role="region"]');
-      expect(emptyRole).not.toBeNull();
-      const ariaLabel = emptyRole?.getAttribute("aria-label");
-      expect(ariaLabel).toBe("Vazio.");
+      // Evidência de derivação dinâmica: testar duas mensagens diferentes para provar que aria-label não é fixo
+      const { container: containerEmpty1 } = render(<EmptyState message="Vazio." />);
+      const emptyRole1 = containerEmpty1.querySelector('[role="region"]');
+      expect(emptyRole1).not.toBeNull();
+      expect(emptyRole1?.getAttribute("aria-label")).toBe("Vazio.");
+
+      const { container: containerEmpty2 } = render(<EmptyState message="Nenhum registro encontrado." />);
+      const emptyRole2 = containerEmpty2.querySelector('[role="region"]');
+      expect(emptyRole2).not.toBeNull();
+      expect(emptyRole2?.getAttribute("aria-label")).toBe("Nenhum registro encontrado.");
+
       expect(screen.getByText("Vazio.")).toBeInTheDocument();
     });
   });
@@ -196,6 +215,15 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
       expect(screen.getByText("Produto Teste")).toBeInTheDocument();
       expect(screen.getByText(/1234\.56/)).toBeInTheDocument();
+
+      // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
+      const fs = await import("fs");
+      const dashboardSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      expect(dashboardSource).toContain("src/lib/api/estoque");
+      // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
+      expect(dashboardSource).not.toContain("domain/");
+      expect(dashboardSource).not.toContain("repositories/");
+      expect(dashboardSource).not.toContain("services/");
     });
   });
 });

@@ -29,6 +29,11 @@ Como usuário do sistema, quero que os elementos visuais utilizados pela aplica�
 
 Cada constante deve ser reutilizável por componentes da UI. Os valores devem refletir os padrões visuais observados na aplicação atual (ex: `crimson`, `#e0e0e0`, `fontFamily: "sans-serif"`, `gap: 16`, `padding: 16`). A verificação será feita por importação dinâmica e inspeção dos valores exportados, não apenas pela existência dos arquivos.
 
+**Convenção de nomenclatura mínima (para eliminar ambiguidade):**
+- `colors.ts`: exportar `COLOR_PRIMARY` com valor `"crimson"` ou `"#e0e0e0"` (refletindo o padrão observado no projeto).
+- `spacing.ts`: exportar `SPACING_MD` com valor `16` ou `"16px"` (refletindo `gap: 16`, `padding: 16`).
+- `typography.ts`: exportar `FONT_BODY` com valor `"sans-serif"` (refletindo `fontFamily: "sans-serif"`).
+
 #### AC-013 — Página representativa utiliza a fundação visual
 
 * **Dado** que o Dashboard é a página escolhida para validar a fundação
