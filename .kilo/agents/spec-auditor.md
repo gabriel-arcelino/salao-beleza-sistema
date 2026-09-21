@@ -91,3 +91,59 @@ Não altere arquivos.
 Não execute comandos de shell.
 Não execute testes.
 Não execute verify ou audit.
+
+## Validação do estado do projeto
+
+A auditoria deve distinguir entre:
+
+1. **estado divergente**;
+2. **arquivo não encontrado / estado não verificável**;
+3. **arquivo esperado apenas como resultado futuro da implementação**.
+
+### Antes da implementação
+
+A ausência de arquivos que ainda serão criados pela implementação NÃO é divergência.
+
+Exemplos de arquivos que podem estar ausentes antes da implementação:
+
+* novos componentes;
+* novos módulos de tokens;
+* novos arquivos de UI;
+* arquivos listados nas tasks como resultado futuro;
+* alterações ainda não aplicadas ao código existente.
+
+A existência de uma task que menciona um arquivo futuro não significa que esse arquivo deva existir durante a auditoria da spec/teste.
+
+### O que deve ser validado
+
+Antes da auditoria, confirme somente os artefatos necessários para a etapa atual:
+
+* `spec.md`;
+* `tasks.md`;
+* testes existentes da feature;
+* código existente relevante para os contratos que o AC exige preservar.
+
+Se um arquivo obrigatório da etapa atual não puder ser localizado ou lido:
+
+* não afirmar automaticamente que ele não existe;
+* classificar como `ESTADO NÃO VERIFICÁVEL`;
+* informar o caminho exato procurado;
+* não executar a auditoria até que o estado possa ser confirmado.
+
+### Código ainda não implementado
+
+Não considerar como divergência o fato de que:
+
+* `DashboardPage.tsx` ainda não importa novos componentes;
+* novos componentes ainda não existem;
+* novos tokens ainda não existem.
+
+Essas condições são esperadas quando o gate ocorre antes da implementação.
+
+O objetivo dessa auditoria é validar a qualidade dos contratos e da evidência que antecedem a implementação, não verificar se a implementação já foi realizada.
+
+### Regra principal
+
+"Esperado existir nesta etapa" é diferente de "deverá existir após implementação".
+
+Somente a primeira categoria pode ser usada para determinar `ESTADO DIVERGENTE`.
