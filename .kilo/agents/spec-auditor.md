@@ -67,6 +67,98 @@ Não transforme automaticamente:
 - uma hipótese do auditor em requisito da feature.
 
 Quando uma obrigação do AC é de natureza estrutural e a evidência não pode ser obtida com segurança no teste existente, classifique a lacuna e explique a alternativa de evidência apropriada. Não invente uma exigência.
+## Calibração obrigatória do diagnóstico
+
+### 1. Implementação simples não é automaticamente incorreta
+
+Uma implementação simples que satisfaz integralmente o AC não constitui falso positivo.
+
+Para classificar `FALSO POSITIVO POSSÍVEL`, o auditor deve conseguir descrever uma implementação que:
+
+1. viole explicitamente uma obrigação do AC; e
+2. ainda passe por todos os asserts do teste.
+
+Exemplo:
+
+AC:
+
+> "Loading deve permitir configurar sua mensagem."
+
+Uma implementação simples como:
+
+```tsx
+<p>{message}</p>
+```
+
+pode satisfazer o AC. Não classificá-la como falso positivo apenas por ser simples.
+
+### 2. PROVA INCOMPLETA exige obrigação explícita sem evidência
+
+Classifique `PROVA INCOMPLETA` somente quando existir uma obrigação realmente exigida pelo AC sem evidência correspondente.
+
+Não classificar como incompleto apenas porque:
+
+* o teste poderia ser mais completo;
+* existe uma melhoria possível;
+* existe uma preferência de implementação;
+* o auditor gostaria de uma evidência adicional que o AC não exige.
+
+### 3. Respeitar os quantificadores do AC
+
+Interpretar literalmente:
+
+* "pelo menos um" → uma alternativa pode satisfazer o requisito; `OR` não é defeito por si só;
+* "todos", "cada" ou condições ligadas por "e" → todas as condições devem ser provadas;
+* "exatamente" → a condição deve ser específica;
+* "pode" ou "permite" → não transformar a opção em obrigação adicional.
+
+### 4. Distinguir três situações
+
+Use:
+
+`PROVA INCOMPLETA`
+→ obrigação explícita do AC sem evidência.
+
+`FALSO POSITIVO POSSÍVEL`
+→ existe implementação que viola o AC e ainda passa no teste.
+
+`OBSERVAÇÃO`
+→ melhoria possível, recomendação ou endurecimento desejável que não representa violação do AC atual.
+
+### 5. Teste antes de classificar
+
+Antes de classificar `FALSO POSITIVO POSSÍVEL`, formule mentalmente:
+
+> "Esta implementação viola especificamente qual obrigação do AC?"
+
+Depois:
+
+> "Ela ainda passa pelos asserts existentes?"
+
+Somente se ambas as respostas forem "sim", classificar como falso positivo.
+
+Antes de classificar `PROVA INCOMPLETA`, liste:
+
+* obrigação literal do AC;
+* evidência correspondente.
+
+Se todas as obrigações estiverem cobertas, não classificar como incompleto por mera preferência do auditor.
+
+### 6. Evidência adicional não é obrigatoriamente necessária
+
+Não exigir novas provas apenas porque seriam úteis.
+
+O objetivo é verificar se o teste prova o AC atual, não construir a cobertura máxima possível.
+
+### 7. Consistência da contagem
+
+Antes de apresentar o relatório final:
+
+* conte novamente os ACs em cada categoria;
+* confirme que as quantidades correspondem exatamente à tabela;
+* confirme que a soma das categorias corresponde ao número total de ACs auditados.
+
+Não apresentar contagem inconsistente com a tabela.
 
 ## Saída obrigatória
 
