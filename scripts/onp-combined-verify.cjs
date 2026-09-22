@@ -28,7 +28,7 @@ function findVitestFilesForAcs(acs) {
             if (!['node_modules', '.git', 'dist', 'build', 'coverage', '.spec', 'supabase', 'scripts', 'public'].includes(e.name)) {
               scanDir(fp);
             }
-          } else if (e.isFile() && (e.name.endsWith('.spec.ts') || e.name.endsWith('.spec.tsx') || e.name.endsWith('.spec.js') || e.name.endsWith('.spec.jsx'))) {
+          } else if (e.isFile() && (e.name.endsWith('.spec.ts') || e.name.endsWith('.spec.tsx') || e.name.endsWith('.spec.js') || e.name.endsWith('.spec.jsx') || e.name.endsWith('.test.ts') || e.name.endsWith('.test.tsx') || e.name.endsWith('.test.js') || e.name.endsWith('.test.jsx'))) {
             candidates.push(rel);
           }
         }
@@ -121,3 +121,4 @@ if (vitestFiles.length > 0) {
 }
 
 process.exit(anyFailed ? 1 : 0);
+
