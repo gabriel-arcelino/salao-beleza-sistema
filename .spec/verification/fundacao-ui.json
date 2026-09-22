@@ -1,11 +1,52 @@
 {
   "feature": "fundacao-ui",
-  "timestamp": "2026-09-22T19:40:48.081Z",
-  "gitRev": "b3679e6",
+  "timestamp": "2026-09-22T22:39:00.783Z",
+  "gitRev": "9da7f77",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 1,
-  "testsParsed": 1,
-  "results": {},
+  "testsParsed": 18,
+  "results": {
+    "AC-012": {
+      "status": "pass",
+      "testName": "@spec:AC-012 — Tokens visuais básicos disponíveis # time=54.72ms {",
+      "method": "tap"
+    },
+    "AC-013": {
+      "status": "fail",
+      "testName": "@spec:AC-013 — Página representativa utiliza a fundação visual # time=53.94ms {",
+      "method": "tap"
+    },
+    "AC-014": {
+      "status": "pass",
+      "testName": "@spec:AC-014 — Estado de loading reutilizável # time=84.06ms {",
+      "method": "tap"
+    },
+    "AC-015": {
+      "status": "pass",
+      "testName": "@spec:AC-015 — Estado vazio reutilizável # time=23.06ms {",
+      "method": "tap"
+    },
+    "AC-016": {
+      "status": "pass",
+      "testName": "@spec:AC-016 — Estado de erro reutilizável # time=181.83ms {",
+      "method": "tap"
+    },
+    "AC-017": {
+      "status": "pass",
+      "testName": "@spec:AC-017 — Card reutilizável # time=67.14ms {",
+      "method": "tap"
+    },
+    "AC-018": {
+      "status": "pass",
+      "testName": "@spec:AC-018 — Componentes de interface possuem semântica acessível # time=16.22ms {",
+      "method": "tap"
+    },
+    "AC-019": {
+      "status": "fail",
+      "testName": "@spec:AC-019 — Dashboard preserva os contratos existentes # time=1.23ms {",
+      "method": "tap"
+    }
+  },
   "principles": {}
 }
