@@ -1,0 +1,11 @@
+{
+  "feature": "fundacao-ui",
+  "timestamp": "2026-09-22T19:12:39.327Z",
+  "gitRev": "ed1be25",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 1,
+  "testsParsed": 1,
+  "results": {},
+  "principles": {}
+}

@@ -19,6 +19,30 @@
 - Não faça refatorações oportunistas.
 - Revise o diff antes de concluir.
 
+## Feature Verify vs Regressão Global
+
+Para verificar uma feature ONP neste projeto, use:
+
+```bash
+node scripts/onp-feature-verify.cjs <feature>
+```
+
+Não use diretamente:
+
+```bash
+node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs verify <feature>
+```
+
+como gate final de uma feature, porque o testCommand do projeto é global.
+
+Para regressão completa use:
+
+```bash
+node scripts/onp-combined-verify.cjs
+```
+
+Distinção: Feature Verify ≠ Global Regression
+
 ## Workflow Especializado
 
 Para workflows avançados de engenharia, debugging, análise de causa raiz, pesquisa, alterações cirúrgicas e verificação, use a skill:

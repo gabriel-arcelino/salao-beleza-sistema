@@ -23,12 +23,46 @@ const CONTAINER =
 const USER = process.env.PGUSER || 'postgres';
 const DB = process.env.PGDATABASE || 'postgres';
 
+const featureName = process.env.ONP_VERIFY_FEATURE || null;
+
 const TEST_DIR = path.join(ROOT, 'supabase', 'tests');
-const files = fs
+let files = fs
   .readdirSync(TEST_DIR)
   .filter((f) => /^0\d{2}_.*\.sql$/.test(f))
   .sort()
   .map((f) => path.join(TEST_DIR, f));
+
+if (featureName) {
+  const specPath = path.join(ROOT, '.spec', 'features', featureName, 'spec.md');
+  if (!fs.existsSync(specPath)) {
+    console.error(`onp-pgtap-verify: feature "${featureName}" nao encontrada em .spec/features/${featureName}/spec.md`);
+    process.exit(1);
+  }
+  const specContent = fs.readFileSync(specPath, 'utf8');
+  const acIds = [...specContent.matchAll(/AC-\d{3,}/g)].map((m) => m[0]);
+  const uniqueAcs = [...new Set(acIds)];
+  const acTags = uniqueAcs.map((ac) => `@spec:${ac}`);
+  if (acTags.length === 0) {
+    console.error(`onp-pgtap-verify: nenhum AC encontrado para feature "${featureName}"`);
+    process.exit(1);
+  }
+  const filtered = [];
+  for (const f of files) {
+    try {
+      const content = fs.readFileSync(f, 'utf8');
+      if (acTags.some((tag) => content.includes(tag))) {
+        filtered.push(f);
+      }
+    } catch {
+      // ignore read errors
+    }
+  }
+  files = filtered;
+  if (!files.length && featureName) {
+    // Modo feature: nenhum arquivo SQL com tags da feature; sem falha.
+    process.exit(0);
+  }
+}
 
 if (!files.length) {
   console.error('onp-pgtap-verify: nenhum arquivo em supabase/tests/0*.sql');
