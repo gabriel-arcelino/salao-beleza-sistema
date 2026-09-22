@@ -11,10 +11,22 @@ import { render, screen } from "@testing-library/react";
 // AC-018 — Componentes de interface possuem semântica acessível
 // AC-019 — Dashboard preserva os contratos existentes
 
+const mockModule = vi.hoisted(() => ({
+  mockGetProdutos: vi.fn().mockResolvedValue([
+    { id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 },
+  ]),
+  mockCalcularCMV: vi.fn().mockResolvedValue(1234.56),
+}));
+
+vi.mock("../../src/lib/api/estoque", () => ({
+  getProdutosEstoqueNegativo: mockModule.mockGetProdutos,
+  calcularCMV: mockModule.mockCalcularCMV,
+}));
+
 describe("Fundacao UI @spec:fundacao-ui", () => {
   describe("@spec:AC-012 — Tokens visuais básicos disponíveis", () => {
     it("prova constantes com nomes explícitos e valores literais verificáveis em cores, tipografia e espaçamento", async () => {
-      const colors = await import("../src/ui/tokens/colors");
+      const colors = await import("../../src/ui/tokens/colors");
       expect(colors).toBeDefined();
       const colorExports = Object.keys(colors);
       expect(colorExports.length).toBeGreaterThan(0);
@@ -22,7 +34,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(colors).toHaveProperty("COLOR_PRIMARY");
       expect(colors.COLOR_PRIMARY).toBe("crimson");
 
-      const typography = await import("../src/ui/tokens/typography");
+      const typography = await import("../../src/ui/tokens/typography");
       expect(typography).toBeDefined();
       const typoExports = Object.keys(typography);
       expect(typoExports.length).toBeGreaterThan(0);
@@ -33,7 +45,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       );
       expect(typoLiteralName).toBeDefined();
 
-      const spacing = await import("../src/ui/tokens/spacing");
+      const spacing = await import("../../src/ui/tokens/spacing");
       expect(spacing).toBeDefined();
       const spacingExports = Object.keys(spacing);
       expect(spacingExports.length).toBeGreaterThan(0);
@@ -50,21 +62,11 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
   describe("@spec:AC-013 — Página representativa utiliza a fundação visual", () => {
     it("prova que Dashboard usa componente reutilizável, consome tokens e preserva contratos existentes", async () => {
-      const mockGetProdutos = vi.fn().mockResolvedValue([
-        { id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 },
-      ]);
-      const mockCalcularCMV = vi.fn().mockResolvedValue(1234.56);
-
-      vi.mock("../src/lib/api/estoque", () => ({
-        getProdutosEstoqueNegativo: mockGetProdutos,
-        calcularCMV: mockCalcularCMV,
-      }));
-
-      const { DashboardPage } = await import("../src/pages/DashboardPage");
+      const { DashboardPage } = await import("../../src/pages/DashboardPage");
       const { container } = render(<DashboardPage />);
 
-      expect(mockGetProdutos).toHaveBeenCalled();
-      expect(mockCalcularCMV).toHaveBeenCalled();
+      expect(mockModule.mockGetProdutos).toHaveBeenCalled();
+      expect(mockModule.mockCalcularCMV).toHaveBeenCalled();
 
       const hasReusableComponent =
         container.querySelector('[data-testid="card"]') !== null ||
@@ -78,20 +80,20 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
-      const dashboardSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
       expect(dashboardSource).toContain("src/lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
       expect(dashboardSource).not.toContain("domain/");
       expect(dashboardSource).not.toContain("repositories/");
       expect(dashboardSource).not.toContain("services/");
-      expect(mockGetProdutos).toHaveBeenCalledTimes(1);
-      expect(mockCalcularCMV).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockGetProdutos).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockCalcularCMV).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("@spec:AC-014 — Estado de loading reutilizável", () => {
     it("renderiza Loading com mensagem configurável e nada além do exigido pelo AC", async () => {
-      const { Loading } = await import("../src/ui/components/Loading");
+      const { Loading } = await import("../../src/ui/components/Loading");
       render(<Loading message="Carregando dados..." />);
       expect(screen.getByText("Carregando dados...")).toBeInTheDocument();
     });
@@ -99,7 +101,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
   describe("@spec:AC-015 — Estado vazio reutilizável", () => {
     it("renderiza EmptyState com mensagem configurável e nada além do exigido pelo AC", async () => {
-      const { EmptyState } = await import("../src/ui/components/EmptyState");
+      const { EmptyState } = await import("../../src/ui/components/EmptyState");
       render(<EmptyState message="Nenhum registro encontrado." />);
       expect(screen.getByText("Nenhum registro encontrado.")).toBeInTheDocument();
     });
@@ -107,7 +109,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
   describe("@spec:AC-016 — Estado de erro reutilizável", () => {
     it("renderiza ErrorMessage com mensagem configurável e semântica de alerta", async () => {
-      const { ErrorMessage } = await import("../src/ui/components/ErrorMessage");
+      const { ErrorMessage } = await import("../../src/ui/components/ErrorMessage");
       render(<ErrorMessage message="Falha na operação." />);
       expect(screen.getByText("Falha na operação.")).toBeInTheDocument();
       expect(screen.getByRole("alert")).toBeInTheDocument();
@@ -116,7 +118,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
   describe("@spec:AC-017 — Card reutilizável", () => {
     it("verifica que Card aceita children, aplica border, borderRadius e padding, e não aceita substitutos parciais", async () => {
-      const { Card } = await import("../src/ui/components/Card");
+      const { Card } = await import("../../src/ui/components/Card");
       const { container } = render(
         <Card>
           <h4>Título do Card</h4>
@@ -150,21 +152,21 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
       // Evidência adicional: Card é utilizado pelo Dashboard (verificação estática no arquivo fonte)
       const fs_17 = await import("fs");
-      const dashboardPageSource_17 = fs_17.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      const dashboardPageSource_17 = fs_17.readFileSync("src/pages/DashboardPage.tsx", "utf-8");
       expect(dashboardPageSource_17.includes("Card")).toBe(true);
 
       // Evidência adicional: Card é utilizado pelo Dashboard (verificação estática no arquivo fonte)
       const fs = await import("fs");
-      const dashboardPageSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      const dashboardPageSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
       expect(dashboardPageSource.includes("Card")).toBe(true);
     });
   });
 
   describe("@spec:AC-018 — Componentes de interface possuem semântica acessível", () => {
     it("verifica semântica acessível de Loading, EmptyState e ErrorMessage sem aceitar substitutos", async () => {
-      const { Loading } = await import("../src/ui/components/Loading");
-      const { EmptyState } = await import("../src/ui/components/EmptyState");
-      const { ErrorMessage } = await import("../src/ui/components/ErrorMessage");
+      const { Loading } = await import("../../src/ui/components/Loading");
+      const { EmptyState } = await import("../../src/ui/components/EmptyState");
+      const { ErrorMessage } = await import("../../src/ui/components/ErrorMessage");
 
       const { container: containerLoading } = render(<Loading message="Aguarde..." />);
       const loadingRole = containerLoading.querySelector('[role="status"]');
@@ -197,28 +199,18 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
     });
 
     it("prova preservação dos contratos, uso dos valores retornados e ausência de novas camadas intermediárias", async () => {
-      const mockGetProdutos = vi.fn().mockResolvedValue([
-        { id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 },
-      ]);
-      const mockCalcularCMV = vi.fn().mockResolvedValue(1234.56);
-
-      vi.mock("../src/lib/api/estoque", () => ({
-        getProdutosEstoqueNegativo: mockGetProdutos,
-        calcularCMV: mockCalcularCMV,
-      }));
-
-      const { DashboardPage } = await import("../src/pages/DashboardPage");
+      const { DashboardPage } = await import("../../src/pages/DashboardPage");
       render(<DashboardPage />);
 
-      expect(mockGetProdutos).toHaveBeenCalledTimes(1);
-      expect(mockCalcularCMV).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockGetProdutos).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockCalcularCMV).toHaveBeenCalledTimes(1);
 
       expect(screen.getByText("Produto Teste")).toBeInTheDocument();
       expect(screen.getByText(/1234\.56/)).toBeInTheDocument();
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
-      const dashboardSource = fs.readFileSync("../src/pages/DashboardPage.tsx", "utf-8");
+      const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
       expect(dashboardSource).toContain("src/lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
       expect(dashboardSource).not.toContain("domain/");

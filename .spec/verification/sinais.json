@@ -680,10 +680,10 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "fundacao-ui",
       "ref": "AC-013",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-22T22:39:18.045Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:05:11.609Z",
+      "gitRev": "0ff5b83"
     },
     "AC_SEM_PROVA::fundacao-ui::AC-014": {
       "codigo": "AC_SEM_PROVA",
@@ -716,10 +716,10 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "fundacao-ui",
       "ref": "AC-017",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-22T19:14:21.201Z",
-      "gitRev": "ed1be25"
+      "ultimaVez": "2026-09-22T23:05:11.611Z",
+      "gitRev": "0ff5b83"
     },
     "AC_SEM_PROVA::fundacao-ui::AC-018": {
       "codigo": "AC_SEM_PROVA",
@@ -734,46 +734,64 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "fundacao-ui",
       "ref": "AC-019",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-22T22:39:18.046Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:05:11.611Z",
+      "gitRev": "0ff5b83"
     },
     "VERIFY_OBSOLETO::relatorios-gerenciais::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "relatorios-gerenciais",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-22T22:39:18.046Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:05:11.611Z",
+      "gitRev": "0ff5b83"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-013": {
       "codigo": "VERIFY_FALHOU",
       "feature": "fundacao-ui",
       "ref": "AC-013",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-22T22:39:00.887Z",
-      "ultimaVez": "2026-09-22T22:39:00.887Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:01:53.545Z",
+      "gitRev": "0ff5b83"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-019": {
       "codigo": "VERIFY_FALHOU",
       "feature": "fundacao-ui",
       "ref": "AC-019",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-22T22:39:00.887Z",
-      "ultimaVez": "2026-09-22T22:39:00.887Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:01:53.545Z",
+      "gitRev": "0ff5b83"
     },
     "VERIFY_OBSOLETO::legado-baseline::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "legado-baseline",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-22T22:39:18.046Z",
-      "ultimaVez": "2026-09-22T22:39:18.046Z",
-      "gitRev": "9da7f77"
+      "ultimaVez": "2026-09-22T23:05:11.611Z",
+      "gitRev": "0ff5b83"
+    },
+    "VERIFY_FALHOU::fundacao-ui::AC-017": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "fundacao-ui",
+      "ref": "AC-017",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-22T23:01:53.545Z",
+      "ultimaVez": "2026-09-22T23:01:53.545Z",
+      "gitRev": "0ff5b83"
+    },
+    "VERIFY_OBSOLETO::fundacao-ui::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "fundacao-ui",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-22T23:05:11.611Z",
+      "ultimaVez": "2026-09-22T23:05:11.611Z",
+      "gitRev": "0ff5b83"
     }
   }
 }
