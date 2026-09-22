@@ -10,8 +10,7 @@
     "supabase/tests/**"
   ],
   "srcGlobs": [
-    "src/ui/**",
-    "src/pages/DashboardPage.tsx"
+    "src/**"
   ],
   "ignoreGlobs": [
     "node_modules/**",
