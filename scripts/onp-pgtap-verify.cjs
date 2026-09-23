@@ -6,6 +6,10 @@
 // `npx supabase test db` hides per-test titles behind file-level dots, so this
 // adapter bypasses it and drives psql straight into supabase_db_<project>.
 //
+// Nota: o banco usado para Feature Verify é tratado como descartável.
+// `npx supabase db reset` (chamado por `onp-feature-verify.cjs` quando a feature
+// possui testes pgTAP) destrói dados locais. Não há backup automatizado.
+//
 // Env overrides (optional):
 //   SUPABASE_PROJECT_ID  (default: salao-beleza-sistema, do supabase/config.toml)
 //   PGUSER               (default: postgres)

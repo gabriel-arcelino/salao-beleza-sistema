@@ -43,6 +43,8 @@ node scripts/onp-combined-verify.cjs
 
 Distinção: Feature Verify ≠ Global Regression
 
+Nota operacional sobre `db reset`: `scripts/onp-feature-verify.cjs` detecta se a feature possui testes pgTAP (`supabase/tests/0*.sql` com tags `@spec:AC-xxx`) e, quando detecta, executa `npx supabase db reset` antes do verify. O banco local usado nesse fluxo é descartável; não há preservação de dados manuais de desenvolvimento nesse processo. Se precisar manter dados locais, faça backup antes de rodar o verify.
+
 ## Workflow Especializado
 
 Para workflows avançados de engenharia, debugging, análise de causa raiz, pesquisa, alterações cirúrgicas e verificação, use a skill:
