@@ -1,0 +1,24 @@
+- generic [ref=e3]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=e4]
+  - navigation [ref=e5]:
+    - button "Dashboard" [ref=e6]
+    - button "Profissionais" [ref=e7]
+    - button "Clientes" [ref=e8]
+    - button "Serviços" [ref=e9]
+    - button "Produtos" [ref=e10]
+    - button "Configurar Comissão" [ref=e11]
+    - button "Comandas" [ref=e12]
+    - button "Relatório de Estoque" [ref=e13]
+    - button "Fechamento de Caixa" [ref=e14]
+    - button "Comissão por Profissional" [ref=e15]
+    - button "Sair" [ref=e16]
+  - generic [ref=e17]:
+    - heading "Dashboard" [level=2] [ref=e18]
+    - alert [ref=e26]: Sessão sem salon_id — usuário não autenticado corretamente.
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - 'heading "Alerta: Estoque Negativo" [level=3] [ref=e21]'
+        - paragraph [ref=e22]: Todos os produtos com estoque positivo
+      - generic [ref=e23]:
+        - heading "CMV (2026-09)" [level=3] [ref=e24]
+        - status [ref=e25]: Carregando...
