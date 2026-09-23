@@ -1,7 +1,7 @@
 ﻿# Spec: Fundação UI
 
 > feature: fundacao-ui
-> status: em-implementacao
+> status: implementada
 
 ## Contexto
 

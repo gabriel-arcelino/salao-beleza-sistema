@@ -1,7 +1,7 @@
 {
   "feature": "relatorios-gerenciais",
-  "timestamp": "2026-09-23T02:41:18.920Z",
-  "gitRev": "631a27d",
+  "timestamp": "2026-09-23T02:52:04.558Z",
+  "gitRev": "e3fce6a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 1,
@@ -9,17 +9,17 @@
   "results": {
     "AC-009": {
       "status": "pass",
-      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=510.28ms {",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=823.17ms {",
       "method": "tap"
     },
     "AC-010": {
       "status": "pass",
-      "testName": "RelatorioComissaoPage @spec:AC-010 @spec:AC-011 # time=546.04ms {",
+      "testName": "RelatorioComissaoPage @spec:AC-010 @spec:AC-011 # time=837.42ms {",
       "method": "tap"
     },
     "AC-011": {
       "status": "pass",
-      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=510.28ms {",
+      "testName": "RelatorioCaixaPage @spec:AC-009 @spec:AC-011 # time=823.17ms {",
       "method": "tap"
     }
   },
