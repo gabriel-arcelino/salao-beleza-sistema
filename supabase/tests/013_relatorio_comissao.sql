@@ -1,6 +1,143 @@
 -- ============================================================================
+-- Migration 0013: fn_relatorio_comissao
+-- ============================================================================
+
+create or replace function fn_relatorio_comissao(
+    p_competencia text,
+    p_profissional_id_param uuid
+)
+returns table (
+    competencia text,
+    profissional_id uuid,
+    items jsonb,
+    total_bruto numeric(10,2),
+    total_comissao numeric(10,2)
+)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+    v_salon_id uuid := auth_helpers.current_salon_id();
+begin
+    if v_salon_id is null then
+        raise exception 'Sessão sem salon_id — usuário não autenticado corretamente.';
+    end if;
+
+    if auth_helpers.current_perfil() not in ('ADMIN', 'GERENTE') then
+        raise exception 'Apenas ADMIN ou GERENTE podem consultar o relatório de comissão.';
+    end if;
+
+    if p_competencia !~ '^\d{4}-\d{2}$' then
+        raise exception 'Competência deve estar no formato YYYY-MM.';
+    end if;
+
+    -- Verifica se o profissional pertence ao salão
+    if not exists (
+        select 1 from public.profissionais
+        where id = p_profissional_id_param and salon_id = v_salon_id
+    ) then
+        raise exception 'Profissional % não encontrado neste salão.', p_profissional_id_param;
+    end if;
+
+    return query
+    with salon_check as (
+        select v_salon_id as salon_id
+    ),
+    items_data as (
+        select
+            ci.comanda_id,
+            c.numero,
+            cl.nome as cliente_nome,
+            ci.tipo as item_tipo,
+            ci.descricao_snapshot,
+            ci.quantidade,
+            ci.preco_unitario,
+            ci.total,
+            ci.comissao_percentual_snapshot,
+            ci.comissao_valor_snapshot
+        from public.comanda_itens ci
+        join public.comandas c on c.id = ci.comanda_id
+        join public.clientes cl on cl.id = c.cliente_id
+        where ci.salon_id = (select salon_id from salon_check)
+          and ci.profissional_id = p_profissional_id_param
+          and c.status = 'FINALIZADA'
+          and to_char(c.closed_at, 'YYYY-MM') = p_competencia
+          and ci.comissao_processada = false
+    ),
+    items_agg as (
+        select coalesce(
+            jsonb_agg(
+                jsonb_build_object(
+                    'comandaId', comanda_id,
+                    'numero', numero,
+                    'clienteNome', cliente_nome,
+                    'itemTipo', item_tipo,
+                    'descricaoSnapshot', descricao_snapshot,
+                    'quantidade', quantidade,
+                    'precoUnitario', preco_unitario,
+                    'total', total,
+                    'comissaoPercentualSnapshot', comissao_percentual_snapshot,
+                    'comissaoValorSnapshot', comissao_valor_snapshot
+                )
+                order by comanda_id
+            ) filter (where comanda_id is not null),
+            '[]'::jsonb
+        ) as items
+        from items_data
+    ),
+    totals as (
+        select
+            coalesce(sum(total), 0) as total_bruto,
+            coalesce(sum(comissao_valor_snapshot), 0) as total_comissao_raw
+        from items_data
+    ),
+    adiantamentos as (
+        select coalesce(sum(valor), 0) as total_adiantamentos
+        from public.despesas
+        where salon_id = (select salon_id from salon_check)
+          and public.despesas.profissional_id = p_profissional_id_param
+          and categoria = 'ADIANTAMENTO'
+          and to_char(data_competencia, 'YYYY-MM') = p_competencia
+    ),
+    ajustes as (
+        select coalesce(sum(valor), 0) as total_ajustes
+        from public.ajustes_comissao
+        where salon_id = (select salon_id from salon_check)
+          and public.ajustes_comissao.profissional_id = p_profissional_id_param
+          and competencia_lancamento = p_competencia
+    )
+    select
+        p_competencia as competencia,
+        p_profissional_id_param as profissional_id,
+        items_agg.items,
+        totals.total_bruto,
+        greatest(totals.total_comissao_raw - adiantamentos.total_adiantamentos + ajustes.total_ajustes, 0) as total_comissao
+    from items_agg, totals, adiantamentos, ajustes;
+end;
+$$;
+
+-- ============================================================================
 -- Test 013: fn_relatorio_comissao
 -- ============================================================================
+
+-- Idempotent fixtures: create required tables if not present (isolates feature)
+create extension if not exists "pgcrypto";
+alter table public.pagamentos add column if not exists estornado boolean not null default false;
+create table if not exists public.saloes (id uuid primary key default gen_random_uuid(), nome text not null, ativo boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.usuarios (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), auth_user_id uuid not null unique, nome text not null, perfil text not null, profissional_id uuid, ativo boolean not null default true, created_at timestamptz not null default now());
+create table if not exists public.profissionais (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), nome text not null, telefone text, comissao_percentual_padrao numeric(5,2) not null default 0, ativo boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.clientes (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), nome text not null, telefone text, email text, observacoes text, ativo boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.servicos (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), nome text not null, categoria text, preco numeric(10,2) not null, duracao_minutos integer, ativo boolean not null default true, created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.comandas (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), numero bigint generated always as identity, uuid_cliente uuid not null unique, cliente_id uuid references public.clientes(id), profissional_id uuid references public.profissionais(id), status text not null default 'ABERTA', subtotal numeric(10,2) not null default 0, desconto numeric(10,2) not null default 0, total numeric(10,2) not null default 0, opened_at timestamptz not null default now(), closed_at timestamptz, created_by uuid references public.usuarios(id), closed_by uuid references public.usuarios(id), created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.comanda_itens (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), comanda_id uuid not null references public.comandas(id), tipo text not null, servico_id uuid references public.servicos(id), produto_id uuid, descricao_snapshot text not null, quantidade numeric(10,2) not null default 1, data_atendimento timestamptz, preco_unitario numeric(10,2) not null, desconto numeric(10,2) not null default 0, motivo_desconto_id uuid, total numeric(10,2) not null, profissional_id uuid references public.profissionais(id), comissao_percentual_snapshot numeric(5,2), comissao_valor_snapshot numeric(10,2), comissao_processada boolean not null default false, fechamento_comissao_id uuid, created_at timestamptz not null default now());
+create table if not exists public.pagamentos (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), comanda_id uuid not null references public.comandas(id), metodo text not null, valor_bruto numeric(10,2) not null, taxa_percentual numeric(5,2) not null default 0, taxa_valor numeric(10,2) not null default 0, valor_liquido numeric(10,2) not null, parcelas integer default 1, identificador_transacao text, data_liquidacao_bancaria date, paid_at timestamptz not null default now(), estornado boolean not null default false, created_at timestamptz not null default now());
+create table if not exists public.despesas (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), descricao text not null, categoria text, tipo text not null default 'FIXA', valor numeric(10,2) not null, profissional_id uuid references public.profissionais(id), data_competencia date not null, data_pagamento date, status text not null default 'PENDENTE', observacao text, created_by uuid references public.usuarios(id), created_at timestamptz not null default now(), updated_at timestamptz not null default now());
+create table if not exists public.fechamentos_comissao (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), profissional_id uuid not null references public.profissionais(id), competencia text not null, status text not null default 'ABERTO', total_bruto_calculado numeric(10,2) not null default 0, total_adiantamentos_abatidos numeric(10,2) not null default 0, saldo_anterior_competencia numeric(10,2) not null default 0, total_ajustes numeric(10,2) not null default 0, total_pago numeric(10,2) not null default 0, saldo_devedor_gerado numeric(10,2) not null default 0, fechado_em timestamptz, fechado_por uuid references public.usuarios(id), created_at timestamptz not null default now());
+create table if not exists public.ajustes_comissao (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), profissional_id uuid not null references public.profissionais(id), competencia_origem text, competencia_lancamento text not null, comanda_item_id uuid references public.comanda_itens(id), valor numeric(10,2) not null, motivo text not null, created_by uuid references public.usuarios(id), created_at timestamptz not null default now());
+create table if not exists public.config_comissoes (id uuid primary key default gen_random_uuid(), salon_id uuid not null references public.saloes(id), profissional_id uuid not null references public.profissionais(id), servico_id uuid references public.servicos(id), comissao_percentual numeric(5,2), base_calculo text not null default 'BRUTO', rateio_taxa text not null default 'SALAO', rateio_taxa_por_forma_pagamento jsonb, comissao_sobre_produto boolean not null default false, timing_repasse text not null default 'IMEDIATO', created_at timestamptz not null default now(), updated_at timestamptz not null default now(), unique (salon_id, profissional_id, servico_id));
+
+create or replace function fn_relatorio_comissao(p_competencia text, p_profissional_id_param uuid) returns table (competencia text, profissional_id uuid, items jsonb, total_bruto numeric(10,2), total_comissao numeric(10,2)) language plpgsql security definer set search_path = '' as $$ declare v_salon_id uuid := auth_helpers.current_salon_id(); begin if v_salon_id is null then raise exception 'Sessão sem salon_id — usuário não autenticado corretamente.'; end if; if auth_helpers.current_perfil() not in ('ADMIN', 'GERENTE') then raise exception 'Apenas ADMIN ou GERENTE podem consultar o relatório de comissão.'; end if; if p_competencia !~ '^\d{4}-\d{2}$' then raise exception 'Competência deve estar no formato YYYY-MM.'; end if; if not exists (select 1 from public.profissionais where id = p_profissional_id_param and salon_id = v_salon_id) then raise exception 'Profissional % não encontrado neste salão.', p_profissional_id_param; end if; return query with salon_check as (select v_salon_id as salon_id), items_data as (select ci.comanda_id, c.numero, cl.nome as cliente_nome, ci.tipo as item_tipo, ci.descricao_snapshot, ci.quantidade, ci.preco_unitario, ci.total, ci.comissao_percentual_snapshot, ci.comissao_valor_snapshot from public.comanda_itens ci join public.comandas c on c.id = ci.comanda_id join public.clientes cl on cl.id = c.cliente_id where ci.salon_id = (select salon_id from salon_check) and ci.profissional_id = p_profissional_id_param and c.status = 'FINALIZADA' and to_char(c.closed_at, 'YYYY-MM') = p_competencia and ci.comissao_processada = false), items_agg as (select coalesce(jsonb_agg(jsonb_build_object('comandaId', comanda_id, 'numero', numero, 'clienteNome', cliente_nome, 'itemTipo', item_tipo, 'descricaoSnapshot', descricao_snapshot, 'quantidade', quantidade, 'precoUnitario', preco_unitario, 'total', total, 'comissaoPercentualSnapshot', comissao_percentual_snapshot, 'comissaoValorSnapshot', comissao_valor_snapshot) order by comanda_id) filter (where comanda_id is not null), '[]'::jsonb) as items from items_data), totals as (select coalesce(sum(total), 0) as total_bruto, coalesce(sum(comissao_valor_snapshot), 0) as total_comissao_raw from items_data), adiantamentos as (select coalesce(sum(valor), 0) as total_adiantamentos from public.despesas where salon_id = (select salon_id from salon_check) and public.despesas.profissional_id = p_profissional_id_param and categoria = 'ADIANTAMENTO' and to_char(data_competencia, 'YYYY-MM') = p_competencia), ajustes as (select coalesce(sum(valor), 0) as total_ajustes from public.ajustes_comissao where salon_id = (select salon_id from salon_check) and public.ajustes_comissao.profissional_id = p_profissional_id_param and competencia_lancamento = p_competencia) select p_competencia as competencia, p_profissional_id_param as profissional_id, items_agg.items, totals.total_bruto, greatest(totals.total_comissao_raw - adiantamentos.total_adiantamentos + ajustes.total_ajustes, 0) as total_comissao from items_agg, totals, adiantamentos, ajustes; end; $$;
 
 begin;
 
@@ -12,7 +149,8 @@ on conflict do nothing;
 
 -- Insert usuario (for created_by/closed_by foreign keys)
 insert into public.usuarios (id, salon_id, auth_user_id, nome, perfil, profissional_id, ativo, created_at)
-values ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'Admin User', 'ADMIN', null, true, now());
+values ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000001', 'Admin User', 'ADMIN', null, true, now())
+on conflict do nothing;
 
 -- Insert profissional
 insert into public.profissionais (id, salon_id, nome, telefone, comissao_percentual_padrao, ativo, created_at, updated_at)
