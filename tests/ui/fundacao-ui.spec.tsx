@@ -80,7 +80,8 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
-      const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
+      const pathModule = await import("path");
+      const dashboardSource = fs.readFileSync(pathModule.resolve("src/pages/DashboardPage.tsx"), "utf-8");
       expect(dashboardSource).toContain("../lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
       expect(dashboardSource).not.toContain("domain/");
@@ -156,9 +157,10 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(dashboardPageSource_17.includes("Card")).toBe(true);
 
       // Evidência adicional: Card é utilizado pelo Dashboard (verificação estática no arquivo fonte)
-      const fs = await import("fs");
-      const dashboardPageSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
-      expect(dashboardPageSource.includes("Card")).toBe(true);
+      const fs_160 = await import("fs");
+      const pathModule_160 = await import("path");
+      const dashboardPageSource_160 = fs_160.readFileSync(pathModule_160.resolve("src/pages/DashboardPage.tsx"), "utf-8");
+      expect(dashboardPageSource_160.includes("Card")).toBe(true);
     });
   });
 
@@ -209,13 +211,14 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       await screen.findByText(/1234\.56/);
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
-      const fs = await import("fs");
-      const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
-      expect(dashboardSource).toContain("../lib/api/estoque");
+      const fs_213 = await import("fs");
+      const pathModule_213 = await import("path");
+      const dashboardSource_213 = fs_213.readFileSync(pathModule_213.resolve("src/pages/DashboardPage.tsx"), "utf-8");
+      expect(dashboardSource_213).toContain("../lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
-      expect(dashboardSource).not.toContain("domain/");
-      expect(dashboardSource).not.toContain("repositories/");
-      expect(dashboardSource).not.toContain("services/");
+      expect(dashboardSource_213).not.toContain("domain/");
+      expect(dashboardSource_213).not.toContain("repositories/");
+      expect(dashboardSource_213).not.toContain("services/");
     });
   });
 });

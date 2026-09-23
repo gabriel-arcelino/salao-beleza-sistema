@@ -13,22 +13,21 @@ export function DashboardPage() {
   const [erro, setErro] = useState<string | null>(null);
   const competenciaAtual = new Date().toISOString().slice(0, 7);
 
-  async function carregar() {
-    try {
-      const [neg, cmvVal] = await Promise.all([
-        getProdutosEstoqueNegativo(),
-        calcularCMV(competenciaAtual),
-      ]);
-      setEstoqueNegativo(neg);
-      setCmv(cmvVal);
-    } catch (e) {
-      setErro((e as Error).message);
-    }
-  }
-
   useEffect(() => {
+    async function carregar() {
+      try {
+        const [neg, cmvVal] = await Promise.all([
+          getProdutosEstoqueNegativo(),
+          calcularCMV(competenciaAtual),
+        ]);
+        setEstoqueNegativo(neg);
+        setCmv(cmvVal);
+      } catch (e) {
+        setErro((e as Error).message);
+      }
+    }
     carregar();
-  }, []);
+  }, [competenciaAtual]);
 
   return (
     <section>
