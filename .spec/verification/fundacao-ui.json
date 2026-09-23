@@ -1,50 +1,50 @@
 {
   "feature": "fundacao-ui",
-  "timestamp": "2026-09-22T23:01:53.442Z",
-  "gitRev": "0ff5b83",
+  "timestamp": "2026-09-22T23:44:03.375Z",
+  "gitRev": "180962f",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
-  "exitCode": 1,
+  "exitCode": 0,
   "testsParsed": 18,
   "results": {
     "AC-012": {
       "status": "pass",
-      "testName": "@spec:AC-012 — Tokens visuais básicos disponíveis # time=44.63ms {",
+      "testName": "@spec:AC-012 — Tokens visuais básicos disponíveis # time=45.51ms {",
       "method": "tap"
     },
     "AC-013": {
-      "status": "fail",
-      "testName": "@spec:AC-013 — Página representativa utiliza a fundação visual # time=208.92ms {",
+      "status": "pass",
+      "testName": "@spec:AC-013 — Página representativa utiliza a fundação visual # time=238.05ms {",
       "method": "tap"
     },
     "AC-014": {
       "status": "pass",
-      "testName": "@spec:AC-014 — Estado de loading reutilizável # time=5.16ms {",
+      "testName": "@spec:AC-014 — Estado de loading reutilizável # time=5.40ms {",
       "method": "tap"
     },
     "AC-015": {
       "status": "pass",
-      "testName": "@spec:AC-015 — Estado vazio reutilizável # time=20.53ms {",
+      "testName": "@spec:AC-015 — Estado vazio reutilizável # time=19.60ms {",
       "method": "tap"
     },
     "AC-016": {
       "status": "pass",
-      "testName": "@spec:AC-016 — Estado de erro reutilizável # time=142.62ms {",
+      "testName": "@spec:AC-016 — Estado de erro reutilizável # time=143.54ms {",
       "method": "tap"
     },
     "AC-017": {
-      "status": "fail",
-      "testName": "@spec:AC-017 — Card reutilizável # time=46.07ms {",
+      "status": "pass",
+      "testName": "@spec:AC-017 — Card reutilizável # time=49.04ms {",
       "method": "tap"
     },
     "AC-018": {
       "status": "pass",
-      "testName": "@spec:AC-018 — Componentes de interface possuem semântica acessível # time=13.57ms {",
+      "testName": "@spec:AC-018 — Componentes de interface possuem semântica acessível # time=14.66ms {",
       "method": "tap"
     },
     "AC-019": {
-      "status": "fail",
-      "testName": "@spec:AC-019 — Dashboard preserva os contratos existentes # time=11.23ms {",
+      "status": "pass",
+      "testName": "@spec:AC-019 — Dashboard preserva os contratos existentes # time=48.21ms {",
       "method": "tap"
     }
   },

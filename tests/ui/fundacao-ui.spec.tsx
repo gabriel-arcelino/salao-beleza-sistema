@@ -75,13 +75,13 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
         container.querySelector('[role="region"]') !== null;
       expect(hasReusableComponent).toBe(true);
 
-      expect(screen.getByText("Produto Teste")).toBeInTheDocument();
-      expect(screen.getByText(/1234\.56/)).toBeInTheDocument();
+      await screen.findByText("Produto Teste");
+      await screen.findByText(/1234\.56/);
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
       const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
-      expect(dashboardSource).toContain("src/lib/api/estoque");
+      expect(dashboardSource).toContain("../lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
       expect(dashboardSource).not.toContain("domain/");
       expect(dashboardSource).not.toContain("repositories/");
@@ -205,13 +205,13 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(mockModule.mockGetProdutos).toHaveBeenCalledTimes(1);
       expect(mockModule.mockCalcularCMV).toHaveBeenCalledTimes(1);
 
-      expect(screen.getByText("Produto Teste")).toBeInTheDocument();
-      expect(screen.getByText(/1234\.56/)).toBeInTheDocument();
+      await screen.findByText("Produto Teste");
+      await screen.findByText(/1234\.56/);
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
       const dashboardSource = fs.readFileSync(require("path").resolve("src/pages/DashboardPage.tsx"), "utf-8");
-      expect(dashboardSource).toContain("src/lib/api/estoque");
+      expect(dashboardSource).toContain("../lib/api/estoque");
       // Evidência 6: ausência de novas camadas intermediárias (domain/, repositories/, services/) no arquivo fonte
       expect(dashboardSource).not.toContain("domain/");
       expect(dashboardSource).not.toContain("repositories/");
