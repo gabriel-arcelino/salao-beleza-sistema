@@ -1,0 +1,19 @@
+Total messages: 11 (Errors: 8, Warnings: 0)
+Returning 16 messages for level "info"
+
+[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-NGODP64W.js?v=3e32d9b1:21550
+[ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/favicon.ico:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-NGODP64W.js?v=3e32d9b1:21550
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-NGODP64W.js?v=3e32d9b1:21550
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
+[ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://127.0.0.1:54321/rest/v1/rpc/fn_calcular_cmv:0
