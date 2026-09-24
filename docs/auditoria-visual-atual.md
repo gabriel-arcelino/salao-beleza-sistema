@@ -240,7 +240,55 @@ Cada tela será registrada com:
 
 ---
 
-## Entregáveis Registrados
+## Resultado Final — Correção de Infraestrutura (2026-09-24)
+
+### Mecanismo usado para criar usuário Auth
+- `db reset` aplicado (migrations + `seed.sql`).
+- `seed.sql` inseriu `saloes`, `config_taxas`, `motivos_desconto`, `profissionais`, `servicos`, `produtos` com `salon_id` fixo (`00000000-...-001`).
+- `public.usuarios` inserido manualmente via SQL direto (`npx supabase db query`) com `auth_user_id`, `salon_id` e `perfil = 'ADMIN'`.
+- Usuário Auth (`teste@gmail.com`) recriado via `signup` (API Auth) após `db reset`.
+
+### Confirmação de reprodutibilidade após `db reset`
+- `public.usuarios` inserido via SQL direto (`npx supabase db query`).
+- `seed.sql` roda automaticamente no `db reset`. Não há credenciais privilegiadas armazenadas no repositório.
+- Nenhuma alteração em código, SPEC, AC ou testes.
+
+### Como `app_metadata.salon_id` passa a chegar no JWT
+- **Limitação confirmada:** `raw_app_meta_data` no `auth.users` ainda não contém `{"salon_id":"..."}` após tentativas via SQL (`npx supabase db query`) e Studio (Raw JSON + Update). O erro `not_admin` ocorre na atualização via Auth API, indicando que o usuário de teste precisa de privilégios de admin no Auth (não apenas no `public.usuarios`) para atualizar `app_metadata`.
+- **Causa raiz:** `auth_helpers.current_salon_id()` lê `(auth.jwt() -> 'app_metadata' ->> 'salon_id')`. Sem `raw_app_meta_data`, retorna `NULL`, fazendo com que o RLS (`salon_id = auth_helpers.current_salon_id()`) bloqueie todos os registros.
+- **Resultado:** A aplicação inicia autenticada, mas todas as telas de cadastro (Profissionais, Clientes, Serviços, Produtos, Configurar Comissão, Comandas, Comissão) permanecem vazias. Os cards do Dashboard (`Estoque Negativo`, `CMV`) aparecem, mas `CMV` ainda mostra `Carregando...` devido ao erro `fn_calcular_cmv` (observado no console).
+
+### Arquivos alterados
+- `docs/auditoria-visual-atual.md` (atualizado com seção de infraestrutura)
+- Nenhum arquivo de código alterado (`git status`: apenas `docs/`)
+
+### Screenshots finais (54 PNG)
+- 10 desktop + 10 mobile da primeira auditoria (`valid_*`)
+- 27 screenshots iniciais (`login-inicial`, `auth-dashboard`, `clientes`, etc.)
+- 7 extras (`post-setup-login`, `supabase-studio-login`, `studio-auth-users`, `studio-add-user`, `studio-users-list`, `studio-user-edit`, `studio-raw-edited`)
+
+### Estado final das telas
+- **Login:** funcional (`teste@gmail.com` / `12345678`).
+- **Dashboard:** mensagem `Sessão sem salon_id` ainda presente (`post-setup-login.png`).
+- **Profissionais, Clientes, Serviços, Produtos:** formulários visíveis, listas vazias (dados do `seed.sql` bloqueados por RLS devido ao `salon_id` vazio no JWT).
+- **Configurar Comissão:** formulário visível, sem registros.
+- **Comandas:** formulário visível, sem comandas.
+- **Relatório de Estoque:** mensagem positiva (`Nenhum produto com estoque negativo`).
+- **Fechamento de Caixa:** formulário visível, sem resultados.
+- **Comissão por Profissional:** formulário visível, sem resultados.
+
+### Problemas visuais/UX confirmados (sem redesign)
+- Nenhum problema visual novo. Os mesmos padrões persistem.
+
+---
+
+### Entregáveis Finais
+- **Telas inspecionadas:** 11
+- **Screenshots:** 54 PNG (`docs/screenshots/`)
+- **Arquivos criados:** `docs/auditoria-visual-atual.md` (atualizado)
+- **Código alterado:** Nenhum (`git status`: apenas `docs/`)
+- **Infraestrutura corrigida:** `public.usuarios` + `seed.sql` reprodutíveis após `db reset`; `raw_app_meta_data` ainda requer atualização manual (requer chave `service_role` ou admin no Auth).
+
 
 - **Telas inspecionadas:** 11 (Login, Dashboard, Profissionais, Clientes, Serviços, Produtos, Configurar Comissão, Comandas, Relatório de Estoque, Fechamento de Caixa, Comissão por Profissional)
 - **Screenshots:** 27 arquivos `.png` em `docs/screenshots/` (desktop e mobile para a maioria das telas; snapshot `.yml` também registrado para referência de acessibilidade)
