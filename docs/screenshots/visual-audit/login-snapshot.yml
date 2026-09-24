@@ -1,0 +1,24 @@
+- generic [ref=f1e4]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=f1e5]
+  - navigation [ref=f1e6]:
+    - button "Dashboard" [ref=f1e7]
+    - button "Profissionais" [ref=f1e8]
+    - button "Clientes" [ref=f1e9]
+    - button "Serviços" [ref=f1e10]
+    - button "Produtos" [ref=f1e11]
+    - button "Configurar Comissão" [ref=f1e12]
+    - button "Comandas" [ref=f1e13]
+    - button "Relatório de Estoque" [ref=f1e14]
+    - button "Fechamento de Caixa" [ref=f1e15]
+    - button "Comissão por Profissional" [ref=f1e16]
+    - button "Sair" [ref=f1e17]
+  - generic [ref=f1e18]:
+    - heading "Dashboard" [level=2] [ref=f1e19]
+    - alert [ref=f1e20]: JWT issued at future
+    - generic [ref=f1e21]:
+      - generic [ref=f1e22]:
+        - 'heading "Alerta: Estoque Negativo" [level=3] [ref=f1e23]'
+        - paragraph [ref=f1e24]: Todos os produtos com estoque positivo
+      - generic [ref=f1e25]:
+        - heading "CMV (2026-09)" [level=3] [ref=f1e26]
+        - paragraph [ref=f1e27]: R$ 0.00
