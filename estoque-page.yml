@@ -1,0 +1,17 @@
+- generic [ref=e3]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=e4]
+  - navigation [ref=e5]:
+    - button "Dashboard" [ref=e6]
+    - button "Profissionais" [ref=e7]
+    - button "Clientes" [ref=e8]
+    - button "Serviços" [ref=e9]
+    - button "Produtos" [ref=e10]
+    - button "Configurar Comissão" [ref=e11]
+    - button "Comandas" [ref=e12]
+    - button "Relatório de Estoque" [active] [ref=e13]
+    - button "Fechamento de Caixa" [ref=e14]
+    - button "Comissão por Profissional" [ref=e15]
+    - button "Sair" [ref=e16]
+  - generic [ref=e45]:
+    - 'heading "Relatório: Saldo Negativo — Pendente de Correção" [level=2] [ref=e46]'
+    - paragraph [ref=e47]: Nenhum produto com estoque negativo. Todos os saldos estão positivos.

@@ -1,0 +1,28 @@
+- generic [ref=e3]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=e4]
+  - navigation [ref=e5]:
+    - button "Dashboard" [ref=e6]
+    - button "Profissionais" [active] [ref=e7]
+    - button "Clientes" [ref=e8]
+    - button "Serviços" [ref=e9]
+    - button "Produtos" [ref=e10]
+    - button "Configurar Comissão" [ref=e11]
+    - button "Comandas" [ref=e12]
+    - button "Relatório de Estoque" [ref=e13]
+    - button "Fechamento de Caixa" [ref=e14]
+    - button "Comissão por Profissional" [ref=e15]
+    - button "Sair" [ref=e16]
+  - generic [ref=e26]:
+    - heading "Profissionais" [level=2] [ref=e27]
+    - generic [ref=e28]:
+      - textbox "Nome" [ref=e29]
+      - textbox "Telefone" [ref=e30]
+      - generic [ref=e31]:
+        - text: Comissão padrão (%)
+        - spinbutton "Comissão padrão (%)" [ref=e32]: "40"
+      - button "Cadastrar profissional" [ref=e33]
+    - list [ref=e34]:
+      - listitem [ref=e35]:
+        - strong [ref=e36]: Profissional de Teste
+        - text: — 40%
+        - button "Desativar" [ref=e37]

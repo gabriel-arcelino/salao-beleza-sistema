@@ -1,0 +1,23 @@
+- generic [ref=e12]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=e13]
+  - navigation [ref=e14]:
+    - button "Dashboard" [ref=e15]
+    - button "Profissionais" [ref=e16]
+    - button "Clientes" [ref=e17]
+    - button "Serviços" [ref=e18]
+    - button "Produtos" [ref=e19]
+    - button "Configurar Comissão" [ref=e20]
+    - button "Comandas" [ref=e21]
+    - button "Relatório de Estoque" [ref=e22]
+    - button "Fechamento de Caixa" [ref=e23]
+    - button "Comissão por Profissional" [ref=e24]
+    - button "Sair" [ref=e25]
+  - generic [ref=e26]:
+    - heading "Dashboard" [level=2] [ref=e27]
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - 'heading "Alerta: Estoque Negativo" [level=3] [ref=e30]'
+        - paragraph [ref=e31]: Todos os produtos com estoque positivo
+      - generic [ref=e32]:
+        - heading "CMV (2026-09)" [level=3] [ref=e33]
+        - paragraph [ref=e34]: R$ 0.00

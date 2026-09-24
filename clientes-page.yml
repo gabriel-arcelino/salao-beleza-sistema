@@ -1,0 +1,22 @@
+- generic [ref=e3]:
+  - heading "Sistema de Gestão — Salão de Beleza" [level=1] [ref=e4]
+  - navigation [ref=e5]:
+    - button "Dashboard" [ref=e6]
+    - button "Profissionais" [ref=e7]
+    - button "Clientes" [active] [ref=e8]
+    - button "Serviços" [ref=e9]
+    - button "Produtos" [ref=e10]
+    - button "Configurar Comissão" [ref=e11]
+    - button "Comandas" [ref=e12]
+    - button "Relatório de Estoque" [ref=e13]
+    - button "Fechamento de Caixa" [ref=e14]
+    - button "Comissão por Profissional" [ref=e15]
+    - button "Sair" [ref=e16]
+  - generic [ref=e38]:
+    - heading "Clientes" [level=2] [ref=e39]
+    - generic [ref=e40]:
+      - textbox "Nome" [ref=e41]
+      - textbox "Telefone" [ref=e42]
+      - textbox "E-mail" [ref=e43]
+      - button "Cadastrar cliente" [ref=e44]
+    - list

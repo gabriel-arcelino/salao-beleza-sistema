@@ -1,0 +1,12 @@
+- main [ref=e3]:
+  - heading "Login" [level=1] [ref=e4]
+  - paragraph [ref=e5]:
+    - text: Crie o primeiro usuário manualmente no dashboard do Supabase (Authentication → Users) e defina
+    - code [ref=e6]: app_metadata.salon_id
+    - text: apontando para uma linha em
+    - code [ref=e7]: saloes
+    - text: — não existe tela de cadastro de usuário/salão ainda, isso é passo manual só nesta fase inicial.
+  - generic [ref=e8]:
+    - textbox "E-mail" [ref=e9]
+    - textbox "Senha" [ref=e10]
+    - button "Entrar" [ref=e11]
