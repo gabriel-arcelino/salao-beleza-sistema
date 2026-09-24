@@ -39,6 +39,7 @@ Evidência: auditoria visual confirmou que inputs de `Login`, `Profissionais`, `
 - **Quando** esses formulários forem renderizados
 - **Então** cada `input` ou `select` utilizado no formulário de cadastro deve ter um elemento `label` associado, com `htmlFor` apontando para o `id` do campo (exceto quando o `label` envolve o campo diretamente com texto descritivo visível, conforme padrão observado em `ConfigComissoesPage`).
 - **Evidência observável no DOM:** presença de `<label>` com `htmlFor` (ou `label` aninhado com texto) e `id` correspondente no `input`.
+- **Nota complementar:** AC-011 fornece a prova técnica deste AC (`id` + `htmlFor`); AC-001 não se repete em AC-011 — são níveis diferentes (requisito vs. verificação técnica).
 - **Verificação:** inspeção do DOM renderizado por página; não é necessário alterar comportamento funcional.
 
 #### AC-002 — Separação visual entre formulário e conteúdo abaixo
@@ -47,6 +48,7 @@ Evidência: auditoria visual confirmou que inputs de `Login`, `Profissionais`, `
 - **Quando** a página for renderizada
 - **Então** o formulário deve ser visualmente separado do conteúdo abaixo por pelo menos uma das seguintes propriedades verificáveis no DOM: `marginBottom` igual ou maior que `SPACING_LG` (24), `borderBottom`, `border` com `borderRadius`, ou uso de `Card` para agrupar o conteúdo. A separação não pode depender apenas de `gap` interno do `grid` do formulário.
 - **Evidência:** auditoria visual (`P2` recorrente) confirmou ausência de separação clara.
+- **Nota:** o AC-002 não pode ser satisfeito apenas pelo `marginBottom` já existente no formulário (`marginBottom: SPACING_LG` aplicado ao elemento `form`). A separação visual deve ser verificável entre o grupo do formulário e o conteúdo abaixo, por exemplo por `borderBottom` no formulário, `Card` envolvendo o conteúdo, ou `marginTop` explícito no conteúdo abaixo.
 - **Nota:** não é necessário criar um componente `FormField` nesta feature, mas se for criado, deve respeitar este AC.
 
 ### US-002 — Padronização de estados vazios e uso do componente `EmptyState`
@@ -80,14 +82,14 @@ Evidência: auditoria visual (`P3` recorrente) confirmou que botões de ação p
 - **Dado** que existe um botão de ação primária (`Cadastrar cliente`, `Cadastrar produto`, `Cadastrar serviço`, `Salvar configuração`, `Filtrar` nos relatórios, `Abrir comanda`, `Fechar comanda`)
 - **Quando** o botão for renderizado
 - **Então** o botão deve possuir uma variante visual distinta do botão neutro, verificável no DOM, utilizando pelo menos uma das propriedades: `backgroundColor: COLOR_PRIMARY` (`crimson`), `fontWeight: "bold"` com `backgroundColor` distinta, ou `border` com `COLOR_PRIMARY`. A variante não pode ser apenas `fontWeight: "bold"` (que já é usada para aba ativa na navegação).
-- **Evidência observável:** inspeção do estilo inline do `button` no DOM renderizado.
+- **Evidência observável:** variante visual distinta verificável no DOM (por componente reutilizável `Button` com prop `variant`, ou por estilo aplicado ao elemento), sem exigir `style` inline obrigatório.
 
 #### AC-006 — Botões de ação destrutiva possuem variante visual distinta
 
 - **Dado** que existe um botão destrutivo (`Desativar`, `Cancelar` em `ClientesPage` e `ComandasPage`, ou qualquer ação de exclusão/desativação)
 - **Quando** o botão for renderizado
 - **Então** o botão deve possuir variante visual distinta do neutro e distinta da primária, verificável no DOM, utilizando pelo menos uma das propriedades: `backgroundColor: "crimson"` (se primário for outra cor), `border: "1px solid crimson"` com `color: "crimson"`, ou `color: "crimson"` com `fontWeight: "bold"`. A variante não pode ser idêntica à neutra.
-- **Nota:** não é necessário criar um componente `Button` reutilizável nesta feature, mas se houver, deve respeitar este AC.
+- **Nota:** variante visual distinta do neutro e da primária, verificável no DOM (por componente `Button` com `variant="destructive"`, ou por propriedades aplicadas), sem exigir `style` inline obrigatório. Se o componente `Button` for criado, deve respeitar este AC.
 
 ### US-004 — Hierarquia tipográfica e composição visual
 
@@ -99,14 +101,15 @@ Evidência: auditoria visual (`P3` recorrente) confirmou que a tipografia usa `s
 
 - **Dado** que existe uma página com título principal (`h1` ou `h2` no topo da seção, como `DashboardPage`, `ClientesPage`, etc.)
 - **Quando** a página é renderizada
-- **Então** o título principal deve utilizar `fontFamily: FONT_BODY` (ou `FONT_HEADING` se adicionado) e `fontSize` maior que `FONT_SIZE_BODY` (`1rem`), verificável no DOM. O tamanho pode ser definido por `fontSize: "1.5rem"` (ou equivalente) diretamente no estilo inline, ou por constante tipográfica, sem exigir a criação de novos tokens a menos que justificado.
-- **Evidência observável:** `fontSize` do `h1`/`h2` > `1rem` no DOM.
+- **Então** o título principal deve utilizar explicitamente `FONT_HEADING` (família tipográfica de título) e `FONT_SIZE_HEADING` (`"1.5rem"`), verificável no DOM ou no código fonte. Não deve depender apenas do CSS padrão do navegador (`fontSize` padrão do `h1`/`h2`). A constante `FONT_SIZE_HEADING` deve ser definida em `src/ui/tokens/typography.ts` e utilizada no componente.
+- **Evidência observável:** presença de `fontFamily: FONT_HEADING` e `fontSize: FONT_SIZE_HEADING` (ou equivalente direto `"1.5rem"` se a constante ainda não estiver integrada) no título renderizado.
 
 #### AC-008 — Seções/formulário e conteúdo possuem separação visual verificável
 
 - **Dado** que uma página contém múltiplas seções (formulário, lista, resultados)
 - **Quando** a página é renderizada
-- **Então** cada seção deve ser separada visualmente por pelo menos uma das propriedades verificáveis no DOM: `marginTop` ou `marginBottom` igual ou maior que `SPACING_MD` (16), uso de `Card` (`border`, `borderRadius`, `padding`), ou `borderBottom`. A separação não pode ser apenas `gap` interno de um `grid` de formulário.
+- **Então** cada seção deve ser estruturada explicitamente (por exemplo, agrupada em `div` com `role="group"` ou `section` com `aria-label`), e separada visualmente por pelo menos uma das propriedades verificáveis no DOM: `marginTop` ou `marginBottom` igual ou maior que `SPACING_MD` (16), uso de `Card` (`border`, `borderRadius`, `padding`), ou `borderBottom`. A separação não pode ser apenas `gap` interno de um `grid` de formulário.
+- **Nota:** a estrutura explícita de grupos (`group` ou `section`) é obrigatória para identificação por tecnologias assistivas (AC-018).
 - **Evidência:** auditoria confirmou pouca diferenciação (`P3`).
 
 ### US-005 — Consistência de navegação e indicadores de aba ativa
@@ -140,6 +143,7 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 - **Dado** que um input possui `label` associado
 - **Quando** renderizado
 - **Então** o `input` deve ter um `id` único e o `label` deve ter `htmlFor` apontando para esse `id`. Se o `label` envolve o `input`, o texto descritivo deve ser visível no DOM.
+- **Nota:** AC-001 e AC-011 são complementares: AC-001 exige que o `label` esteja associado; AC-011 exige a prova técnica (`id` + `htmlFor` ou aninhamento visível). Não há redundância entre eles: AC-001 é o requisito funcional; AC-011 é a verificação de implementação.
 - **Nota:** não é necessário alterar `supabase/migrations/`, `RLS`, `RPCs`, autenticação ou contratos de banco.
 
 ## Decisões desta feature
@@ -203,6 +207,10 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
   - **Testes visuais/DOM (Playwright/inspeção):** `AC-002` (separação visual — `marginBottom` ou `borderBottom`), `AC-007` (`fontSize` do título), `AC-008` (separação de seções — `marginTop` ou `Card`), `AC-011` (`id` + `htmlFor`).
 - A verificação final (`onp-spec verify`) deve confirmar que cada AC tem evidência observável no código ou no DOM, sem alterar testes pgTAP existentes.
 
+- **Separação entre prova mecânica e validação visual humana:**
+  - **Prova mecânica (automática):** verificação por `onp-spec audit`, inspeção do DOM (presença/ausência de `label`, `aria-current`, `role`, `borderBottom`, `fontFamily`, `fontSize`), testes de componente (Vitest) e verificação estrutural (`Button.tsx`, `typography.ts`).
+  - **Validação visual humana:** avaliação subjetiva de consistência visual (harmonia entre variantes de botão, legibilidade de títulos, separação entre seções), realizada por inspeção visual manual (Playwright screenshots ou revisão humana). A SPEC não exige que a validação visual humana esteja automatizada; ela complementa a prova mecânica.
+
 ## Dependências da `fundacao-ui`
 
 - `src/ui/tokens/colors.ts`: `COLOR_PRIMARY`, `COLOR_SECONDARY`.
@@ -223,11 +231,13 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 
 ## Perguntas em aberto
 
+Nenhuma pergunta permanece aberta. Todas as perguntas (Q-001, Q-002, Q-003) foram resolvidas conforme a revisão conceitual.
+
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
-| Q-001 | A variante visual de botão primário deve ser implementada por componente reutilizável (`Button`) ou por estilos inline nas páginas? | aberta | Decisão humana necessária antes da implementação: componente reutilizável (`Button` com variante `primary`/`destructive`) ou estilos inline. A SPEC aceita ambas as abordagens, desde que o AC seja verificável no DOM. |
-| Q-002 | A navegação deve receber indicador visual adicional além de `fontWeight: bold` e `aria-current`? Se sim, qual (borda inferior, cor de fundo, etc.)? | aberta | Decisão humana necessária: qualquer variante visual adicional é aceitável, desde que seja distinta e verificável. A SPEC não impõe uma variante específica, apenas que seja distinta e observável. |
-| Q-003 | A tipografia de título (`h2`) deve ser definida por constante (`FONT_SIZE_HEADING`) ou pode ser definida diretamente no estilo inline (`fontSize: "1.5rem"`)? | aberta | Decisão humana necessária: constante é preferível para consistência, mas `fontSize` maior que `FONT_SIZE_BODY` no inline atende ao AC. |
+| Q-001 | A variante visual de botão primário deve ser implementada por componente reutilizável (`Button`) ou por estilos inline nas páginas? | respondida | Decisão: componente reutilizável `Button` (`primary`/`destructive`/`neutral`). Justificativa em pelo menos uma página. |
+| Q-002 | A navegação deve receber indicador visual adicional além de `fontWeight: bold` e `aria-current`? Se sim, qual? | respondida | Decisão: `borderBottom` com `COLOR_PRIMARY` (`crimson`) + `aria-current="page"`. |
+| Q-003 | A tipografia de título (`h2`) deve ser definida por constante (`FONT_SIZE_HEADING`) ou pode ser definida diretamente no estilo inline? | respondida | Decisão: criar constante `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts`. |
 
 ## Resumo executivo (para auditoria)
 

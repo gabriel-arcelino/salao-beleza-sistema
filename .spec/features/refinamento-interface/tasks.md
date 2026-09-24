@@ -25,18 +25,18 @@
 
 ## T-002 — Padronizar estados vazios com componente `EmptyState` [pendente]
 - Refs: US-002, AC-003, AC-004
-- Arquivos: src/pages/ClientesPage.tsx, src/pages/ComandasPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
-- Notas: utilizar `EmptyState` com `message` configurada quando a lista/resultado estiver vazio; não remover `EmptyState` de `RelatorioEstoquePage` se já existir, apenas garantir que use o componente.
+- Arquivos: src/pages/ClientesPage.tsx, src/pages/ComandasPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+- Notas: incluir todas as telas mencionadas no AC-003 (`ClientesPage`, `ComandasPage`, `ConfigComissoesPage`, `ProfissionaisPage`, `ServicosPage`, `ProdutosPage`, além dos relatórios); utilizar `EmptyState` com `message` configurada; não remover `EmptyState` de `RelatorioEstoquePage` se já existir.
 
 ## T-003 — Definir destaque visual para ações primárias e destrutivas [pendente]
 - Refs: US-003, AC-005, AC-006
-- Arquivos: src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
-- Notas: aplicar variante visual distinta para botões primários (`Cadastrar`, `Salvar`, `Filtrar`, `Abrir comanda`, `Fechar comanda`) e destrutivos (`Desativar`, `Cancelar`, `Zerar`). Se `Button` reutilizável for criado, deve respeitar AC-005 e AC-006.
+- Arquivos: src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, src/ui/components/Button.tsx
+- Notas: criar `Button` reutilizável (`primary` / `destructive` / `neutral`) e aplicar nas páginas; respeitar AC-005 (variante primária distinta) e AC-006 (variante destrutiva distinta) sem depender apenas de `fontWeight: bold`.
 
 ## T-004 — Melhorar hierarquia tipográfica e composição [pendente]
 - Refs: US-004, AC-007, AC-008
-- Arquivos: src/pages/DashboardPage.tsx, src/App.tsx, src/pages/*.tsx (todas as páginas com título `h1`/`h2`)
-- Notas: garantir que títulos principais (`h1`/`h2`) utilizem `fontSize` maior que `FONT_SIZE_BODY`; garantir separação visual entre seções (formulário, conteúdo) por `marginTop`/`marginBottom`, `Card` ou `borderBottom`.
+- Arquivos: src/pages/DashboardPage.tsx, src/App.tsx, src/pages/*.tsx (todas as páginas com título `h1`/`h2`), src/ui/tokens/typography.ts
+- Notas: definir `FONT_HEADING` e `FONT_SIZE_HEADING = "1.5rem"` em `typography.ts`; garantir `fontFamily: FONT_HEADING` e `fontSize: FONT_SIZE_HEADING` nos títulos (`AC-007`); garantir separação visual entre seções (`AC-008`) por `marginTop`/`marginBottom`, `Card` ou `borderBottom`, e estrutura explícita de grupos (`group`/`section`).
 
 ## T-005 — Melhorar navegação com indicador visual e semântico [pendente]
 - Refs: US-005, AC-009

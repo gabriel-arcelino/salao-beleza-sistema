@@ -15,6 +15,8 @@
 
 - `EmptyState` não é utilizado nas telas de cadastro (`ClientesPage`, `ComandasPage`, `ConfigComissoesPage`) quando a lista está vazia.
 - `Card` não é utilizado para agrupar formulário e conteúdo abaixo, resultando em pouca separação visual (`P2`/`P3` na auditoria).
+- Decisão: componente `Button` será criado (`src/ui/components/Button.tsx`) com variantes `primary` / `destructive` / `neutral`, justificado pelo uso real em pelo menos uma página (AC-005, AC-006).
+- Nenhum componente `FormField` será criado nesta etapa; a separação entre `label` e `input` será feita diretamente nas páginas (AC-001, AC-002, AC-011).
 - Nenhum componente de botão (`Button`) ou campo de formulário (`FormField`) existe na fundação; cada página define estilos inline.
 
 ## 3. Hipotese / recomendacao — uso padronizado
@@ -28,14 +30,13 @@
 ## 4. Observado — tokens visuais
 
 - `colors.ts`: `COLOR_PRIMARY = "crimson"`; `COLOR_SECONDARY = "#e0e0e0"`; `COLOR_TEXT = "#333333"`.
-- `typography.ts`: `FONT_BODY = "sans-serif"`; `FONT_SIZE_BODY = "1rem"`; `FONT_HEADING = "sans-serif"` (não utilizado em todos os títulos).
+- `typography.ts`: `FONT_BODY = "sans-serif"`; `FONT_SIZE_BODY = "1rem"`; `FONT_HEADING = "sans-serif"` (não utilizado em todos os títulos); `FONT_SIZE_HEADING = "1.5rem"` (novo token, definido para AC-007).
 - `spacing.ts`: `SPACING_SM = 8`; `SPACING_MD = 16`; `SPACING_LG = 24`.
 
 ## 5. Problema — tipografia e espaçamento
 
-- `FONT_HEADING` não é utilizado em títulos principais (`h1`/`h2`), que repetem `FONT_BODY`.
-- `FONT_SIZE_BODY` (`1rem`) é usado para títulos e corpo, sem variação (`P3`).
-- `SPACING_LG` (`24`) é usado para `marginBottom` do formulário, mas não para separação entre seções (`P3`).
+- `FONT_HEADING` e `FONT_SIZE_HEADING` (`"1.5rem"`) devem ser utilizados explicitamente nos títulos principais (`h1`/`h2`) (AC-007), sem depender do CSS padrão do navegador.
+- `SPACING_LG` (`24`) é usado para `marginBottom` do formulário, mas não pode ser a única separação visual entre formulário e conteúdo (AC-002); separação entre seções (`AC-008`) exige `Card` ou `marginTop`/`marginBottom` explícito.
 
 ## 6. Hipotese / recomendacao — tipografia e espaçamento
 
@@ -58,7 +59,8 @@
 
 - `P2` recorrente: `LoginPage`, `ProfissionaisPage`, `ClientesPage`, `ServicosPage`, `ProdutosPage` dependem de `placeholder` sem `label` associado.
 - `ComandasPage` tem `label` parcial (`Profissional`) mas `Qtd` e `Valor` sem `label` associado.
-- Nenhum componente `FormField` reutilizável para unificar `label` + `input`/`select` + `required` + `pattern`.
+- Nenhum componente `FormField` será criado nesta etapa.
+- AC-002 não é satisfeito apenas pelo `marginBottom` existente (`SPACING_LG`) no elemento `form`: a separação deve ser verificável entre o grupo do formulário e o conteúdo abaixo (ex: `borderBottom`, `Card`, ou `marginTop` no conteúdo).
 
 ## 9. Hipotese / recomendacao — labels
 
@@ -77,8 +79,8 @@
 
 ## 12. Hipotese / recomendacao — navegação
 
-- Adicionar `aria-current="page"` ao botão da aba ativa (AC-009).
-- Adicionar indicador visual adicional verificável (`borderBottom`, `backgroundColor` distinta) para diferenciar a aba ativa (AC-009).
+- Adicionar `aria-current="page"` ao botão da aba ativa (AC-009) e `borderBottom` com `COLOR_PRIMARY` como indicador visual adicional.
+- Separação clara entre prova mecânica (`aria-current` presente no DOM) e validação visual humana (indicador visual adicional visível).
 
 ---
 
@@ -93,8 +95,8 @@
 
 ## 15. Hipotese / recomendacao — botões
 
-- Aplicar variante visual distinta para botões primários (`backgroundColor: COLOR_PRIMARY` ou equivalente) e destrutivos (`backgroundColor: "crimson"` com `color: "white"` ou `border: 1px solid crimson`) (AC-005, AC-006).
-- Se `Button` reutilizável for criado, deve aceitar `variant` (`primary` | `destructive` | `neutral`) e ser usado em pelo menos uma página.
+- Aplicar variante visual distinta para botões primários (`Button` com `variant="primary"`) e destrutivos (`Button` com `variant="destructive"`) (AC-005, AC-006), sem depender apenas de `fontWeight: bold`.
+- Se `Button` reutilizável for criado (decisão confirmada), deve aceitar `variant` (`primary` | `destructive` | `neutral`) e ser usado em pelo menos uma página.
 
 ---
 
@@ -113,16 +115,16 @@
 
 ## 18. Hipotese / recomendacao — estados
 
-- Utilizar `EmptyState` para todas as listas vazias (AC-003).
+- Utilizar `EmptyState` para todas as telas do AC-003 (`ClientesPage`, `ComandasPage`, `ConfigComissoesPage`, `ProfissionaisPage`, `ServicosPage`, `ProdutosPage`, além dos relatórios), não apenas para as páginas de cadastro.
 - Configurar `message` de acordo com o contexto (AC-004).
-- Manter semântica acessível dos componentes existentes (AC-010).
+- Manter semântica acessível dos componentes existentes (AC-010) sem remover `role` e `aria-live`.
 
 ---
 
 ## 19. Resumo executivo (para auditoria)
 
 - Inventario criado: `.spec/features/refinamento-interface/inventario.md`.
-- Nenhum arquivo em `src/` alterado; nenhum componente implementado; nenhum token alterado (apenas documentação).
+- Nenhum arquivo em `src/` alterado; componente `Button` e token `FONT_SIZE_HEADING` registrados como decisões; nenhum componente implementado; apenas documentação atualizada.
 - Nenhum arquivo em `supabase/` alterado; `package.json` preservado.
 - Os problemas recorrentes (`P2` e `P3`) confirmados na auditoria estão documentados e mapeados para AC verificáveis.
 - Nenhuma alteração funcional; apenas evolução visual baseada em evidências.
