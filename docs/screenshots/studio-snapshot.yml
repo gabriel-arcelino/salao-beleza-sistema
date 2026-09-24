@@ -1,0 +1,124 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e109]:
+    - link "Skip to content" [ref=f5e111] [cursor=pointer]:
+      - /url: "#main"
+    - banner [ref=f5e114]:
+      - generic [ref=f5e115]:
+        - generic [ref=f5e116]:
+          - link "Supabase Back to organization home" [ref=f5e117] [cursor=pointer]:
+            - /url: /project/default
+            - img "Supabase" [ref=f5e118]
+            - generic [ref=f5e119]: Back to organization home
+          - generic [ref=f5e120]: Supabase Studio (CLI)
+          - button "Connect" [ref=f5e124] [cursor=pointer]
+        - generic [ref=f5e129]:
+          - button "Update available" [ref=f5e130]
+          - generic [ref=f5e132]:
+            - button [ref=f5e133] [cursor=pointer]:
+              - paragraph [ref=f5e138]: Search...
+              - generic [ref=f5e140]: Ctrl K
+            - button "Help" [ref=f5e141] [cursor=pointer]
+            - button "Advisor Center" [ref=f5e148] [cursor=pointer]
+            - button "SQL Editor" [ref=f5e153] [cursor=pointer]
+            - button "AI Assistant" [ref=f5e158] [cursor=pointer]
+          - button "Settings" [ref=f5e166] [cursor=pointer]:
+            - generic [ref=f5e167]:
+              - figure [ref=f5e168]
+              - generic [ref=f5e171]: Settings
+    - generic [ref=f5e172]:
+      - generic [ref=f5e176]:
+        - navigation [ref=f5e178]:
+          - list [ref=f5e180]:
+            - listitem [ref=f5e181]:
+              - link "Project Overview" [ref=f5e182] [cursor=pointer]:
+                - /url: /project/default
+            - listitem [ref=f5e185]:
+              - link "Table Editor" [ref=f5e186] [cursor=pointer]:
+                - /url: /project/default/editor
+            - listitem [ref=f5e189]:
+              - link "SQL Editor" [ref=f5e190] [cursor=pointer]:
+                - /url: /project/default/sql
+          - list [ref=f5e194]:
+            - listitem [ref=f5e195]:
+              - link "Database" [ref=f5e196] [cursor=pointer]:
+                - /url: /project/default/database/schemas
+            - listitem [ref=f5e201]:
+              - link "Authentication" [ref=f5e202] [cursor=pointer]:
+                - /url: /project/default/auth/users
+            - listitem [ref=f5e205]:
+              - link "Storage" [ref=f5e206] [cursor=pointer]:
+                - /url: /project/default/storage/files
+            - listitem [ref=f5e209]:
+              - link "Edge Functions" [ref=f5e210] [cursor=pointer]:
+                - /url: /project/default/functions
+            - listitem [ref=f5e216]:
+              - link "Realtime" [ref=f5e217] [cursor=pointer]:
+                - /url: /project/default/realtime/inspector
+          - list [ref=f5e221]:
+            - listitem [ref=f5e222]:
+              - link "Advisors" [ref=f5e223] [cursor=pointer]:
+                - /url: /project/default/advisors/security
+            - listitem [ref=f5e227]:
+              - link "Observability" [ref=f5e228] [cursor=pointer]:
+                - /url: /project/default/query-performance
+            - listitem [ref=f5e237]:
+              - link "Logs" [ref=f5e238] [cursor=pointer]:
+                - /url: /project/default/logs/explorer
+            - listitem [ref=f5e240]:
+              - link "Integrations" [ref=f5e241] [cursor=pointer]:
+                - /url: /project/default/integrations
+          - list [ref=f5e246]:
+            - listitem [ref=f5e247]:
+              - link "Project Settings" [ref=f5e248] [cursor=pointer]:
+                - /url: /project/default/settings/general
+        - button "Sidebar control" [ref=f5e254] [cursor=pointer]
+      - main [ref=f5e261]:
+        - main [ref=f5e266]:
+          - generic [ref=f5e267]:
+            - generic [ref=f5e274]:
+              - heading "Supabase Studio (CLI)" [level=1] [ref=f5e276]
+              - generic [ref=f5e277]:
+                - generic [ref=f5e278]: http://127.0.0.1:54321
+                - button "Copy project URL and API keys" [ref=f5e279] [cursor=pointer]:
+                  - generic [ref=f5e280]:
+                    - text: Copy
+                    - generic [ref=f5e281]: project URL and API keys
+            - generic [ref=f5e286]:
+              - generic [ref=f5e287]:
+                - button "Drag to reorder section" [ref=f5e289]
+                - generic [ref=f5e299]:
+                  - heading "Get connected" [level=3] [ref=f5e301]
+                  - generic [ref=f5e306]:
+                    - button [ref=f5e307]:
+                      - generic [ref=f5e312]:
+                        - paragraph [ref=f5e313]: Framework
+                        - paragraph [ref=f5e314]: Use a client library
+                    - button [ref=f5e315]:
+                      - generic [ref=f5e320]:
+                        - paragraph [ref=f5e321]: Server
+                        - paragraph [ref=f5e322]: Build APIs
+                    - button [ref=f5e323]:
+                      - generic [ref=f5e329]:
+                        - paragraph [ref=f5e330]: Direct
+                        - paragraph [ref=f5e331]: Connection string
+                    - button [ref=f5e332]:
+                      - generic [ref=f5e340]:
+                        - paragraph [ref=f5e341]: ORM
+                        - paragraph [ref=f5e342]: Third-party library
+                    - button [ref=f5e343]:
+                      - generic [ref=f5e347]:
+                        - paragraph [ref=f5e348]: MCP
+                        - paragraph [ref=f5e349]: Connect your agent
+                    - button [ref=f5e350]:
+                      - generic [ref=f5e355]:
+                        - paragraph [ref=f5e356]: API Keys
+                        - paragraph [ref=f5e357]: Manage project keys
+              - generic [ref=f5e359]:
+                - button "Drag to reorder section" [ref=f5e361]
+                - generic [ref=f5e371]:
+                  - generic [ref=f5e372]:
+                    - heading "Advisor found no issues" [level=2] [ref=f5e373]
+                    - button "Ask Assistant" [ref=f5e374] [cursor=pointer]
+                  - paragraph [ref=f5e386]: No security or performance issues found
+              - status [ref=f5e387]
+  - alert [ref=f5e108]: Supabase

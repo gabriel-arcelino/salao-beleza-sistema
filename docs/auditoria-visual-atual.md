@@ -258,6 +258,50 @@ Cada tela será registrada com:
 
 *Nenhum arquivo de código, SPEC, AC, teste ou configuração foi alterado durante esta auditoria visual.*
 
+---
+
+## Atualização — Auditoria com Sessão Válida (2026-09-23, segunda execução)
+
+### Configuração realizada
+- `public.usuarios` inserido: `auth_user_id` = `b404feee-a02b-44c9-ae25-212926cc2771`, `salon_id` = `00000000-0000-0000-0000-000000000001`, `perfil` = `ADMIN`.
+- `seed.sql` aplicado (`db reset` completo): `saloes`, `profissionais`, `servicos`, `produtos` e `config_taxas` inseridos com `salon_id` fixo.
+- Usuário `teste@gmail.com` recriado via Auth (`signup`) após `db reset`.
+- **Nota:** `raw_app_meta_data` no `auth.users` ainda não contém `{"salon_id":"..."}` (atualização requer privilégios de admin via Studio); portanto, a aplicação ainda exibe `"Sessão sem salon_id"` no Dashboard, embora `public.usuarios` esteja correto.
+
+### Estado funcional observado após configuração
+- **Login:** funcional (não aparece tela de login; aplicação inicia diretamente no Dashboard com usuário autenticado).
+- **Dashboard:** ainda exibe `"Sessão sem salon_id — usuário não autenticado corretamente."` (evidência: `post-setup-login.png`). Cards de estoque (`Todos os produtos com estoque positivo`) e CMV (`Carregando...`) visíveis.
+- **Profissionais:** formulário visível; lista simples sem registros visuais de profissionais (`valid_profissionais_desktop.png`).
+- **Clientes:** apenas formulário (`Cadastrar cliente`), sem registros (`valid_clientes_desktop.png`).
+- **Serviços:** apenas formulário (`Cadastrar serviço`), sem registros (`valid_servicos_desktop.png`).
+- **Produtos:** apenas formulário (`Cadastrar produto`), sem registros (`valid_produtos_desktop.png`).
+- **Configurar Comissão:** formulário com selects (`Profissional` e `Serviço`), sem registros configurados (`valid_comissoes_desktop.png`).
+- **Comandas:** formulário simples (`Profissional (opcional)`, `Nenhum`, `Abrir comanda`), sem comandas visíveis (`valid_comandas_desktop.png`).
+- **Relatório de Estoque:** mensagem positiva (`Nenhum produto com estoque negativo`), sem tabela ou cards (`valid_estoque_desktop.png`).
+- **Fechamento de Caixa:** formulário de datas (`Início`/`Fim`), sem resultados (`valid_caixa_desktop.png`).
+- **Comissão por Profissional:** formulário de filtro (`Competência`/`Profissional`), sem resultados (`valid_comissao_desktop.png`).
+
+### Problemas visuais/UX novos observados (segunda execução)
+- Nenhum problema visual novo identificado além dos já registrados na primeira auditoria.
+- A consistência visual entre desktop e mobile permanece a mesma (mesma tipografia, mesmos botões, mesmo layout simples).
+- Os dados do `seed.sql` (profissional, serviço, produto) não aparecem nas listas de `Profissionais`, `Serviços` e `Produtos`. Isso pode indicar que as APIs (`listProfissionais`, `listServicos`, `listProdutos`) ainda não estão carregando os registros, ou que há algum bloqueio por `salon_id` na RLS. Não foi feita nenhuma alteração no código para investigar a causa raiz.
+
+### Screenshots capturados na segunda execução
+- 10 desktop (`valid_*_desktop.png`)
+- 10 mobile (`valid_*_mobile.png`)
+- Total de novos arquivos: 20 PNG + 1 `post-setup-login.png`
+
+---
+
+## Entregáveis Finais
+
+- **Telas inspecionadas:** 11 (mesmas da primeira execução)
+- **Screenshots capturados:** 27 (auditoria inicial) + 21 (segunda execução) = 48 arquivos `.png` no total em `docs/screenshots/`
+- **Relatório:** `docs/auditoria-visual-atual.md` atualizado
+- **Estado funcional:** Login funcional; `Sessão sem salon_id` ainda presente (devido a `raw_app_meta_data` ainda vazio); `public.usuarios` configurado; `seed.sql` aplicado.
+- **Problemas visuais/UX:** Nenhum novo; todos os problemas registrados na primeira auditoria permanecem.
+- **Limitação técnica:** Atualização de `raw_app_meta_data` no `auth.users` requer privilégios de admin (não alterada nesta etapa, conforme restrição de não alterar código/testes/configuração).
+
 
 
 
