@@ -12,6 +12,7 @@ import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { listProdutos } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
+import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ComandasPage() {
@@ -187,17 +188,23 @@ export function ComandasPage() {
           <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
             <Card>
               <ul>
-                {comandas.map((c) => (
-                  <li key={c.id}>
-                    <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
-                    <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
-                      Ver
-                    </button>{" "}
-                    {c.status === "ABERTA" && (
-                      <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
-                    )}
+                {!carregando && !erro && comandas.length === 0 ? (
+                  <li>
+                    <EmptyState message="Nenhuma comanda cadastrada." />
                   </li>
-                ))}
+                ) : (
+                  comandas.map((c) => (
+                    <li key={c.id}>
+                      <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
+                      <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
+                        Ver
+                      </button>{" "}
+                      {c.status === "ABERTA" && (
+                        <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
+                      )}
+                    </li>
+                  ))
+                )}
               </ul>
             </Card>
           </section>

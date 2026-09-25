@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import type { Produto } from "../types";
 import { getProdutosEstoqueNegativo } from "../lib/api/estoque";
 import { supabase } from "../lib/supabaseClient";
+import { EmptyState } from "../ui/components/EmptyState";
 
 export function RelatorioEstoquePage() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [erro, setErro] = useState<string | null>(null);
+  const [consultaConcluida, setConsultaConcluida] = useState(false);
 
   async function carregar() {
     try {
       setProdutos(await getProdutosEstoqueNegativo());
+      setConsultaConcluida(true);
     } catch (e) {
+      setConsultaConcluida(false);
       setErro((e as Error).message);
     }
   }
@@ -25,9 +29,11 @@ export function RelatorioEstoquePage() {
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-      {produtos.length === 0 ? (
-        <p>Nenhum produto com estoque negativo. Todos os saldos estão positivos.</p>
-      ) : (
+      {!erro && consultaConcluida && produtos.length === 0 ? (
+        <EmptyState message="Nenhum produto com estoque negativo. Todos os saldos estão positivos." />
+      ) : null}
+
+      {!erro && produtos.length > 0 ? (
         <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 16 }}>
           <thead>
             <tr>
@@ -70,7 +76,7 @@ export function RelatorioEstoquePage() {
             ))}
           </tbody>
         </table>
-      )}
+      ) : null}
     </section>
   );
 }

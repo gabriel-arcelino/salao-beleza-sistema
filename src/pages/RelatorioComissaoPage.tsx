@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { getRelatorioComissao } from "../lib/api/relatorios";
 import { listProfissionais } from "../lib/api/profissionais";
 import type { RelatorioComissao, Profissional } from "../types";
+import { EmptyState } from "../ui/components/EmptyState";
 
 export function RelatorioComissaoPage() {
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
   const [profissionalId, setProfissionalId] = useState("");
   const [competencia, setCompetencia] = useState("");
   const [resultados, setResultados] = useState<RelatorioComissao[]>([]);
+  const [consultaRealizada, setConsultaRealizada] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
@@ -20,15 +22,19 @@ export function RelatorioComissaoPage() {
   async function handleFiltrar(e: React.FormEvent) {
     e.preventDefault();
     if (!profissionalId || !competencia) {
+      setConsultaRealizada(false);
       setErro("Selecione um profissional e informe a competência.");
       return;
     }
     setErro(null);
+    setConsultaRealizada(false);
     setCarregando(true);
     try {
       const dados = await getRelatorioComissao(competencia, profissionalId);
       setResultados(dados);
+      setConsultaRealizada(true);
     } catch (e) {
+      setConsultaRealizada(false);
       setErro((e as Error).message);
       setResultados([]);
     } finally {
@@ -52,7 +58,10 @@ export function RelatorioComissaoPage() {
             type="text"
             placeholder="2026-01"
             value={competencia}
-            onChange={(e) => setCompetencia(e.target.value)}
+            onChange={(e) => {
+              setConsultaRealizada(false);
+              setCompetencia(e.target.value);
+            }}
             required
             pattern="^\d{4}-\d{2}$"
             style={{ display: "block", marginTop: 4 }}
@@ -62,7 +71,10 @@ export function RelatorioComissaoPage() {
           Profissional
           <select
             value={profissionalId}
-            onChange={(e) => setProfissionalId(e.target.value)}
+            onChange={(e) => {
+              setConsultaRealizada(false);
+              setProfissionalId(e.target.value);
+            }}
             required
             style={{ display: "block", marginTop: 4 }}
           >
@@ -131,8 +143,8 @@ export function RelatorioComissaoPage() {
         </>
       )}
 
-      {!carregando && resultados.length === 0 && (profissionalId || competencia) && !erro && (
-        <p>Nenhum registro encontrado para os filtros informados.</p>
+      {!carregando && consultaRealizada && resultados.length === 0 && !erro && (
+        <EmptyState message="Nenhum registro encontrado para os filtros informados." />
       )}
     </section>
   );

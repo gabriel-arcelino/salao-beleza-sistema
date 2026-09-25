@@ -3,6 +3,7 @@ import type { ConfigComissao, Profissional, Servico } from "../types";
 import { listConfigComissoes, createConfigComissao } from "../lib/api/config_comissoes";
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
+import { EmptyState } from "../ui/components/EmptyState";
 
 const METODOS_PAGAMENTO = ["DINHEIRO", "PIX", "DEBITO", "CREDITO"] as const;
 
@@ -193,19 +194,23 @@ export function ConfigComissoesPage() {
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-      <ul>
-        {configs.map((c) => {
-          const prof = profissionais.find((p) => p.id === c.profissional_id);
-          const serv = servicos.find((s) => s.id === c.servico_id);
-          return (
-            <li key={c.id}>
-              <strong>{prof?.nome ?? c.profissional_id}</strong> —{" "}
-              {serv ? serv.nome : "qualquer serviço"} — {c.base_calculo} / {c.rateio_taxa}
-              {c.comissao_percentual != null && ` — ${c.comissao_percentual}%`}
-            </li>
-          );
-        })}
-      </ul>
+      {!erro && configs.length === 0 ? (
+        <EmptyState message="Nenhuma configuração de comissão cadastrada." />
+      ) : (
+        <ul>
+          {configs.map((c) => {
+            const prof = profissionais.find((p) => p.id === c.profissional_id);
+            const serv = servicos.find((s) => s.id === c.servico_id);
+            return (
+              <li key={c.id}>
+                <strong>{prof?.nome ?? c.profissional_id}</strong> —{" "}
+                {serv ? serv.nome : "qualquer serviço"} — {c.base_calculo} / {c.rateio_taxa}
+                {c.comissao_percentual != null && ` — ${c.comissao_percentual}%`}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </section>
   );
 }

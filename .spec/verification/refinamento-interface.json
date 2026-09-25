@@ -1,25 +1,35 @@
 {
   "feature": "refinamento-interface",
-  "timestamp": "2026-09-25T12:13:43.390Z",
-  "gitRev": "8759338",
+  "timestamp": "2026-09-25T14:02:03.053Z",
+  "gitRev": "17b7ff7",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 24,
+  "testsParsed": 35,
   "results": {
     "AC-031": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=2075.70ms {",
       "method": "tap"
     },
     "AC-032": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=2075.70ms {",
+      "method": "tap"
+    },
+    "AC-033": {
+      "status": "pass",
+      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=3323.90ms {",
+      "method": "tap"
+    },
+    "AC-034": {
+      "status": "pass",
+      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=3323.90ms {",
       "method": "tap"
     },
     "AC-041": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=2075.70ms {",
       "method": "tap"
     }
   },

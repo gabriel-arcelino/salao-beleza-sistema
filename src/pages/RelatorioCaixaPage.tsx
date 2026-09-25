@@ -1,22 +1,27 @@
 import { useState } from "react";
 import { getRelatorioCaixa } from "../lib/api/relatorios";
 import type { RelatorioCaixa } from "../types";
+import { EmptyState } from "../ui/components/EmptyState";
 
 export function RelatorioCaixaPage() {
   const [inicio, setInicio] = useState("");
   const [fim, setFim] = useState("");
   const [resultados, setResultados] = useState<RelatorioCaixa[]>([]);
+  const [consultaRealizada, setConsultaRealizada] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
   async function handleFiltrar(e: React.FormEvent) {
     e.preventDefault();
     setErro(null);
+    setConsultaRealizada(false);
     setCarregando(true);
     try {
       const dados = await getRelatorioCaixa(inicio, fim);
       setResultados(dados);
+      setConsultaRealizada(true);
     } catch (e) {
+      setConsultaRealizada(false);
       setErro((e as Error).message);
       setResultados([]);
     } finally {
@@ -37,7 +42,10 @@ export function RelatorioCaixaPage() {
           <input
             type="date"
             value={inicio}
-            onChange={(e) => setInicio(e.target.value)}
+            onChange={(e) => {
+              setConsultaRealizada(false);
+              setInicio(e.target.value);
+            }}
             required
             style={{ display: "block", marginTop: 4 }}
           />
@@ -47,7 +55,10 @@ export function RelatorioCaixaPage() {
           <input
             type="date"
             value={fim}
-            onChange={(e) => setFim(e.target.value)}
+            onChange={(e) => {
+              setConsultaRealizada(false);
+              setFim(e.target.value);
+            }}
             required
             style={{ display: "block", marginTop: 4 }}
           />
@@ -57,8 +68,8 @@ export function RelatorioCaixaPage() {
         </button>
       </form>
 
-      {resultados.length === 0 && !carregando && inicio && fim && !erro ? (
-        <p>Nenhum registro encontrado para o intervalo informado.</p>
+      {consultaRealizada && resultados.length === 0 && !carregando && !erro ? (
+        <EmptyState message="Nenhum registro encontrado para o intervalo informado." />
       ) : (
         resultados.length > 0 && (
           <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 16 }}>

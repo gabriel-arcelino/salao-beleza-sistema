@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Cliente } from "../types";
 import { listClientes, createCliente, desativarCliente } from "../lib/api/clientes";
 import { Card } from "../ui/components/Card";
+import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ClientesPage() {
@@ -72,24 +73,30 @@ export function ClientesPage() {
           {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
           <ul>
-            {clientes.map((c) => (
-              <li key={c.id}>
-                <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
-                {!c.ativo && <em>(inativo)</em>}{" "}
-                {c.ativo && (
-                  <button
-                    onClick={async () => {
-                      if (confirm("Desativar este cliente?")) {
-                        await desativarCliente(c.id);
-                        await carregar();
-                      }
-                    }}
-                  >
-                    Desativar
-                  </button>
-                )}
+            {!erro && clientes.length === 0 ? (
+              <li>
+                <EmptyState message="Nenhum cliente cadastrado." />
               </li>
-            ))}
+            ) : (
+              clientes.map((c) => (
+                <li key={c.id}>
+                  <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
+                  {!c.ativo && <em>(inativo)</em>}{" "}
+                  {c.ativo && (
+                    <button
+                      onClick={async () => {
+                        if (confirm("Desativar este cliente?")) {
+                          await desativarCliente(c.id);
+                          await carregar();
+                        }
+                      }}
+                    >
+                      Desativar
+                    </button>
+                  )}
+                </li>
+              ))
+            )}
           </ul>
         </Card>
       </section>
