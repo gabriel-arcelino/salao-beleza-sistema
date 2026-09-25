@@ -16,14 +16,13 @@
 - `EmptyState` não é utilizado nas telas de cadastro (`ClientesPage`, `ComandasPage`, `ConfigComissoesPage`) quando a lista está vazia.
 - `Card` não é utilizado para agrupar formulário e conteúdo abaixo, resultando em pouca separação visual (`P2`/`P3` na auditoria).
 - Decisão: componente `Button` será criado (`src/ui/components/Button.tsx`) com variantes `primary` / `destructive` / `neutral`, justificado pelo uso real em pelo menos uma página (AC-005, AC-006).
-- Nenhum componente `FormField` será criado nesta etapa; a separação entre `label` e `input` será feita diretamente nas páginas (AC-001, AC-002, AC-011).
-- Nenhum componente de botão (`Button`) ou campo de formulário (`FormField`) existe na fundação; cada página define estilos inline.
+- Nenhum componente `FormField` será criado nesta feature (decisão confirmada); separação entre `label` e `input` feita diretamente nas páginas (AC-001, AC-002, AC-011). `Button` (`primary`/`destructive`/`neutral`) é decisão confirmada (AC-005, AC-006). Nenhum componente de botão (`Button`) ou campo de formulário (`FormField`) existe na fundação atual; cada página define estilos inline, exceto quando `Button` for implementado.
 
 ## 3. Hipotese / recomendacao — uso padronizado
 
 - Utilizar `EmptyState` com `message` configurada para todas as listas vazias (AC-003, AC-004).
 - Utilizar `Card` (ou estilos equivalentes) para agrupar seções quando necessário para separação visual (AC-002, AC-008).
-- Se `Button` ou `FormField` forem criados, devem ser justificados pelo uso real em pelo menos uma página e respeitar AC-005, AC-006, AC-001.
+- Se `Button` reutilizável for criado (decisão confirmada: variantes `primary`/`destructive`/`neutral`, obrigatório para AC-005/AC-006; arquivo `src/ui/components/Button.tsx`), deve aceitar `variant` e ser usado em pelo menos uma página. `FormField` não será criado.
 
 ---
 
@@ -40,7 +39,7 @@
 
 ## 6. Hipotese / recomendacao — tipografia e espaçamento
 
-- Títulos principais (`h1`/`h2`) devem utilizar `fontSize` maior que `FONT_SIZE_BODY` (AC-007), sem exigir necessariamente um novo token.
+- Títulos principais (`h1`/`h2`) devem utilizar `fontFamily: FONT_HEADING` e `fontSize: FONT_SIZE_HEADING` (token obrigatório `"1.5rem"`, definido em `typography.ts`) (AC-007), sem aceitar `font-size: "1.5rem"` direto sem referência ao token.
 - Seções devem ser separadas por `SPACING_MD` (`16`) ou `SPACING_LG` (`24`), ou por `Card`, para criar diferenciação visual (AC-002, AC-008).
 
 ---

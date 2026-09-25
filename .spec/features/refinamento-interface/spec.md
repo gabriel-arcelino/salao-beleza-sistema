@@ -46,9 +46,10 @@ Evidência: auditoria visual confirmou que inputs de `Login`, `Profissionais`, `
 
 - **Dado** que uma página possui formulário e conteúdo/lista abaixo (`ProfissionaisPage`, `ClientesPage`, `ServicosPage`, `ProdutosPage`, `ComandasPage`)
 - **Quando** a página for renderizada
-- **Então** o formulário deve ser visualmente separado do conteúdo abaixo por pelo menos uma das seguintes propriedades verificáveis no DOM: `marginBottom` igual ou maior que `SPACING_LG` (24), `borderBottom`, `border` com `borderRadius`, ou uso de `Card` para agrupar o conteúdo. A separação não pode depender apenas de `gap` interno do `grid` do formulário.
+- **Então** o grupo do conteúdo abaixo (lista/resultados) deve ser envolvido por um contêiner explícito (`Card`, `section` ou `div` com `role="group"`) com separação visual verificável entre os grupos (ex.: `borderBottom` no grupo do formulário; `border` + `padding` no contêiner do conteúdo; `marginTop >= SPACING_LG` no contêiner do conteúdo posterior; ou outra estrutura equivalente aplicada entre os grupos). A separação não pode depender apenas do `marginBottom` já existente no elemento `<form>` (`marginBottom: SPACING_LG`), que não é suficiente como prova de separação entre grupos.
 - **Evidência:** auditoria visual (`P2` recorrente) confirmou ausência de separação clara.
-- **Nota:** o AC-002 não pode ser satisfeito apenas pelo `marginBottom` já existente no formulário (`marginBottom: SPACING_LG` aplicado ao elemento `form`). A separação visual deve ser verificável entre o grupo do formulário e o conteúdo abaixo, por exemplo por `borderBottom` no formulário, `Card` envolvendo o conteúdo, ou `marginTop` explícito no conteúdo abaixo.
+- **Nota:** o AC-002 não pode ser satisfeito apenas pelo `marginBottom` já existente no formulário (`marginBottom: SPACING_LG` aplicado ao elemento `form`). A separação visual deve ser verificável entre grupos estruturais (formulário e conteúdo posterior): o conteúdo abaixo deve estar em um contêiner explícito (`Card`, `section` ou `div` com `role="group"`) separado por `borderBottom`, `border` com `padding`, `marginTop >= SPACING_LG`, ou equivalente aplicado ao contêiner do conteúdo, não apenas ao elemento `form`.
+- **Nota:** esta feature obriga a criação/confirmação de `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts`; uso de `fontFamily: FONT_HEADING` e `fontSize: FONT_SIZE_HEADING` nos títulos principais (`h1`/`h2`). Não aceitar `font-size: "1.5rem"` sem referência ao token.
 - **Nota:** não é necessário criar um componente `FormField` nesta feature, mas se for criado, deve respeitar este AC.
 
 ### US-002 — Padronização de estados vazios e uso do componente `EmptyState`
@@ -81,15 +82,15 @@ Evidência: auditoria visual (`P3` recorrente) confirmou que botões de ação p
 
 - **Dado** que existe um botão de ação primária (`Cadastrar cliente`, `Cadastrar produto`, `Cadastrar serviço`, `Salvar configuração`, `Filtrar` nos relatórios, `Abrir comanda`, `Fechar comanda`)
 - **Quando** o botão for renderizado
-- **Então** o botão deve possuir uma variante visual distinta do botão neutro, verificável no DOM, utilizando pelo menos uma das propriedades: `backgroundColor: COLOR_PRIMARY` (`crimson`), `fontWeight: "bold"` com `backgroundColor` distinta, ou `border` com `COLOR_PRIMARY`. A variante não pode ser apenas `fontWeight: "bold"` (que já é usada para aba ativa na navegação).
+- **Então** o botão deve utilizar `variant="primary"` no componente `Button` (reutilizável, definido em `src/ui/components/Button.tsx`), com a variante `primary` distinta visualmente de `neutral` e baseada em `COLOR_PRIMARY` (`crimson`). O mecanismo (style, classe ou componente interno) é livre; o AC verifica o resultado (variante aplicada) e não a propriedade CSS específica usada internamente. A variante não pode ser apenas `fontWeight: "bold"` (que já é usada para aba ativa na navegação) nem idêntica à neutra.
 - **Evidência observável:** variante visual distinta verificável no DOM (por componente reutilizável `Button` com prop `variant`, ou por estilo aplicado ao elemento), sem exigir `style` inline obrigatório.
 
 #### AC-006 — Botões de ação destrutiva possuem variante visual distinta
 
 - **Dado** que existe um botão destrutivo (`Desativar`, `Cancelar` em `ClientesPage` e `ComandasPage`, ou qualquer ação de exclusão/desativação)
 - **Quando** o botão for renderizado
-- **Então** o botão deve possuir variante visual distinta do neutro e distinta da primária, verificável no DOM, utilizando pelo menos uma das propriedades: `backgroundColor: "crimson"` (se primário for outra cor), `border: "1px solid crimson"` com `color: "crimson"`, ou `color: "crimson"` com `fontWeight: "bold"`. A variante não pode ser idêntica à neutra.
-- **Nota:** variante visual distinta do neutro e da primária, verificável no DOM (por componente `Button` com `variant="destructive"`, ou por propriedades aplicadas), sem exigir `style` inline obrigatório. Se o componente `Button` for criado, deve respeitar este AC.
+- **Então** o botão deve utilizar `variant="destructive"` no componente `Button` (`primary`/`destructive`/`neutral`), com a variante `destructive` distinta visualmente de `neutral` e distinta de `primary`, semanticamente associada a ações destrutivas. O mecanismo interno (cor, borda, fonte) é livre; o AC verifica a variante aplicada, não uma propriedade CSS específica. A variante não pode ser idêntica à neutra nem à primária.
+- **Nota:** variante `destructive` distinta de `neutral` e de `primary`, aplicada pelo componente `Button` (`variant="destructive"`), semanticamente associada a ações destrutivas (`Desativar`, `Cancelar`, exclusão/desativação). O mecanismo interno (cor, borda, fonte) é livre; o AC verifica a variante aplicada, não uma propriedade CSS específica. Não é aceitável variante idêntica à neutra ou à primária.
 
 ### US-004 — Hierarquia tipográfica e composição visual
 
@@ -101,7 +102,7 @@ Evidência: auditoria visual (`P3` recorrente) confirmou que a tipografia usa `s
 
 - **Dado** que existe uma página com título principal (`h1` ou `h2` no topo da seção, como `DashboardPage`, `ClientesPage`, etc.)
 - **Quando** a página é renderizada
-- **Então** o título principal deve utilizar explicitamente `FONT_HEADING` (família tipográfica de título) e `FONT_SIZE_HEADING` (`"1.5rem"`), verificável no DOM ou no código fonte. Não deve depender apenas do CSS padrão do navegador (`fontSize` padrão do `h1`/`h2`). A constante `FONT_SIZE_HEADING` deve ser definida em `src/ui/tokens/typography.ts` e utilizada no componente.
+- **Então** o título principal deve utilizar explicitamente o token `FONT_HEADING` (família tipográfica de título, definida em `src/ui/tokens/typography.ts`) e o token `FONT_SIZE_HEADING` (com valor `"1.5rem"`, definido no mesmo arquivo). Não é aceitável apenas `fontSize > 1rem`, tamanho padrão do navegador (`h1`/`h2`) ou `"1.5rem"` usado diretamente sem referência ao token. A constante `FONT_SIZE_HEADING` deve ser criada/confirmada em `src/ui/tokens/typography.ts` e utilizada no componente.
 - **Evidência observável:** presença de `fontFamily: FONT_HEADING` e `fontSize: FONT_SIZE_HEADING` (ou equivalente direto `"1.5rem"` se a constante ainda não estiver integrada) no título renderizado.
 
 #### AC-008 — Seções/formulário e conteúdo possuem separação visual verificável
@@ -146,11 +147,14 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 - **Nota:** AC-001 e AC-011 são complementares: AC-001 exige que o `label` esteja associado; AC-011 exige a prova técnica (`id` + `htmlFor` ou aninhamento visível). Não há redundância entre eles: AC-001 é o requisito funcional; AC-011 é a verificação de implementação.
 - **Nota:** não é necessário alterar `supabase/migrations/`, `RLS`, `RPCs`, autenticação ou contratos de banco.
 
-## Decisões desta feature
+## Decisões desta feature (fechadas)
 
-- A evolução é incremental; não será criado um design system completo. A fundação existente (`src/ui/`) será aproveitada.
-- Nenhum componente obrigatório (`Button`, `FormField`) será criado a menos que justificado pelo uso real em pelo menos uma página. Os AC são verificáveis por inspeção do DOM e do código fonte, sem exigir componente específico.
-- Os tokens existentes (`COLOR_PRIMARY`, `COLOR_SECONDARY`, `FONT_BODY`, `FONT_SIZE_BODY`, `SPACING_SM`, `SPACING_MD`, `SPACING_LG`) são suficientes para os AC desta feature; novos tokens só devem ser adicionados quando justificados por requisitos específicos desta feature, mas a SPEC não exige criação de novos tokens a menos que seja estritamente necessário para a verificação dos AC.
+- A evolução é incremental; não será criado um design system completo. A fundação existente (`src/ui/`) será aproveitada; `FONT_SIZE_HEADING` (`"1.5rem"`) é novo token obrigatório.
+- **Componente `Button`: decisão confirmada.** Será criado `src/ui/components/Button.tsx` com variantes `primary` / `destructive` / `neutral`, justificado pelo uso real em pelo menos uma página (AC-005, AC-006).
+- **Token `FONT_SIZE_HEADING`: decisão confirmada.** Deve ser definido como `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts`, obrigatório para AC-007.
+- **Navegação: decisão confirmada.** Aba ativa com `aria-current="page"` + indicador visual adicional (`borderBottom` com `COLOR_PRIMARY`).
+- **Estado vazio: decisão confirmada.** Uso padronizado de `EmptyState` com `message` configurada (AC-003, AC-004).
+- Nenhum componente `FormField` será criado nesta feature; separação entre `label` e `input` feita diretamente nas páginas (AC-001, AC-002, AC-011).
 - Nenhuma alteração em regras de negócio, APIs, RLS ou autenticação.
 - Nenhum redesign puramente estético (preferências de cor ou forma não sustentadas pela auditoria não são requisitos).
 
@@ -188,7 +192,7 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 - Nenhuma alteração em `supabase/migrations/`.
 - Nenhuma alteração em `src/lib/api/`.
 - Nenhuma alteração no comportamento funcional das páginas (apenas estilos e estrutura de apresentação).
-- Se novos tokens forem necessários para diferenciar variantes de botão ou títulos, eles devem ser adicionados em `src/ui/tokens/` (ex: `FONT_SIZE_HEADING`), mas a SPEC não exige criação de novos tokens a menos que estritamente necessários para a verificação dos AC.
+- Se `Button` ou `FormField` forem criados, devem ser justificados pelo uso real em pelo menos uma página; `Button` (`primary`/`destructive`/`neutral`) é decisão confirmada para AC-005/AC-006; `FormField` não é obrigatório nesta feature.
 - Os componentes existentes (`Card`, `EmptyState`, `Loading`, `ErrorMessage`) são reutilizados; se novos componentes forem criados (`Button`, `FormField`), devem ser justificados pelo uso real em pelo menos uma página e referenciados nos AC correspondentes.
 
 ## Critérios de acessibilidade
@@ -214,7 +218,7 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 ## Dependências da `fundacao-ui`
 
 - `src/ui/tokens/colors.ts`: `COLOR_PRIMARY`, `COLOR_SECONDARY`.
-- `src/ui/tokens/typography.ts`: `FONT_BODY`, `FONT_SIZE_BODY`.
+- `src/ui/tokens/typography.ts`: `FONT_BODY`, `FONT_SIZE_BODY`, `FONT_HEADING`, `FONT_SIZE_HEADING` (`"1.5rem"`, obrigatório para AC-007).
 - `src/ui/tokens/spacing.ts`: `SPACING_SM`, `SPACING_MD`, `SPACING_LG`.
 - `src/ui/components/EmptyState.tsx`: componente reutilizável para estados vazios.
 - `src/ui/components/Card.tsx`: componente reutilizável para agrupamento visual.
@@ -231,19 +235,21 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 
 ## Perguntas em aberto
 
-Nenhuma pergunta permanece aberta. Todas as perguntas (Q-001, Q-002, Q-003) foram resolvidas conforme a revisão conceitual.
+Nenhuma pergunta permanece aberta. Todas as perguntas anteriores foram resolvidas e fechadas como decisões confirmadas.
 
-| ID | Pergunta | Status | Resposta |
+| ID | Pergunta | Status | Resposta / Decisão fechada |
 |---|---|---|---|
-| Q-001 | A variante visual de botão primário deve ser implementada por componente reutilizável (`Button`) ou por estilos inline nas páginas? | respondida | Decisão: componente reutilizável `Button` (`primary`/`destructive`/`neutral`). Justificativa em pelo menos uma página. |
+| Q-001 | A variante visual de botão primário deve ser implementada por componente reutilizável (`Button`) ou por estilos inline nas páginas? | respondida | Decisão: componente reutilizável `Button` (`primary`/`destructive`/`neutral`). Justificado pelo uso real (AC-005, AC-006). |
 | Q-002 | A navegação deve receber indicador visual adicional além de `fontWeight: bold` e `aria-current`? Se sim, qual? | respondida | Decisão: `borderBottom` com `COLOR_PRIMARY` (`crimson`) + `aria-current="page"`. |
-| Q-003 | A tipografia de título (`h2`) deve ser definida por constante (`FONT_SIZE_HEADING`) ou pode ser definida diretamente no estilo inline? | respondida | Decisão: criar constante `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts`. |
+| Q-003 | A tipografia de título (`h2`) deve ser definida por constante (`FONT_SIZE_HEADING`) ou pode ser definida diretamente no estilo inline? | respondida | Decisão: criar constante `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts`; obrigatório para AC-007. |
 
 ## Resumo executivo (para auditoria)
 
 - Feature: `refinamento-interface`.
 - Escopo: evolução visual/UX baseada exclusivamente nos achados confirmados pela auditoria visual estabilizada (`docs/auditoria-visual-estabilizada.md`).
 - Nenhuma alteração funcional, arquitetural ou de dados.
+- `Button` (`primary`/`destructive`/`neutral`) será criado (`src/ui/components/Button.tsx`) para AC-005/AC-006; `FormField` não será criado.
+- `FONT_SIZE_HEADING = "1.5rem"` deve ser definido em `src/ui/tokens/typography.ts` para AC-007.
 - Requisitos: 6 histórias de usuário (`US-001` a `US-006`), 11 AC (`AC-001` a `AC-011`).
 - Nenhum componente obrigatório criado (apenas uso padronizado dos existentes); se `Button` ou `FormField` forem criados, devem ser justificados.
 - Nenhum arquivo alterado nesta etapa (especificação exclusiva).
