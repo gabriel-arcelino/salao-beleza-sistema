@@ -38,14 +38,14 @@
 </style>
 <main>
   <h1>Plano de execução — refinamento-interface</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-25 03:10 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-25 03:22 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>7</b> tarefa(s) em paralelo</div>
-    <div><b>3</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>0</b> sequencial(is)</div>
+    <div><b>5</b> tarefa(s) em paralelo</div>
+    <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
+    <div><b>1</b> sequencial(is)</div>
     <div>branch <code>spec/refinamento-interface</code></div>
   </div>
-  
+  <div class="avisos"><div>⚠ T-024 não lista Arquivos: — pegada desconhecida, vai rodar sozinha ao final (sem paralelismo)</div></div>
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Claude Code) para executar o plano. Ele roda:</p>
@@ -58,14 +58,14 @@
   </div>
   
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 — em paralelo, janelas limpas</small></h3>
       <div class="grade">
       <div class="faixa">
         <h4>faixa-1 <small>branch <code>spec/refinamento-interface-faixa-1</code> · worktree <code>../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-1</code></small></h4>
         
         <div class="tarefa">
           <span class="tid">T-019</span>
-          <span class="ttitulo">Padronizar labels e separação estrutural nos formulários</span>
+          <span class="ttitulo">Implementar labels e separação estrutural nos formulários</span>
           <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
           <span class="arquivos"><code>src/pages/LoginPage.tsx</code> <code>src/pages/ProfissionaisPage.tsx</code> <code>src/pages/ClientesPage.tsx</code> <code>src/pages/ServicosPage.tsx</code> <code>src/pages/ProdutosPage.tsx</code> <code>src/pages/ConfigComissoesPage.tsx</code> <code>src/pages/ComandasPage.tsx</code></span>
         </div>
@@ -82,40 +82,34 @@
           <span class="arquivos"><code>src/ui/components/Button.tsx</code> <code>src/pages/LoginPage.tsx</code> <code>src/pages/ProfissionaisPage.tsx</code> <code>src/pages/ClientesPage.tsx</code> <code>src/pages/ServicosPage.tsx</code> <code>src/pages/ProdutosPage.tsx</code> <code>src/pages/ConfigComissoesPage.tsx</code> <code>src/pages/ComandasPage.tsx</code> <code>src/pages/RelatorioCaixaPage.tsx</code> <code>src/pages/RelatorioComissaoPage.tsx</code></span>
         </div>
         <div class="tarefa">
-          <span class="tid">T-024</span>
-          <span class="ttitulo">Preservar semântica de acessibilidade e labels</span>
+          <span class="tid">T-022</span>
+          <span class="ttitulo">Melhorar hierarquia tipográfica e composição</span>
           <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>src/ui/components/EmptyState.tsx</code> <code>src/ui/components/Loading.tsx</code> <code>src/ui/components/ErrorMessage.tsx</code> <code>src/pages/LoginPage.tsx</code> <code>src/pages/ProfissionaisPage.tsx</code> <code>src/pages/ClientesPage.tsx</code> <code>src/pages/ServicosPage.tsx</code> <code>src/pages/ProdutosPage.tsx</code> <code>src/pages/ConfigComissoesPage.tsx</code> <code>src/pages/ComandasPage.tsx</code></span>
+          <span class="arquivos"><code>src/ui/tokens/typography.ts</code> <code>src/pages/DashboardPage.tsx</code> <code>src/pages/LoginPage.tsx</code> <code>src/pages/ProfissionaisPage.tsx</code> <code>src/pages/ClientesPage.tsx</code> <code>src/pages/ServicosPage.tsx</code> <code>src/pages/ProdutosPage.tsx</code> <code>src/pages/ConfigComissoesPage.tsx</code> <code>src/pages/ComandasPage.tsx</code> <code>src/pages/RelatorioEstoquePage.tsx</code> <code>src/pages/RelatorioCaixaPage.tsx</code> <code>src/pages/RelatorioComissaoPage.tsx</code></span>
         </div>
       </div>
       <div class="faixa">
         <h4>faixa-2 <small>branch <code>spec/refinamento-interface-faixa-2</code> · worktree <code>../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-2</code></small></h4>
         
         <div class="tarefa">
-          <span class="tid">T-022</span>
-          <span class="ttitulo">Melhorar hierarquia tipográfica e composição</span>
-          <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>src/ui/tokens/typography.ts</code> <code>src/pages/DashboardPage.tsx</code> <code>src/App.tsx</code> <code>src/pages/*.tsx</code></span>
-        </div>
-        <div class="tarefa">
           <span class="tid">T-023</span>
           <span class="ttitulo">Melhorar navegação com indicador visual e semântico</span>
           <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
           <span class="arquivos"><code>src/App.tsx</code></span>
         </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-3 <small>branch <code>spec/refinamento-interface-faixa-3</code> · worktree <code>../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-3</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-025</span>
-          <span class="ttitulo">Verificação final de todos os critérios de aceite</span>
-          <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>.spec/features/refinamento-interface/spec.md</code> <code>.spec/verification/refinamento-interface.json (gerado automaticamente pelo `onp-spec verify`)</code></span>
-        </div>
       </div></div>
     </section>
   
+    <section class="onda">
+      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
+        <div class="tarefa">
+          <span class="tid">T-024</span>
+          <span class="ttitulo">Verificar AC-040 e executar a verificação final de todos os critérios de aceite</span>
+          <span class="meta"><code>claude-sonnet-5</code> · esforço <b>medium</b></span>
+          <span class="arquivos"><em>sem Arquivos: — pegada desconhecida</em></span>
+        </div></div></div>
+    </section>
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>

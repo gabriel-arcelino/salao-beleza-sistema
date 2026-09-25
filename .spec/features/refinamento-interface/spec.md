@@ -167,7 +167,7 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 - Auditoria completa de conformidade WCAG 2.1 AA (apenas acessibilidade visual confirmada pela auditoria).
 - Criação de `FormField` ou de qualquer outro componente não previsto nesta documentação.
 - Alteração de `src/ui/components/EmptyState.tsx`, `Loading.tsx`, `ErrorMessage.tsx` ou `Card.tsx` (apenas uso padronizado).
-- Criação de testes de implementação (esta feature é exclusivamente de especificação; testes serão definidos em etapa posterior).
+- Testes artificiais criados apenas para gerar rastreabilidade, sem comprovar comportamento observável.
 
 ## Evidência/origem de cada requisito
 
@@ -205,8 +205,10 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 
 ## Estratégia de testes
 
-- Nenhum teste de implementação é criado nesta etapa (especificação apenas).
-- Os AC são projetados para verificação automática quando implementados:
+- Os testes automatizados necessários para comprovar AC-031 a AC-041 fazem parte da implementação desta feature.
+- Um teste pode comprovar vários critérios de aceite quando evidenciar cada requisito e o título contiver todas as tags `@spec:AC-xxx` correspondentes; não é necessário criar um teste artificial por AC.
+- Não criar testes artificiais apenas para gerar rastreabilidade. Cada teste deve validar comportamento ou estrutura observável relacionada ao requisito.
+- Os AC devem ser comprovados automaticamente quando aplicável:
   - **Testes de componente (Vitest + Testing Library):** `AC-031` (label associado), `AC-033` (`EmptyState` renderizado), `AC-034` (prop `message`), `AC-035` (`Button` com variante `primary`), `AC-036` (`Button` com variante `destructive` distinta das demais), `AC-039` (`aria-current="page"` no DOM), `AC-040` (`role` e `aria-live`).
   - **Testes visuais/DOM (Playwright/inspeção):** `AC-032` (contêiner posterior explícito e separação por `Card`, borda ou `marginTop >= SPACING_LG`), `AC-037` (uso de `FONT_HEADING` e `FONT_SIZE_HEADING`), `AC-038` (grupos explícitos e separação que não dependa apenas de `gap`), `AC-041` (`htmlFor` + `id` quando usados ou label aninhado válido, com `id` único).
 - A verificação final (`onp-spec verify`) deve confirmar que cada AC tem evidência observável no código ou no DOM, sem alterar testes pgTAP existentes.
@@ -251,5 +253,5 @@ Nenhuma pergunta permanece aberta. Todas as perguntas anteriores foram resolvida
 - `Button` (`primary`/`destructive`/`neutral`) será criado (`src/ui/components/Button.tsx`) para AC-035/AC-036; `FormField` não será criado.
 - `FONT_SIZE_HEADING = "1.5rem"` deve ser definido em `src/ui/tokens/typography.ts` para AC-037.
 - Requisitos: 6 histórias de usuário (`US-013` a `US-018`), 11 AC (`AC-031` a `AC-041`).
-- Nesta etapa, somente `spec.md`, `tasks.md` e `inventario.md` são documentação-alvo; nenhum código de produção ou teste deve ser criado.
+- Nesta etapa de planejamento, nenhum código de produção ou teste deve ser criado; a execução posterior poderá alterar somente os arquivos de interface e os testes necessários aos AC. Regras de negócio, banco, RPCs, RLS e autenticação permanecem fora de escopo.
 - A prova mecânica e a validação visual humana permanecem etapas distintas e complementares.

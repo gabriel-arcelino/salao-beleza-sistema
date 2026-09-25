@@ -1,12 +1,12 @@
 {
-  "runId": "salao-beleza-sistema-refinamento-interface-mugdv1ts",
+  "runId": "salao-beleza-sistema-refinamento-interface-mugeaejh",
   "feature": "refinamento-interface",
   "agent": "claude",
   "modo": "paralelo",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-25 03:10",
+  "geradoEm": "2026-09-25 03:22",
   "branchTrabalho": "spec/refinamento-interface",
   "baseDir": ".spec/features/refinamento-interface",
   "specDir": ".spec",
@@ -15,8 +15,7 @@
   "ondas": [
     [
       "faixa-1",
-      "faixa-2",
-      "faixa-3"
+      "faixa-2"
     ]
   ],
   "faixas": [
@@ -27,7 +26,7 @@
       "tarefas": [
         {
           "id": "T-019",
-          "titulo": "Padronizar labels e separação estrutural nos formulários",
+          "titulo": "Implementar labels e separação estrutural nos formulários",
           "modelo": "claude-sonnet-5",
           "esforco": "medium",
           "arquivos": [
@@ -42,7 +41,8 @@
           "refs": [
             "US-013",
             "AC-031",
-            "AC-032"
+            "AC-032",
+            "AC-041"
           ]
         },
         {
@@ -91,26 +91,28 @@
           ]
         },
         {
-          "id": "T-024",
-          "titulo": "Preservar semântica de acessibilidade e labels",
+          "id": "T-022",
+          "titulo": "Melhorar hierarquia tipográfica e composição",
           "modelo": "claude-sonnet-5",
           "esforco": "medium",
           "arquivos": [
-            "src/ui/components/EmptyState.tsx",
-            "src/ui/components/Loading.tsx",
-            "src/ui/components/ErrorMessage.tsx",
+            "src/ui/tokens/typography.ts",
+            "src/pages/DashboardPage.tsx",
             "src/pages/LoginPage.tsx",
             "src/pages/ProfissionaisPage.tsx",
             "src/pages/ClientesPage.tsx",
             "src/pages/ServicosPage.tsx",
             "src/pages/ProdutosPage.tsx",
             "src/pages/ConfigComissoesPage.tsx",
-            "src/pages/ComandasPage.tsx"
+            "src/pages/ComandasPage.tsx",
+            "src/pages/RelatorioEstoquePage.tsx",
+            "src/pages/RelatorioCaixaPage.tsx",
+            "src/pages/RelatorioComissaoPage.tsx"
           ],
           "refs": [
-            "US-018",
-            "AC-040",
-            "AC-041"
+            "US-016",
+            "AC-037",
+            "AC-038"
           ]
         }
       ]
@@ -120,23 +122,6 @@
       "branch": "spec/refinamento-interface-faixa-2",
       "worktree": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-2",
       "tarefas": [
-        {
-          "id": "T-022",
-          "titulo": "Melhorar hierarquia tipográfica e composição",
-          "modelo": "claude-sonnet-5",
-          "esforco": "medium",
-          "arquivos": [
-            "src/ui/tokens/typography.ts",
-            "src/pages/DashboardPage.tsx",
-            "src/App.tsx",
-            "src/pages/*.tsx"
-          ],
-          "refs": [
-            "US-016",
-            "AC-037",
-            "AC-038"
-          ]
-        },
         {
           "id": "T-023",
           "titulo": "Melhorar navegação com indicador visual e semântico",
@@ -151,39 +136,33 @@
           ]
         }
       ]
-    },
+    }
+  ],
+  "sequenciais": [
     {
-      "id": "faixa-3",
-      "branch": "spec/refinamento-interface-faixa-3",
-      "worktree": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-3",
-      "tarefas": [
-        {
-          "id": "T-025",
-          "titulo": "Verificação final de todos os critérios de aceite",
-          "modelo": "claude-sonnet-5",
-          "esforco": "medium",
-          "arquivos": [
-            ".spec/features/refinamento-interface/spec.md",
-            ".spec/verification/refinamento-interface.json (gerado automaticamente pelo `onp-spec verify`)"
-          ],
-          "refs": [
-            "AC-031",
-            "AC-032",
-            "AC-033",
-            "AC-034",
-            "AC-035",
-            "AC-036",
-            "AC-037",
-            "AC-038",
-            "AC-039",
-            "AC-040",
-            "AC-041"
-          ]
-        }
+      "id": "T-024",
+      "titulo": "Verificar AC-040 e executar a verificação final de todos os critérios de aceite",
+      "modelo": "claude-sonnet-5",
+      "esforco": "medium",
+      "arquivos": [],
+      "refs": [
+        "US-018",
+        "AC-031",
+        "AC-032",
+        "AC-033",
+        "AC-034",
+        "AC-035",
+        "AC-036",
+        "AC-037",
+        "AC-038",
+        "AC-039",
+        "AC-040",
+        "AC-041"
       ]
     }
   ],
-  "sequenciais": [],
   "concluidas": [],
-  "avisos": []
+  "avisos": [
+    "T-024 não lista Arquivos: — pegada desconhecida, vai rodar sozinha ao final (sem paralelismo)"
+  ]
 }

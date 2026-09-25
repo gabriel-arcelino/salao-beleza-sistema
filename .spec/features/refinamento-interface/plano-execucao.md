@@ -1,40 +1,43 @@
 # Plano de execução — refinamento-interface
 
-> gerado por `onp-spec plano` em 2026-09-25 03:10 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-25 03:22 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refinamento-interface`
 
 ## Resumo — o que vai acontecer
 
-- **7 tarefa(s) pendente(s)**: 7 em 3 faixa(s) paralela(s) + 0 sequencial(is)
+- **6 tarefa(s) pendente(s)**: 5 em 2 faixa(s) paralela(s) + 1 sequencial(is)
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano refinamento-interface --paralelizar T-xxx,T-yyy` ou `--sequencial`
 - tudo acontece na branch de trabalho `spec/refinamento-interface`; levar para a main é decisão sua
 
+### Avisos
+
+- ⚠ T-024 não lista Arquivos: — pegada desconhecida, vai rodar sozinha ao final (sem paralelismo)
+
 ## Faixas e ondas
 
-### Onda 1 — faixa-1 ∥ faixa-2 ∥ faixa-3
+### Onda 1 — faixa-1 ∥ faixa-2
 
 #### faixa-1 — branch `spec/refinamento-interface-faixa-1` — worktree `../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-1`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-019 | Padronizar labels e separação estrutural nos formulários | `claude-sonnet-5` | medium | `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx` |
+| T-019 | Implementar labels e separação estrutural nos formulários | `claude-sonnet-5` | medium | `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx` |
 | T-020 | Padronizar estados vazios com componente `EmptyState` | `claude-sonnet-5` | medium | `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
 | T-021 | Criar `Button` reutilizável e aplicar variantes de ação | `claude-sonnet-5` | medium | `src/ui/components/Button.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
-| T-024 | Preservar semântica de acessibilidade e labels | `claude-sonnet-5` | medium | `src/ui/components/EmptyState.tsx`, `src/ui/components/Loading.tsx`, `src/ui/components/ErrorMessage.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx` |
+| T-022 | Melhorar hierarquia tipográfica e composição | `claude-sonnet-5` | medium | `src/ui/tokens/typography.ts`, `src/pages/DashboardPage.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
 
 #### faixa-2 — branch `spec/refinamento-interface-faixa-2` — worktree `../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-2`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-022 | Melhorar hierarquia tipográfica e composição | `claude-sonnet-5` | medium | `src/ui/tokens/typography.ts`, `src/pages/DashboardPage.tsx`, `src/App.tsx`, `src/pages/*.tsx` |
 | T-023 | Melhorar navegação com indicador visual e semântico | `claude-sonnet-5` | medium | `src/App.tsx` |
 
-#### faixa-3 — branch `spec/refinamento-interface-faixa-3` — worktree `../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-3`
+## Tarefas sequenciais (após as ondas, na árvore principal)
 
-| tarefa | título | modelo | esforço | arquivos |
+| tarefa | título | modelo | esforço | por que sequencial |
 |---|---|---|---|---|
-| T-025 | Verificação final de todos os critérios de aceite | `claude-sonnet-5` | medium | `.spec/features/refinamento-interface/spec.md`, `.spec/verification/refinamento-interface.json (gerado automaticamente pelo `onp-spec verify`)` |
+| T-024 | Verificar AC-040 e executar a verificação final de todos os critérios de aceite | `claude-sonnet-5` | medium | sem `Arquivos:` — pegada desconhecida |
 
 ## Gestão de branches e commits
 

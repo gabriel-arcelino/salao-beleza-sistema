@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 03:10
+# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 03:22
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='salao-beleza-sistema-refinamento-interface-mugdv1ts'
+RUN_ID='salao-beleza-sistema-refinamento-interface-mugeaejh'
 FEATURE='refinamento-interface'
 BASE_BRANCH='spec/refinamento-interface'
 ENGINE='.claude/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -166,7 +166,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-019 T-020 T-021 T-024 ──
+# ── faixa-1: T-019 T-020 T-021 T-022 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/refinamento-interface-faixa-1' "$WT" || return 1
@@ -178,10 +178,10 @@ executar_faixa_1() {
 Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refinamento-interface/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-019 — "Padronizar labels e separação estrutural nos formulários"
-  critérios/refs: AC-031 (Todos os inputs de formulário de cadastro possuem label associado), AC-032 (Separação visual entre formulário e conteúdo abaixo)
+T-019 — "Implementar labels e separação estrutural nos formulários"
+  critérios/refs: AC-031 (Todos os inputs de formulário de cadastro possuem label associado), AC-032 (Separação visual entre formulário e conteúdo abaixo), AC-041 (Labels associados usam uma estratégia de identificação válida)
   arquivos permitidos (e seus testes): src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx
-  mensagem de commit: "T-019 refinamento-interface: Padronizar labels e separação estrutural nos formulários"
+  mensagem de commit: "T-019 refinamento-interface: Implementar labels e separação estrutural nos formulários"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -219,14 +219,14 @@ Regras inegociáveis:
 - Rode os testes localmente com `node scripts/onp-combined-verify.cjs` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'claude-sonnet-5' medium &&
-    rodar_tarefa 'faixa-1' 'T-024' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
+    rodar_tarefa 'faixa-1' 'T-022' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refinamento-interface/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-024 — "Preservar semântica de acessibilidade e labels"
-  critérios/refs: AC-040 (Componentes de interface mantêm semântica acessível), AC-041 (Labels associados usam uma estratégia de identificação válida)
-  arquivos permitidos (e seus testes): src/ui/components/EmptyState.tsx, src/ui/components/Loading.tsx, src/ui/components/ErrorMessage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx
-  mensagem de commit: "T-024 refinamento-interface: Preservar semântica de acessibilidade e labels"
+T-022 — "Melhorar hierarquia tipográfica e composição"
+  critérios/refs: AC-037 (Título principal da página utiliza tamanho e família tipográfica definidos), AC-038 (Seções/formulário e conteúdo possuem separação visual verificável)
+  arquivos permitidos (e seus testes): src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+  mensagem de commit: "T-022 refinamento-interface: Melhorar hierarquia tipográfica e composição"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -237,11 +237,11 @@ Regras inegociáveis:
   ) >> "$LOG_DIR/faixa-1.log" 2>&1
   local st=$?
   mesclar_faixa 'faixa-1' 'spec/refinamento-interface-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-019 T-020 T-021 T-024
+  marcar_concluidas T-019 T-020 T-021 T-022
   return 0
 }
 
-# ── faixa-2: T-022 T-023 ──
+# ── faixa-2: T-023 ──
 executar_faixa_2() {
   local WT="$WT_BASE-faixa-2"
   preparar_worktree 'faixa-2' 'spec/refinamento-interface-faixa-2' "$WT" || return 1
@@ -249,21 +249,6 @@ executar_faixa_2() {
   : > "$LOG_DIR/faixa-2.log"
   (
     cd "$WT" || exit 9
-    rodar_tarefa 'faixa-2' 'T-022' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refinamento-interface/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-022 — "Melhorar hierarquia tipográfica e composição"
-  critérios/refs: AC-037 (Título principal da página utiliza tamanho e família tipográfica definidos), AC-038 (Seções/formulário e conteúdo possuem separação visual verificável)
-  arquivos permitidos (e seus testes): src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/App.tsx, src/pages/*.tsx
-  mensagem de commit: "T-022 refinamento-interface: Melhorar hierarquia tipográfica e composição"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node scripts/onp-combined-verify.cjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'claude-sonnet-5' medium &&
     rodar_tarefa 'faixa-2' 'T-023' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refinamento-interface/tasks.md e .spec/constituicao.md.
 
@@ -282,38 +267,40 @@ Regras inegociáveis:
   ) >> "$LOG_DIR/faixa-2.log" 2>&1
   local st=$?
   mesclar_faixa 'faixa-2' 'spec/refinamento-interface-faixa-2' "$WT" "$st" || return 1
-  marcar_concluidas T-022 T-023
+  marcar_concluidas T-023
   return 0
 }
 
-# ── faixa-3: T-025 ──
-executar_faixa_3() {
-  local WT="$WT_BASE-faixa-3"
-  preparar_worktree 'faixa-3' 'spec/refinamento-interface-faixa-3' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-3' --estado executando --tentativa "$(tentativa 'faixa-3')"
-  : > "$LOG_DIR/faixa-3.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-3' 'T-025' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-024 (sem Arquivos: — pegada desconhecida) ──
+executar_seq_T_024() {
+  info 'sequencial T-024 — Verificar AC-040 e executar a verificação final de todos os critérios de aceite'
+  if rodar_tarefa seq 'T-024' 'Você executa UMA tarefa da feature "refinamento-interface" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refinamento-interface/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-025 — "Verificação final de todos os critérios de aceite"
+T-024 — "Verificar AC-040 e executar a verificação final de todos os critérios de aceite"
   critérios/refs: AC-031 (Todos os inputs de formulário de cadastro possuem label associado), AC-032 (Separação visual entre formulário e conteúdo abaixo), AC-033 (Componentes `EmptyState` utilizados em listas vazias), AC-034 (Mensagem de vazio configurável no componente), AC-035 (Botões de ação primária possuem variante visual definida), AC-036 (Botões de ação destrutiva possuem variante visual distinta), AC-037 (Título principal da página utiliza tamanho e família tipográfica definidos), AC-038 (Seções/formulário e conteúdo possuem separação visual verificável), AC-039 (Aba ativa possui indicador visual e semântico verificável), AC-040 (Componentes de interface mantêm semântica acessível), AC-041 (Labels associados usam uma estratégia de identificação válida)
-  arquivos permitidos (e seus testes): .spec/features/refinamento-interface/spec.md, .spec/verification/refinamento-interface.json (gerado automaticamente pelo `onp-spec verify`)
-  mensagem de commit: "T-025 refinamento-interface: Verificação final de todos os critérios de aceite"
+  arquivos permitidos (e seus testes): (a definir pela tarefa)
+  mensagem de commit: "T-024 refinamento-interface: Verificar AC-040 e executar a verificação final de todos os critérios de aceite"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `node scripts/onp-combined-verify.cjs` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'claude-sonnet-5' medium
-  ) >> "$LOG_DIR/faixa-3.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-3' 'spec/refinamento-interface-faixa-3' "$WT" "$st" || return 1
-  marcar_concluidas T-025
-  return 0
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'claude-sonnet-5' medium >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-024 refinamento-interface: Verificar AC-040 e executar a verificação final de todos os critérios de aceite (auto-commit do plano)'
+    fi
+    marcar_concluidas T-024
+    verde "✔ T-024 concluída"
+    return 0
+  fi
+  vermelho "✘ T-024 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refinamento-interface/executar-tarefas.sh --seq T-024"
+  FALHAS="$FALHAS T-024"
+  return 1
 }
 
 # ── gate: quem decide é a máquina ────────────────────────────────────
@@ -369,22 +356,21 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3
-  info "onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 — janelas limpas em paralelo"
+  # onda 1: faixa-1 ∥ faixa-2
+  info "onda 1: faixa-1 ∥ faixa-2 — janelas limpas em paralelo"
   executar_faixa_1 & PID_FAIXA_1=$!
   executar_faixa_2 & PID_FAIXA_2=$!
-  executar_faixa_3 & PID_FAIXA_3=$!
   wait "$PID_FAIXA_1" || true
   wait "$PID_FAIXA_2" || true
-  wait "$PID_FAIXA_3" || true
+  executar_seq_T_024 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-019, T-020, T-021, T-024"
-  echo "  faixa-2  onda 1  T-022, T-023"
-  echo "  faixa-3  onda 1  T-025"
+  echo "  faixa-1  onda 1  T-019, T-020, T-021, T-022"
+  echo "  faixa-2  onda 1  T-023"
+  echo "  seq       T-024 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -417,11 +403,11 @@ case "$MODO" in
     case "$ALVO" in
       faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
       faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
-      faixa-3) evento --tipo inicio --escopo "faixa:faixa-3"; iniciar_resumos; executar_faixa_3 || true; encerrar "faixa:faixa-3" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
     case "$ALVO" in
+      T-024) evento --tipo inicio --escopo "seq:T-024"; iniciar_resumos; executar_seq_T_024 || true; encerrar "seq:T-024" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac
