@@ -356,28 +356,28 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "relatorios-gerenciais",
       "ref": "T-001",
-      "ocorrencias": 40,
+      "ocorrencias": 50,
       "primeiraVez": "2026-09-17T12:39:06.011Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::relatorios-gerenciais::T-002": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "relatorios-gerenciais",
       "ref": "T-002",
-      "ocorrencias": 24,
+      "ocorrencias": 30,
       "primeiraVez": "2026-09-17T12:39:06.013Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::relatorios-gerenciais::T-003": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "relatorios-gerenciais",
       "ref": "T-003",
-      "ocorrencias": 64,
+      "ocorrencias": 80,
       "primeiraVez": "2026-09-17T12:39:06.013Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::relatorios-gerenciais::AC-001": {
       "codigo": "AC_SEM_PROVA",
@@ -455,19 +455,19 @@
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "ASM-001",
-      "ocorrencias": 5,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-18T22:15:21.896Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::ASM-002": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "ASM-002",
-      "ocorrencias": 5,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-18T22:15:21.911Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::ASM-003": {
       "codigo": "ID_DUPLICADO",
@@ -482,19 +482,19 @@
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "Q-001",
-      "ocorrencias": 5,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-18T22:15:21.912Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::Q-002": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "Q-002",
-      "ocorrencias": 5,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-18T22:15:21.912Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "REF_MALFORMADA::fundacao-ui::T-011": {
       "codigo": "REF_MALFORMADA",
@@ -626,10 +626,10 @@
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "Q-003",
-      "ocorrencias": 5,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-18T22:18:31.941Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::Q-004": {
       "codigo": "ID_DUPLICADO",
@@ -797,334 +797,334 @@
       "codigo": "ID_DUPLICADO",
       "feature": "refinamento-interface",
       "ref": "US-004",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.412Z",
-      "ultimaVez": "2026-09-24T19:09:02.410Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.954Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::refinamento-interface::US-005": {
       "codigo": "ID_DUPLICADO",
       "feature": "refinamento-interface",
       "ref": "US-005",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.446Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::refinamento-interface::US-006": {
       "codigo": "ID_DUPLICADO",
       "feature": "refinamento-interface",
       "ref": "US-006",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.446Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::US-001": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "US-001",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.446Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-001": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-001",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-002": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-002",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-003": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-003",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-004": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-004",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-005": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-005",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.956Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::US-002": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "US-002",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-006": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-006",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-007": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-007",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.412Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-008": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-008",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::US-003": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "US-003",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-009": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-009",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.447Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-010": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-010",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.448Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ID_DUPLICADO::relatorios-gerenciais::AC-011": {
       "codigo": "ID_DUPLICADO",
       "feature": "relatorios-gerenciais",
       "ref": "AC-011",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.448Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "Q_STATUS_INVALIDO::refinamento-interface::Q-001": {
       "codigo": "Q_STATUS_INVALIDO",
       "feature": "refinamento-interface",
       "ref": "Q-001",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:08:07.860Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:42:01.815Z",
+      "gitRev": "01261a3"
     },
     "Q_STATUS_INVALIDO::refinamento-interface::Q-002": {
       "codigo": "Q_STATUS_INVALIDO",
       "feature": "refinamento-interface",
       "ref": "Q-002",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:08:07.860Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:42:01.816Z",
+      "gitRev": "01261a3"
     },
     "Q_STATUS_INVALIDO::refinamento-interface::Q-003": {
       "codigo": "Q_STATUS_INVALIDO",
       "feature": "refinamento-interface",
       "ref": "Q-003",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:08:07.860Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:42:01.816Z",
+      "gitRev": "01261a3"
     },
     "ARQUIVO_INEXISTENTE::refinamento-interface::T-003": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-003",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ARQUIVO_INEXISTENTE::refinamento-interface::T-004": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-004",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ARQUIVO_INEXISTENTE::refinamento-interface::T-006": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-006",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "ARQUIVO_INEXISTENTE::refinamento-interface::T-007": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-007",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-001": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-001",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-002": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-002",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-003": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-003",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-004": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-004",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-005": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-005",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-006": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-006",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-007": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-007",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-008": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-008",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-009": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-009",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-010": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-010",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-011": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refinamento-interface",
       "ref": "AC-011",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::relatorios-gerenciais::T-004": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "relatorios-gerenciais",
       "ref": "T-004",
-      "ocorrencias": 12,
+      "ocorrencias": 18,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::relatorios-gerenciais::T-005": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "relatorios-gerenciais",
       "ref": "T-005",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-09-24T19:07:46.450Z",
-      "ultimaVez": "2026-09-24T19:09:02.413Z",
-      "gitRev": "97cc5a8"
+      "ultimaVez": "2026-09-25T00:46:09.957Z",
+      "gitRev": "01261a3"
     }
   }
 }
