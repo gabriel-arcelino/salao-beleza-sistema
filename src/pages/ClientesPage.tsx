@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Cliente } from "../types";
 import { listClientes, createCliente, desativarCliente } from "../lib/api/clientes";
+import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ClientesPage() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -40,17 +41,37 @@ export function ClientesPage() {
       <h2>Clientes</h2>
 
       <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
-        <input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
-        <input placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} />
-        <input placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <label htmlFor="cliente-nome">Nome</label>
+        <input
+          id="cliente-nome"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+        <label htmlFor="cliente-telefone">Telefone</label>
+        <input
+          id="cliente-telefone"
+          placeholder="Telefone"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+        />
+        <label htmlFor="cliente-email">E-mail</label>
+        <input
+          id="cliente-email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <button type="submit">Cadastrar cliente</button>
       </form>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      <section aria-label="Lista de clientes" style={{ marginTop: SPACING_LG }}>
+        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-      <ul>
-        {clientes.map((c) => (
-          <li key={c.id}>
+        <ul>
+          {clientes.map((c) => (
+            <li key={c.id}>
             <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
             {!c.ativo && <em>(inativo)</em>}{" "}
             {c.ativo && (
@@ -65,9 +86,10 @@ export function ClientesPage() {
                 Desativar
               </button>
             )}
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }

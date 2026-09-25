@@ -5,6 +5,7 @@ import {
   createProfissional,
   desativarProfissional,
 } from "../lib/api/profissionais";
+import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ProfissionaisPage() {
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
@@ -58,11 +59,25 @@ export function ProfissionaisPage() {
       <h2>Profissionais</h2>
 
       <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
-        <input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
-        <input placeholder="Telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} />
+        <label htmlFor="profissional-nome">Nome</label>
+        <input
+          id="profissional-nome"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+        <label htmlFor="profissional-telefone">Telefone</label>
+        <input
+          id="profissional-telefone"
+          placeholder="Telefone"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+        />
         <label>
           Comissão padrão (%)
           <input
+            id="profissional-comissao-padrao"
             type="number"
             step="0.01"
             value={comissaoPadrao}
@@ -73,18 +88,20 @@ export function ProfissionaisPage() {
         <button type="submit">Cadastrar profissional</button>
       </form>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
-      {carregando && <p>Carregando...</p>}
+      <section aria-label="Lista de profissionais" style={{ marginTop: SPACING_LG }}>
+        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        {carregando && <p>Carregando...</p>}
 
-      <ul>
-        {profissionais.map((p) => (
-          <li key={p.id}>
-            <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
-            {!p.ativo && <em>(inativo)</em>}{" "}
-            {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {profissionais.map((p) => (
+            <li key={p.id}>
+              <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
+              {!p.ativo && <em>(inativo)</em>}{" "}
+              {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }

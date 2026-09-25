@@ -11,6 +11,7 @@ import {
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { listProdutos } from "../lib/api/produtos";
+import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ComandasPage() {
   const [comandas, setComandas] = useState<Comanda[]>([]);
@@ -166,7 +167,11 @@ export function ComandasPage() {
           <form onSubmit={handleCriarComanda} style={{ marginBottom: 24 }}>
             <label>
               Profissional (opcional)
-              <select value={novaComandaProfissional} onChange={(e) => setNovaComandaProfissional(e.target.value)}>
+              <select
+                id="comanda-profissional"
+                value={novaComandaProfissional}
+                onChange={(e) => setNovaComandaProfissional(e.target.value)}
+              >
                 <option value="">Nenhum</option>
                 {profissionais.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -178,19 +183,21 @@ export function ComandasPage() {
             <button type="submit">Abrir comanda</button>
           </form>
 
-          <ul>
-            {comandas.map((c) => (
-              <li key={c.id}>
-                <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
-                <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
-                  Ver
-                </button>{" "}
-                {c.status === "ABERTA" && (
-                  <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
-                )}
-              </li>
-            ))}
-          </ul>
+          <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
+            <ul>
+              {comandas.map((c) => (
+                <li key={c.id}>
+                  <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
+                  <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
+                    Ver
+                  </button>{" "}
+                  {c.status === "ABERTA" && (
+                    <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
         </>
       ) : (
         <>
@@ -215,7 +222,9 @@ export function ComandasPage() {
 
           {comandaSelecionada.status === "ABERTA" && (
             <form onSubmit={handleAddItem} style={{ marginBottom: 24 }}>
+              <label htmlFor="comanda-item-tipo">Tipo de item</label>
               <select
+                id="comanda-item-tipo"
                 value={novoItemTipo}
                 onChange={(e) => setNovoItemTipo(e.target.value as "SERVICO" | "PRODUTO")}
               >
@@ -224,26 +233,44 @@ export function ComandasPage() {
               </select>
 
               {novoItemTipo === "SERVICO" ? (
-                <select value={novoItemServico} onChange={(e) => setNovoItemServico(e.target.value)} required>
-                  <option value="">Selecione serviço</option>
-                  {servicos.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.nome} — R$ {s.preco.toFixed(2)}
-                    </option>
-                  ))}
-                </select>
+                <>
+                  <label htmlFor="comanda-item-servico">Serviço</label>
+                  <select
+                    id="comanda-item-servico"
+                    value={novoItemServico}
+                    onChange={(e) => setNovoItemServico(e.target.value)}
+                    required
+                  >
+                    <option value="">Selecione serviço</option>
+                    {servicos.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.nome} — R$ {s.preco.toFixed(2)}
+                      </option>
+                    ))}
+                  </select>
+                </>
               ) : (
-                <select value={novoItemProduto} onChange={(e) => setNovoItemProduto(e.target.value)} required>
-                  <option value="">Selecione produto</option>
-                  {produtos.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.nome} — R$ {p.preco_venda.toFixed(2)}
-                    </option>
-                  ))}
-                </select>
+                <>
+                  <label htmlFor="comanda-item-produto">Produto</label>
+                  <select
+                    id="comanda-item-produto"
+                    value={novoItemProduto}
+                    onChange={(e) => setNovoItemProduto(e.target.value)}
+                    required
+                  >
+                    <option value="">Selecione produto</option>
+                    {produtos.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.nome} — R$ {p.preco_venda.toFixed(2)}
+                      </option>
+                    ))}
+                  </select>
+                </>
               )}
 
+              <label htmlFor="comanda-item-quantidade">Quantidade</label>
               <input
+                id="comanda-item-quantidade"
                 type="number"
                 step="0.01"
                 placeholder="Qtd"
@@ -251,7 +278,9 @@ export function ComandasPage() {
                 onChange={(e) => setNovoItemQtd(e.target.value)}
                 required
               />
+              <label htmlFor="comanda-item-profissional">Profissional (opcional)</label>
               <select
+                id="comanda-item-profissional"
                 value={novoItemProfissional}
                 onChange={(e) => setNovoItemProfissional(e.target.value)}
               >
@@ -267,7 +296,7 @@ export function ComandasPage() {
           )}
 
           {comandaSelecionada.status === "ABERTA" && (
-            <>
+            <section aria-label="Pagamentos da comanda" style={{ marginTop: SPACING_LG }}>
               <h4>Pagamentos</h4>
               <ul>
                 {pagamentos.map((p, i) => (
@@ -277,19 +306,30 @@ export function ComandasPage() {
                 ))}
               </ul>
               <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-                <select value={pagamentoMetodo} onChange={(e) => setPagamentoMetodo(e.target.value)}>
-                  <option value="DINHEIRO">Dinheiro</option>
-                  <option value="PIX">Pix</option>
-                  <option value="DEBITO">Débito</option>
-                  <option value="CREDITO">Crédito</option>
-                </select>
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Valor"
-                  value={pagamentoValor}
-                  onChange={(e) => setPagamentoValor(e.target.value)}
-                />
+                <label>
+                  Forma de pagamento
+                  <select
+                    id="comanda-pagamento-metodo"
+                    value={pagamentoMetodo}
+                    onChange={(e) => setPagamentoMetodo(e.target.value)}
+                  >
+                    <option value="DINHEIRO">Dinheiro</option>
+                    <option value="PIX">Pix</option>
+                    <option value="DEBITO">Débito</option>
+                    <option value="CREDITO">Crédito</option>
+                  </select>
+                </label>
+                <label>
+                  Valor
+                  <input
+                    id="comanda-pagamento-valor"
+                    type="number"
+                    step="0.01"
+                    placeholder="Valor"
+                    value={pagamentoValor}
+                    onChange={(e) => setPagamentoValor(e.target.value)}
+                  />
+                </label>
                 <button type="button" onClick={adicionarPagamento}>
                   Adicionar pagamento
                 </button>
@@ -298,7 +338,7 @@ export function ComandasPage() {
               <button onClick={handleFechar} disabled={pagamentos.length === 0}>
                 Fechar comanda
               </button>
-            </>
+            </section>
           )}
         </>
       )}

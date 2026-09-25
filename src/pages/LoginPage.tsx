@@ -30,14 +30,18 @@ export function LoginPage({ onLogin }: { onLogin: () => void }) {
         tela de cadastro de usuário/salão ainda, isso é passo manual só nesta fase inicial.
       </p>
       <form onSubmit={handleLogin} style={{ display: "grid", gap: 8 }}>
+        <label htmlFor="login-email">E-mail</label>
         <input
+          id="login-email"
           type="email"
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        <label htmlFor="login-senha">Senha</label>
         <input
+          id="login-senha"
           type="password"
           placeholder="Senha"
           value={senha}

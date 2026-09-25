@@ -78,7 +78,12 @@ export function ConfigComissoesPage() {
       <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 420, marginBottom: 24 }}>
         <label>
           Profissional
-          <select value={profissionalId} onChange={(e) => setProfissionalId(e.target.value)} required>
+          <select
+            id="config-comissao-profissional"
+            value={profissionalId}
+            onChange={(e) => setProfissionalId(e.target.value)}
+            required
+          >
             <option value="">Selecione</option>
             {profissionais.map((p) => (
               <option key={p.id} value={p.id}>
@@ -90,7 +95,7 @@ export function ConfigComissoesPage() {
 
         <label>
           Serviço (vazio = default do profissional)
-          <select value={servicoId} onChange={(e) => setServicoId(e.target.value)}>
+          <select id="config-comissao-servico" value={servicoId} onChange={(e) => setServicoId(e.target.value)}>
             <option value="">Qualquer serviço (default)</option>
             {servicos.map((s) => (
               <option key={s.id} value={s.id}>
@@ -103,6 +108,7 @@ export function ConfigComissoesPage() {
         <label>
           % de comissão (vazio = usa o padrão do cadastro do profissional)
           <input
+            id="config-comissao-percentual"
             type="number"
             step="0.01"
             value={comissaoPercentual}
@@ -113,6 +119,7 @@ export function ConfigComissoesPage() {
         <label>
           Base de cálculo
           <select
+            id="config-comissao-base-calculo"
             value={baseCalculo}
             onChange={(e) => setBaseCalculo(e.target.value as ConfigComissao["base_calculo"])}
           >
@@ -129,6 +136,7 @@ export function ConfigComissoesPage() {
         <label>
           Rateio de taxa da maquininha
           <select
+            id="config-comissao-rateio-taxa"
             value={rateioTaxa}
             onChange={(e) => setRateioTaxa(e.target.value as ConfigComissao["rateio_taxa"])}
           >
@@ -145,6 +153,7 @@ export function ConfigComissoesPage() {
               <label key={metodo}>
                 {metodo}
                 <input
+                  id={`config-comissao-rateio-${metodo.toLowerCase()}`}
                   type="number"
                   step="0.01"
                   value={rateioPorMetodo[metodo]}
@@ -159,6 +168,7 @@ export function ConfigComissoesPage() {
 
         <label>
           <input
+            id="config-comissao-sobre-produto"
             type="checkbox"
             checked={comissaoSobreProduto}
             onChange={(e) => setComissaoSobreProduto(e.target.checked)}
@@ -169,6 +179,7 @@ export function ConfigComissoesPage() {
         <label>
           Timing do repasse
           <select
+            id="config-comissao-timing-repasse"
             value={timingRepasse}
             onChange={(e) => setTimingRepasse(e.target.value as ConfigComissao["timing_repasse"])}
           >

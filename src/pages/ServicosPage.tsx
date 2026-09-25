@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Servico } from "../types";
 import { listServicos, createServico, desativarServico } from "../lib/api/servicos";
+import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ServicosPage() {
   const [servicos, setServicos] = useState<Servico[]>([]);
@@ -47,9 +48,24 @@ export function ServicosPage() {
       <h2>Serviços</h2>
 
       <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
-        <input placeholder="Nome (ex.: Corte)" value={nome} onChange={(e) => setNome(e.target.value)} required />
-        <input placeholder="Categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} />
+        <label htmlFor="servico-nome">Nome</label>
         <input
+          id="servico-nome"
+          placeholder="Nome (ex.: Corte)"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+        <label htmlFor="servico-categoria">Categoria</label>
+        <input
+          id="servico-categoria"
+          placeholder="Categoria"
+          value={categoria}
+          onChange={(e) => setCategoria(e.target.value)}
+        />
+        <label htmlFor="servico-preco">Preço</label>
+        <input
+          id="servico-preco"
           type="number"
           step="0.01"
           placeholder="Preço"
@@ -57,7 +73,9 @@ export function ServicosPage() {
           onChange={(e) => setPreco(e.target.value)}
           required
         />
+        <label htmlFor="servico-duracao">Duração (minutos)</label>
         <input
+          id="servico-duracao"
           type="number"
           placeholder="Duração (minutos)"
           value={duracao}
@@ -66,27 +84,29 @@ export function ServicosPage() {
         <button type="submit">Cadastrar serviço</button>
       </form>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      <section aria-label="Lista de serviços" style={{ marginTop: SPACING_LG }}>
+        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-      <ul>
-        {servicos.map((s) => (
-          <li key={s.id}>
-            <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
-            {s.ativo && (
-              <button
-                onClick={async () => {
-                  if (confirm("Desativar este serviço?")) {
-                    await desativarServico(s.id);
-                    await carregar();
-                  }
-                }}
-              >
-                Desativar
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {servicos.map((s) => (
+            <li key={s.id}>
+              <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
+              {s.ativo && (
+                <button
+                  onClick={async () => {
+                    if (confirm("Desativar este serviço?")) {
+                      await desativarServico(s.id);
+                      await carregar();
+                    }
+                  }}
+                >
+                  Desativar
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }

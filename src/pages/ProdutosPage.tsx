@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Produto } from "../types";
 import { listProdutos, createProduto, desativarProduto } from "../lib/api/produtos";
+import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ProdutosPage() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -50,16 +51,33 @@ export function ProdutosPage() {
       <h2>Produtos</h2>
 
       <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
-        <input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
-        <input placeholder="Categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} />
+        <label htmlFor="produto-nome">Nome</label>
         <input
+          id="produto-nome"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          required
+        />
+        <label htmlFor="produto-categoria">Categoria</label>
+        <input
+          id="produto-categoria"
+          placeholder="Categoria"
+          value={categoria}
+          onChange={(e) => setCategoria(e.target.value)}
+        />
+        <label htmlFor="produto-preco-custo">Preço de custo inicial</label>
+        <input
+          id="produto-preco-custo"
           type="number"
           step="0.01"
           placeholder="Preço de custo inicial"
           value={precoCusto}
           onChange={(e) => setPrecoCusto(e.target.value)}
         />
+        <label htmlFor="produto-preco-venda">Preço de venda</label>
         <input
+          id="produto-preco-venda"
           type="number"
           step="0.01"
           placeholder="Preço de venda"
@@ -70,6 +88,7 @@ export function ProdutosPage() {
         <label>
           % comissão específica deste produto (deixe vazio para herdar o default)
           <input
+            id="produto-percentual-comissao"
             type="number"
             step="0.01"
             value={percentualComissao}
@@ -79,10 +98,11 @@ export function ProdutosPage() {
         <button type="submit">Cadastrar produto</button>
       </form>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      <section aria-label="Lista de produtos" style={{ marginTop: SPACING_LG }}>
+        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-      <ul>
-        {produtos.map((p) => (
+        <ul>
+          {produtos.map((p) => (
           <li key={p.id}>
             <strong>{p.nome}</strong> — venda R$ {p.preco_venda.toFixed(2)} / custo R${" "}
             {p.preco_custo.toFixed(2)}
@@ -101,8 +121,9 @@ export function ProdutosPage() {
               </button>
             )}
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }
