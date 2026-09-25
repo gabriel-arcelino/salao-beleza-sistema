@@ -5,6 +5,7 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function ServicosPage() {
   const [servicos, setServicos] = useState<Servico[]>([]);
@@ -48,9 +49,13 @@ export function ServicosPage() {
 
   return (
     <section>
-      <h2>Serviços</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Serviços</h2>
 
-      <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
+      <form
+        onSubmit={handleCriar}
+        aria-label="Formulário de cadastro de serviço"
+        style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: SPACING_LG }}
+      >
         <label htmlFor="servico-nome">Nome</label>
         <input
           id="servico-nome"

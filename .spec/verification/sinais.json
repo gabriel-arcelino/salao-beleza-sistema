@@ -743,10 +743,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "relatorios-gerenciais",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-25T12:15:40.043Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:45:31.491Z",
+      "gitRev": "1eb71f7"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-013": {
       "codigo": "VERIFY_FALHOU",
@@ -770,10 +770,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "legado-baseline",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-22T22:39:18.046Z",
-      "ultimaVez": "2026-09-25T12:15:40.043Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:41:25.771Z",
+      "gitRev": "1eb71f7"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-017": {
       "codigo": "VERIFY_FALHOU",
@@ -788,10 +788,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "fundacao-ui",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-22T23:05:11.611Z",
-      "ultimaVez": "2026-09-25T12:15:40.041Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:41:25.761Z",
+      "gitRev": "1eb71f7"
     },
     "ID_DUPLICADO::refinamento-interface::US-004": {
       "codigo": "ID_DUPLICADO",
@@ -1157,10 +1157,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-023",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-25T12:15:40.043Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:45:31.484Z",
+      "gitRev": "1eb71f7"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-031": {
       "codigo": "AC_SEM_PROVA",
@@ -1238,19 +1238,19 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "refinamento-interface",
       "ref": "AC-039",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-25T12:15:40.043Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:45:31.491Z",
+      "gitRev": "1eb71f7"
     },
     "AC_SEM_TESTE::refinamento-interface::AC-040": {
       "codigo": "AC_SEM_TESTE",
       "feature": "refinamento-interface",
       "ref": "AC-040",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-25T12:15:40.043Z",
-      "gitRev": "8759338"
+      "ultimaVez": "2026-09-25T23:45:31.491Z",
+      "gitRev": "1eb71f7"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-041": {
       "codigo": "AC_SEM_PROVA",

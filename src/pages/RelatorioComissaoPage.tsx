@@ -4,6 +4,8 @@ import { listProfissionais } from "../lib/api/profissionais";
 import type { RelatorioComissao, Profissional } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
 import { Button } from "../ui/components/Button";
+import { SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function RelatorioComissaoPage() {
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
@@ -47,12 +49,18 @@ export function RelatorioComissaoPage() {
 
   return (
     <section>
-      <h2>Relatório: Comissão por Profissional</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>
+        Relatório: Comissão por Profissional
+      </h2>
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
       {carregando && <p>Carregando...</p>}
 
-      <form onSubmit={handleFiltrar} style={{ marginBottom: 24, display: "flex", gap: 8, alignItems: "center" }}>
+      <form
+        onSubmit={handleFiltrar}
+        aria-label="Filtros do relatório de comissão"
+        style={{ display: "flex", gap: 8, alignItems: "center" }}
+      >
         <label>
           Competência (YYYY-MM)
           <input
@@ -92,61 +100,63 @@ export function RelatorioComissaoPage() {
         </Button>
       </form>
 
-      {!carregando && resultados.length > 0 && relatorio && (
-        <>
-          <div style={{ marginBottom: 16 }}>
-            <strong>Competência:</strong> {competencia} —{" "}
-            <strong>Profissional:</strong>{" "}
-            {profissionais.find((p) => p.id === profissionalId)?.nome || profissionalId}
-          </div>
+      <section aria-label="Resultados do relatório de comissão" style={{ marginTop: SPACING_LG }}>
+        {!carregando && resultados.length > 0 && relatorio && (
+          <>
+            <div style={{ marginBottom: 16 }}>
+              <strong>Competência:</strong> {competencia} —{" "}
+              <strong>Profissional:</strong>{" "}
+              {profissionais.find((p) => p.id === profissionalId)?.nome || profissionalId}
+            </div>
 
-          <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: 16 }}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Comanda</th>
-                <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Cliente</th>
-                <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Item</th>
-                <th style={{ textAlign: "center", borderBottom: "1px solid #ddd", padding: 8 }}>Qtd</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Unitário</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Total</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>% Com.</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Valor Com.</th>
-              </tr>
-            </thead>
-            <tbody>
-              {relatorio.items.map((item, idx) => (
-                <tr key={idx}>
-                  <td style={{ padding: 8 }}>#{item.numero}</td>
-                  <td style={{ padding: 8 }}>{item.clienteNome}</td>
-                  <td style={{ padding: 8 }}>{item.descricaoSnapshot}</td>
-                  <td style={{ textAlign: "center", padding: 8 }}>{item.quantidade}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{item.precoUnitario.toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{item.total.toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>
-                    {item.comissaoPercentualSnapshot?.toFixed(2) ?? "-"}
-                  </td>
-                  <td style={{ textAlign: "right", padding: 8 }}>
-                    {item.comissaoValorSnapshot?.toFixed(2) ?? "-"}
-                  </td>
+            <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: 16 }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Comanda</th>
+                  <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Cliente</th>
+                  <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Item</th>
+                  <th style={{ textAlign: "center", borderBottom: "1px solid #ddd", padding: 8 }}>Qtd</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Unitário</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Total</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>% Com.</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Valor Com.</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {relatorio.items.map((item, idx) => (
+                  <tr key={idx}>
+                    <td style={{ padding: 8 }}>#{item.numero}</td>
+                    <td style={{ padding: 8 }}>{item.clienteNome}</td>
+                    <td style={{ padding: 8 }}>{item.descricaoSnapshot}</td>
+                    <td style={{ textAlign: "center", padding: 8 }}>{item.quantidade}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{item.precoUnitario.toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{item.total.toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>
+                      {item.comissaoPercentualSnapshot?.toFixed(2) ?? "-"}
+                    </td>
+                    <td style={{ textAlign: "right", padding: 8 }}>
+                      {item.comissaoValorSnapshot?.toFixed(2) ?? "-"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-          <div style={{ borderTop: "2px solid #333", paddingTop: 12, marginTop: 12 }}>
-            <p>
-              <strong>Total Bruto:</strong> R$ {Number(relatorio.totalBruto ?? 0).toFixed(2)}{" "}
-              <span style={{ marginLeft: 24 }}>
-                <strong>Total Comissão:</strong> R$ {Number(relatorio.totalComissao ?? 0).toFixed(2)}
-              </span>
-            </p>
-          </div>
-        </>
-      )}
+            <div style={{ borderTop: "2px solid #333", paddingTop: 12, marginTop: 12 }}>
+              <p>
+                <strong>Total Bruto:</strong> R$ {Number(relatorio.totalBruto ?? 0).toFixed(2)}{" "}
+                <span style={{ marginLeft: 24 }}>
+                  <strong>Total Comissão:</strong> R$ {Number(relatorio.totalComissao ?? 0).toFixed(2)}
+                </span>
+              </p>
+            </div>
+          </>
+        )}
 
-      {!carregando && consultaRealizada && resultados.length === 0 && !erro && (
-        <EmptyState message="Nenhum registro encontrado para os filtros informados." />
-      )}
+        {!carregando && consultaRealizada && resultados.length === 0 && !erro && (
+          <EmptyState message="Nenhum registro encontrado para os filtros informados." />
+        )}
+      </section>
     </section>
   );
 }

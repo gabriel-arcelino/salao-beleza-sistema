@@ -5,6 +5,7 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function ClientesPage() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
@@ -41,9 +42,13 @@ export function ClientesPage() {
 
   return (
     <section>
-      <h2>Clientes</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Clientes</h2>
 
-      <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
+      <form
+        onSubmit={handleCriar}
+        aria-label="Formulário de cadastro de cliente"
+        style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: SPACING_LG }}
+      >
         <label htmlFor="cliente-nome">Nome</label>
         <input
           id="cliente-nome"

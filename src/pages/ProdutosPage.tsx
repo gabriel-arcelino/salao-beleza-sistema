@@ -5,6 +5,7 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function ProdutosPage() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -51,9 +52,13 @@ export function ProdutosPage() {
 
   return (
     <section>
-      <h2>Produtos</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Produtos</h2>
 
-      <form onSubmit={handleCriar} style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: 24 }}>
+      <form
+        onSubmit={handleCriar}
+        aria-label="Formulário de cadastro de produto"
+        style={{ display: "grid", gap: 8, maxWidth: 360, marginBottom: SPACING_LG }}
+      >
         <label htmlFor="produto-nome">Nome</label>
         <input
           id="produto-nome"

@@ -3,6 +3,8 @@ import { getRelatorioCaixa } from "../lib/api/relatorios";
 import type { RelatorioCaixa } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
 import { Button } from "../ui/components/Button";
+import { SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function RelatorioCaixaPage() {
   const [inicio, setInicio] = useState("");
@@ -32,12 +34,18 @@ export function RelatorioCaixaPage() {
 
   return (
     <section>
-      <h2>Relatório: Fechamento de Caixa</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>
+        Relatório: Fechamento de Caixa
+      </h2>
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
       {carregando && <p>Carregando...</p>}
 
-      <form onSubmit={handleFiltrar} style={{ marginBottom: 24, display: "flex", gap: 8, alignItems: "center" }}>
+      <form
+        onSubmit={handleFiltrar}
+        aria-label="Filtros do fechamento de caixa"
+        style={{ display: "flex", gap: 8, alignItems: "center" }}
+      >
         <label>
           Início
           <input
@@ -69,38 +77,40 @@ export function RelatorioCaixaPage() {
         </Button>
       </form>
 
-      {consultaRealizada && resultados.length === 0 && !carregando && !erro ? (
-        <EmptyState message="Nenhum registro encontrado para o intervalo informado." />
-      ) : (
-        resultados.length > 0 && (
-          <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 16 }}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Início</th>
-                <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Fim</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Vendas</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Entradas</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saídas</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saldo Inicial</th>
-                <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saldo Final</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultados.map((r, i) => (
-                <tr key={i}>
-                  <td style={{ padding: 8 }}>{r.data_inicio}</td>
-                  <td style={{ padding: 8 }}>{r.data_fim}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_vendas).toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_entradas).toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_saidas).toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{Number(r.saldo_inicial).toFixed(2)}</td>
-                  <td style={{ textAlign: "right", padding: 8 }}>{Number(r.saldo_final).toFixed(2)}</td>
+      <section aria-label="Resultados do fechamento de caixa" style={{ marginTop: SPACING_LG }}>
+        {consultaRealizada && resultados.length === 0 && !carregando && !erro ? (
+          <EmptyState message="Nenhum registro encontrado para o intervalo informado." />
+        ) : (
+          resultados.length > 0 && (
+            <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 16 }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Início</th>
+                  <th style={{ textAlign: "left", borderBottom: "1px solid #ddd", padding: 8 }}>Fim</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Vendas</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Entradas</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saídas</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saldo Inicial</th>
+                  <th style={{ textAlign: "right", borderBottom: "1px solid #ddd", padding: 8 }}>Saldo Final</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )
-      )}
+              </thead>
+              <tbody>
+                {resultados.map((r, i) => (
+                  <tr key={i}>
+                    <td style={{ padding: 8 }}>{r.data_inicio}</td>
+                    <td style={{ padding: 8 }}>{r.data_fim}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_vendas).toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_entradas).toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{Number(r.total_saidas).toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{Number(r.saldo_inicial).toFixed(2)}</td>
+                    <td style={{ textAlign: "right", padding: 8 }}>{Number(r.saldo_final).toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )
+        )}
+      </section>
     </section>
   );
 }

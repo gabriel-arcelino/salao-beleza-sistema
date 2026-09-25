@@ -19,22 +19,22 @@
     (atalho: `onp-spec tarefa <feature> <T-xxx> <status>`)
 -->
 
-## T-019 — Implementar labels e separação estrutural nos formulários [pendente]
+## T-019 — Implementar labels e separação estrutural nos formulários [concluida]
 - Refs: US-013, AC-031, AC-032, AC-041
 - Arquivos: src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, tests/ui/refinamento-interface-formularios.spec.tsx
 - Notas: implementar AC-031 e AC-041 em Login, Profissionais, Clientes, Serviços, Produtos, Configuração de Comissão e Comandas: cada controle associado deve ter `id` único; usar `htmlFor` quando essa estratégia for escolhida e manter label aninhado com texto visível como alternativa válida. Em Profissionais, Clientes, Serviços, Produtos e Comandas, criar contêiner estrutural explícito para o conteúdo posterior e aplicar uma diferenciação visual persistente por `Card` ou borda explícita; `marginTop >= SPACING_LG` pode complementar, mas não pode ser o único mecanismo visual. `marginBottom` apenas no `<form>` é insuficiente. A prova mecânica e a validação visual humana permanecem distintas. `FormField` não será criado.
 
-## T-020 — Padronizar estados vazios com componente `EmptyState` [pendente]
+## T-020 — Padronizar estados vazios com componente `EmptyState` [concluida]
 - Refs: US-014, AC-033, AC-034
 - Arquivos: src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-empty-state.spec.tsx
 - Notas: usar `EmptyState` com `message` configurada em Profissionais, Clientes, Serviços, Produtos, Configuração de Comissão, Comandas, Relatório de Estoque, Fechamento de Caixa e Comissão por Profissional. A cobertura deve incluir a substituição de listas vazias e mensagens simples pelo componente padronizado, sem alterar seu contrato.
 
-## T-021 — Criar `Button` reutilizável e aplicar variantes de ação [pendente]
+## T-021 — Criar `Button` reutilizável e aplicar variantes de ação [concluida]
 - Refs: US-015, AC-035, AC-036
 - Arquivos: src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
 - Notas: criar `src/ui/components/Button.tsx` como componente reutilizável com as variantes `primary`, `neutral` e `destructive`. Aplicar `variant="primary"` às ações primárias (AC-035) e `variant="destructive"` às ações destrutivas (AC-036), mantendo `destructive` distinta de `neutral` e `primary`. Nenhuma propriedade CSS específica nem `style` inline é obrigatório.
 
-## T-022 — Melhorar hierarquia tipográfica e composição [pendente]
+## T-022 — Melhorar hierarquia tipográfica e composição [concluida]
 - Refs: US-016, AC-037, AC-038
 - Arquivos: src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-tipografia.spec.tsx
 - Notas: definir `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts` e usar `FONT_HEADING` e `FONT_SIZE_HEADING` nos títulos principais dos arquivos listados; o valor `"1.5rem"` não pode ser usado diretamente sem o token. Estruturar os grupos explicitamente e aplicar separação visual entre eles por `Card`, borda ou `marginTop`/`marginBottom >= SPACING_MD`; o `gap` interno do formulário não satisfaz AC-038 isoladamente.

@@ -4,8 +4,9 @@ import { getProdutosEstoqueNegativo, calcularCMV } from "../lib/api/estoque";
 import { Card } from "../ui/components/Card";
 import { Loading } from "../ui/components/Loading";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
-import { SPACING_MD } from "../ui/tokens/spacing";
+import { SPACING_MD, SPACING_LG } from "../ui/tokens/spacing";
 import { COLOR_PRIMARY } from "../ui/tokens/colors";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function DashboardPage() {
   const [estoqueNegativo, setEstoqueNegativo] = useState<Produto[]>([]);
@@ -31,11 +32,15 @@ export function DashboardPage() {
 
   return (
     <section>
-      <h2>Dashboard</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Dashboard</h2>
 
       {erro && <ErrorMessage message={erro} />}
 
-      <div style={{ display: "grid", gap: SPACING_MD, gridTemplateColumns: "1fr 1fr", maxWidth: 700 }}>
+      <div
+        role="group"
+        aria-label="Indicadores do dashboard"
+        style={{ display: "grid", gap: SPACING_MD, gridTemplateColumns: "1fr 1fr", maxWidth: 700, marginTop: SPACING_MD }}
+      >
         <Card>
           <h3>Alerta: Estoque Negativo</h3>
           {estoqueNegativo.length > 0 ? (
@@ -58,7 +63,7 @@ export function DashboardPage() {
       </div>
 
       {estoqueNegativo.length > 0 && (
-        <section style={{ marginTop: 24 }}>
+        <section aria-label="Simulação de e-mail diário — saldo negativo" style={{ marginTop: SPACING_LG }}>
           <h3>Simulação de E-mail Diário — Saldo Negativo</h3>
           <p>Destinatários: ADMIN, GERENTE</p>
           <p>Produtos com estoque negativo que precisam de correção:</p>

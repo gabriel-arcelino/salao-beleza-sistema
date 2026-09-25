@@ -1,7 +1,7 @@
 {
   "feature": "fundacao-ui",
-  "timestamp": "2026-09-23T13:29:01.945Z",
-  "gitRev": "50a71b5",
+  "timestamp": "2026-09-25T23:43:14.555Z",
+  "gitRev": "1eb71f7",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,42 +9,42 @@
   "results": {
     "AC-012": {
       "status": "pass",
-      "testName": "@spec:AC-012 — Tokens visuais básicos disponíveis # time=103.67ms {",
+      "testName": "@spec:AC-012 — Tokens visuais básicos disponíveis # time=243.30ms {",
       "method": "tap"
     },
     "AC-013": {
       "status": "pass",
-      "testName": "@spec:AC-013 — Página representativa utiliza a fundação visual # time=541.73ms {",
+      "testName": "@spec:AC-013 — Página representativa utiliza a fundação visual # time=1415.22ms {",
       "method": "tap"
     },
     "AC-014": {
       "status": "pass",
-      "testName": "@spec:AC-014 — Estado de loading reutilizável # time=9.55ms {",
+      "testName": "@spec:AC-014 — Estado de loading reutilizável # time=20.47ms {",
       "method": "tap"
     },
     "AC-015": {
       "status": "pass",
-      "testName": "@spec:AC-015 — Estado vazio reutilizável # time=66.24ms {",
+      "testName": "@spec:AC-015 — Estado vazio reutilizável # time=60.24ms {",
       "method": "tap"
     },
     "AC-016": {
       "status": "pass",
-      "testName": "@spec:AC-016 — Estado de erro reutilizável # time=542.07ms {",
+      "testName": "@spec:AC-016 — Estado de erro reutilizável # time=588.83ms {",
       "method": "tap"
     },
     "AC-017": {
       "status": "pass",
-      "testName": "@spec:AC-017 — Card reutilizável # time=117.97ms {",
+      "testName": "@spec:AC-017 — Card reutilizável # time=314.96ms {",
       "method": "tap"
     },
     "AC-018": {
       "status": "pass",
-      "testName": "@spec:AC-018 — Componentes de interface possuem semântica acessível # time=34.60ms {",
+      "testName": "@spec:AC-018 — Componentes de interface possuem semântica acessível # time=156.72ms {",
       "method": "tap"
     },
     "AC-019": {
       "status": "pass",
-      "testName": "@spec:AC-019 — Dashboard preserva os contratos existentes # time=55.34ms {",
+      "testName": "@spec:AC-019 — Dashboard preserva os contratos existentes # time=180.68ms {",
       "method": "tap"
     }
   },

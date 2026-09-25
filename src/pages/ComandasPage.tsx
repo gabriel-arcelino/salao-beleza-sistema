@@ -14,7 +14,8 @@ import { listProdutos } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
-import { SPACING_LG } from "../ui/tokens/spacing";
+import { SPACING_MD, SPACING_LG } from "../ui/tokens/spacing";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function ComandasPage() {
   const [comandas, setComandas] = useState<Comanda[]>([]);
@@ -160,14 +161,18 @@ export function ComandasPage() {
 
   return (
     <section>
-      <h2>Comandas</h2>
+      <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Comandas</h2>
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
       {carregando && <p>Carregando...</p>}
 
       {!comandaSelecionada ? (
         <>
-          <form onSubmit={handleCriarComanda} style={{ marginBottom: 24 }}>
+          <form
+            onSubmit={handleCriarComanda}
+            aria-label="Formulário de abertura de comanda"
+            style={{ marginBottom: SPACING_LG }}
+          >
             <label>
               Profissional (opcional)
               <select
@@ -220,17 +225,23 @@ export function ComandasPage() {
 
           <p>Subtotal: R$ {subtotal.toFixed(2)}</p>
 
-          <h4>Itens</h4>
-          <ul>
-            {comandaSelecionada.itens.map((item) => (
-              <li key={item.id}>
-                {item.descricao_snapshot} — {item.quantidade}x R$ {item.preco_unitario.toFixed(2)} = R$ {item.total.toFixed(2)}
-              </li>
-            ))}
-          </ul>
+          <section aria-label="Itens da comanda" style={{ marginTop: SPACING_MD }}>
+            <h4>Itens</h4>
+            <ul>
+              {comandaSelecionada.itens.map((item) => (
+                <li key={item.id}>
+                  {item.descricao_snapshot} — {item.quantidade}x R$ {item.preco_unitario.toFixed(2)} = R$ {item.total.toFixed(2)}
+                </li>
+              ))}
+            </ul>
+          </section>
 
           {comandaSelecionada.status === "ABERTA" && (
-            <form onSubmit={handleAddItem} style={{ marginBottom: 24 }}>
+            <form
+              onSubmit={handleAddItem}
+              aria-label="Formulário de item da comanda"
+              style={{ marginBottom: SPACING_LG }}
+            >
               <label htmlFor="comanda-item-tipo">Tipo de item</label>
               <select
                 id="comanda-item-tipo"
