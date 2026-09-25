@@ -1,12 +1,12 @@
 {
-  "runId": "salao-beleza-sistema-refinamento-interface-mugx5nsl",
+  "runId": "salao-beleza-sistema-refinamento-interface-muhgie40",
   "feature": "refinamento-interface",
   "agent": "claude",
   "modo": "paralelo",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-25 12:10",
+  "geradoEm": "2026-09-25 21:12",
   "branchTrabalho": "spec/refinamento-interface",
   "baseDir": ".spec/features/refinamento-interface",
   "specDir": ".spec",
@@ -83,6 +83,7 @@
             "src/pages/ProdutosPage.tsx",
             "src/pages/ConfigComissoesPage.tsx",
             "src/pages/ComandasPage.tsx",
+            "src/pages/RelatorioEstoquePage.tsx",
             "src/pages/RelatorioCaixaPage.tsx",
             "src/pages/RelatorioComissaoPage.tsx",
             "tests/ui/refinamento-interface-button.spec.tsx"

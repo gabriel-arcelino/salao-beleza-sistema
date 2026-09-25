@@ -31,7 +31,7 @@
 
 ## T-021 — Criar `Button` reutilizável e aplicar variantes de ação [pendente]
 - Refs: US-015, AC-035, AC-036
-- Arquivos: src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
+- Arquivos: src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
 - Notas: criar `src/ui/components/Button.tsx` como componente reutilizável com as variantes `primary`, `neutral` e `destructive`. Aplicar `variant="primary"` às ações primárias (AC-035) e `variant="destructive"` às ações destrutivas (AC-036), mantendo `destructive` distinta de `neutral` e `primary`. Nenhuma propriedade CSS específica nem `style` inline é obrigatório.
 
 ## T-022 — Melhorar hierarquia tipográfica e composição [pendente]

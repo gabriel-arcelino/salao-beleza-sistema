@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Button } from "../../src/ui/components/Button";
 import { LoginPage } from "../../src/pages/LoginPage";
 import { ProfissionaisPage } from "../../src/pages/ProfissionaisPage";
@@ -9,12 +9,15 @@ import { ServicosPage } from "../../src/pages/ServicosPage";
 import { ProdutosPage } from "../../src/pages/ProdutosPage";
 import { ConfigComissoesPage } from "../../src/pages/ConfigComissoesPage";
 import { ComandasPage } from "../../src/pages/ComandasPage";
+import { RelatorioEstoquePage } from "../../src/pages/RelatorioEstoquePage";
 import { RelatorioCaixaPage } from "../../src/pages/RelatorioCaixaPage";
 import { RelatorioComissaoPage } from "../../src/pages/RelatorioComissaoPage";
 
 const mocks = vi.hoisted(() => ({
   signInWithPassword: vi.fn(),
   supabaseFrom: vi.fn(),
+  supabaseUpdate: vi.fn(),
+  supabaseEq: vi.fn(),
   listProfissionais: vi.fn(),
   createProfissional: vi.fn(),
   desativarProfissional: vi.fn(),
@@ -37,6 +40,7 @@ const mocks = vi.hoisted(() => ({
   cancelarComanda: vi.fn(),
   getRelatorioCaixa: vi.fn(),
   getRelatorioComissao: vi.fn(),
+  getProdutosEstoqueNegativo: vi.fn(),
 }));
 
 vi.mock("../../src/lib/supabaseClient", () => ({
@@ -87,6 +91,10 @@ vi.mock("../../src/lib/api/comandas", () => ({
 vi.mock("../../src/lib/api/relatorios", () => ({
   getRelatorioCaixa: mocks.getRelatorioCaixa,
   getRelatorioComissao: mocks.getRelatorioComissao,
+}));
+
+vi.mock("../../src/lib/api/estoque", () => ({
+  getProdutosEstoqueNegativo: mocks.getProdutosEstoqueNegativo,
 }));
 
 const profissional = {
@@ -171,6 +179,10 @@ beforeEach(() => {
   mocks.getComanda.mockResolvedValue({ ...comanda, itens: [], pagamentos: [] });
   mocks.getRelatorioCaixa.mockResolvedValue([]);
   mocks.getRelatorioComissao.mockResolvedValue([]);
+  mocks.getProdutosEstoqueNegativo.mockResolvedValue([{ ...produto, estoque_atual: -1 }]);
+  mocks.supabaseFrom.mockReturnValue({ update: mocks.supabaseUpdate });
+  mocks.supabaseUpdate.mockReturnValue({ eq: mocks.supabaseEq });
+  mocks.supabaseEq.mockResolvedValue({ error: null });
 });
 
 afterEach(() => {
@@ -325,4 +337,31 @@ describe("Refinamento de interface — Button @spec:AC-035 @spec:AC-036", () => 
     },
     10000
   );
+
+  it("aplica a variante destructive ao Zerar e preserva a confirmação @spec:AC-036", async () => {
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(false);
+
+    try {
+      render(<RelatorioEstoquePage />);
+
+      const zerar = await screen.findByRole("button", { name: "Zerar" });
+      expect(zerar).toBeVisible();
+      expect(zerar).toHaveAttribute("data-variant", "destructive");
+
+      fireEvent.click(zerar);
+      await waitFor(() =>
+        expect(confirmSpy).toHaveBeenCalledWith('Corrigir estoque de "Produto Teste" para 0?')
+      );
+      expect(mocks.supabaseFrom).not.toHaveBeenCalled();
+
+      confirmSpy.mockReturnValue(true);
+      fireEvent.click(zerar);
+
+      await waitFor(() => expect(mocks.supabaseFrom).toHaveBeenCalledWith("produtos"));
+      expect(mocks.supabaseUpdate).toHaveBeenCalledWith({ estoque_atual: 0 });
+      expect(mocks.supabaseEq).toHaveBeenCalledWith("id", produto.id);
+    } finally {
+      confirmSpy.mockRestore();
+    }
+  }, 15000);
 });

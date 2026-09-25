@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Produto } from "../types";
 import { getProdutosEstoqueNegativo } from "../lib/api/estoque";
 import { supabase } from "../lib/supabaseClient";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 
 export function RelatorioEstoquePage() {
@@ -54,7 +55,8 @@ export function RelatorioEstoquePage() {
                 <td style={{ textAlign: "center", padding: 8 }}>{p.estoque_minimo}</td>
                 <td style={{ padding: 8 }}>{p.categoria || "-"}</td>
                 <td style={{ padding: 8 }}>
-                  <button
+                  <Button
+                    variant="destructive"
                     onClick={async () => {
                       if (confirm(`Corrigir estoque de "${p.nome}" para 0?`)) {
                         const { error } = await supabase
@@ -70,7 +72,7 @@ export function RelatorioEstoquePage() {
                     }}
                   >
                     Zerar
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}

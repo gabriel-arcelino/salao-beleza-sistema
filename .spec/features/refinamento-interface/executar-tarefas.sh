@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 12:10
+# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 21:12
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='salao-beleza-sistema-refinamento-interface-mugx5nsl'
+RUN_ID='salao-beleza-sistema-refinamento-interface-muhgie40'
 FEATURE='refinamento-interface'
 BASE_BRANCH='spec/refinamento-interface'
 ENGINE='.claude/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -210,7 +210,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-021 — "Criar `Button` reutilizável e aplicar variantes de ação"
   critérios/refs: AC-035 (Botões de ação primária possuem variante visual definida), AC-036 (Botões de ação destrutiva possuem variante visual distinta)
-  arquivos permitidos (e seus testes): src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
+  arquivos permitidos (e seus testes): src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
   mensagem de commit: "T-021 refinamento-interface: Criar `Button` reutilizável e aplicar variantes de ação"
 
 Regras inegociáveis:
