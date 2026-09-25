@@ -1,0 +1,189 @@
+{
+  "runId": "salao-beleza-sistema-refinamento-interface-mugdv1ts",
+  "feature": "refinamento-interface",
+  "agent": "claude",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-25 03:10",
+  "branchTrabalho": "spec/refinamento-interface",
+  "baseDir": ".spec/features/refinamento-interface",
+  "specDir": ".spec",
+  "repoName": "salao-beleza-sistema",
+  "logsDir": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/refinamento-interface-faixa-1",
+      "worktree": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-019",
+          "titulo": "Padronizar labels e separação estrutural nos formulários",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/pages/LoginPage.tsx",
+            "src/pages/ProfissionaisPage.tsx",
+            "src/pages/ClientesPage.tsx",
+            "src/pages/ServicosPage.tsx",
+            "src/pages/ProdutosPage.tsx",
+            "src/pages/ConfigComissoesPage.tsx",
+            "src/pages/ComandasPage.tsx"
+          ],
+          "refs": [
+            "US-013",
+            "AC-031",
+            "AC-032"
+          ]
+        },
+        {
+          "id": "T-020",
+          "titulo": "Padronizar estados vazios com componente `EmptyState`",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/pages/ProfissionaisPage.tsx",
+            "src/pages/ClientesPage.tsx",
+            "src/pages/ServicosPage.tsx",
+            "src/pages/ProdutosPage.tsx",
+            "src/pages/ConfigComissoesPage.tsx",
+            "src/pages/ComandasPage.tsx",
+            "src/pages/RelatorioEstoquePage.tsx",
+            "src/pages/RelatorioCaixaPage.tsx",
+            "src/pages/RelatorioComissaoPage.tsx"
+          ],
+          "refs": [
+            "US-014",
+            "AC-033",
+            "AC-034"
+          ]
+        },
+        {
+          "id": "T-021",
+          "titulo": "Criar `Button` reutilizável e aplicar variantes de ação",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/ui/components/Button.tsx",
+            "src/pages/LoginPage.tsx",
+            "src/pages/ProfissionaisPage.tsx",
+            "src/pages/ClientesPage.tsx",
+            "src/pages/ServicosPage.tsx",
+            "src/pages/ProdutosPage.tsx",
+            "src/pages/ConfigComissoesPage.tsx",
+            "src/pages/ComandasPage.tsx",
+            "src/pages/RelatorioCaixaPage.tsx",
+            "src/pages/RelatorioComissaoPage.tsx"
+          ],
+          "refs": [
+            "US-015",
+            "AC-035",
+            "AC-036"
+          ]
+        },
+        {
+          "id": "T-024",
+          "titulo": "Preservar semântica de acessibilidade e labels",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/ui/components/EmptyState.tsx",
+            "src/ui/components/Loading.tsx",
+            "src/ui/components/ErrorMessage.tsx",
+            "src/pages/LoginPage.tsx",
+            "src/pages/ProfissionaisPage.tsx",
+            "src/pages/ClientesPage.tsx",
+            "src/pages/ServicosPage.tsx",
+            "src/pages/ProdutosPage.tsx",
+            "src/pages/ConfigComissoesPage.tsx",
+            "src/pages/ComandasPage.tsx"
+          ],
+          "refs": [
+            "US-018",
+            "AC-040",
+            "AC-041"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/refinamento-interface-faixa-2",
+      "worktree": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-022",
+          "titulo": "Melhorar hierarquia tipográfica e composição",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/ui/tokens/typography.ts",
+            "src/pages/DashboardPage.tsx",
+            "src/App.tsx",
+            "src/pages/*.tsx"
+          ],
+          "refs": [
+            "US-016",
+            "AC-037",
+            "AC-038"
+          ]
+        },
+        {
+          "id": "T-023",
+          "titulo": "Melhorar navegação com indicador visual e semântico",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            "src/App.tsx"
+          ],
+          "refs": [
+            "US-017",
+            "AC-039"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/refinamento-interface-faixa-3",
+      "worktree": "../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-025",
+          "titulo": "Verificação final de todos os critérios de aceite",
+          "modelo": "claude-sonnet-5",
+          "esforco": "medium",
+          "arquivos": [
+            ".spec/features/refinamento-interface/spec.md",
+            ".spec/verification/refinamento-interface.json (gerado automaticamente pelo `onp-spec verify`)"
+          ],
+          "refs": [
+            "AC-031",
+            "AC-032",
+            "AC-033",
+            "AC-034",
+            "AC-035",
+            "AC-036",
+            "AC-037",
+            "AC-038",
+            "AC-039",
+            "AC-040",
+            "AC-041"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}
