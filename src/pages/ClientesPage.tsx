@@ -72,13 +72,11 @@ export function ClientesPage() {
         <Card>
           {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-          <ul>
-            {!erro && clientes.length === 0 ? (
-              <li>
-                <EmptyState message="Nenhum cliente cadastrado." />
-              </li>
-            ) : (
-              clientes.map((c) => (
+          {!erro && clientes.length === 0 ? (
+            <EmptyState message="Nenhum cliente cadastrado." />
+          ) : (
+            <ul>
+              {clientes.map((c) => (
                 <li key={c.id}>
                   <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
                   {!c.ativo && <em>(inativo)</em>}{" "}
@@ -95,9 +93,9 @@ export function ClientesPage() {
                     </button>
                   )}
                 </li>
-              ))
-            )}
-          </ul>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
     </section>

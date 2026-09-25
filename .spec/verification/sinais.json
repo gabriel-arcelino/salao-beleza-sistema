@@ -1260,6 +1260,33 @@
       "primeiraVez": "2026-09-25T12:10:23.265Z",
       "ultimaVez": "2026-09-25T12:10:23.265Z",
       "gitRev": "8759338"
+    },
+    "VERIFY_FALHOU::refinamento-interface::AC-031": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "refinamento-interface",
+      "ref": "AC-031",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-25T14:41:08.590Z",
+      "ultimaVez": "2026-09-25T14:41:08.590Z",
+      "gitRev": "db6e978"
+    },
+    "VERIFY_FALHOU::refinamento-interface::AC-032": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "refinamento-interface",
+      "ref": "AC-032",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-25T14:41:08.590Z",
+      "ultimaVez": "2026-09-25T14:41:08.590Z",
+      "gitRev": "db6e978"
+    },
+    "VERIFY_FALHOU::refinamento-interface::AC-041": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "refinamento-interface",
+      "ref": "AC-041",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-25T14:41:08.590Z",
+      "ultimaVez": "2026-09-25T14:41:08.590Z",
+      "gitRev": "db6e978"
     }
   }
 }

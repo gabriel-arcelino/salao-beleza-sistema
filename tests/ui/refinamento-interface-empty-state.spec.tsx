@@ -239,6 +239,15 @@ async function confirmarEmptyStateVisivel(message: string) {
   expect(estadoVazio).toBeVisible();
 }
 
+async function confirmarEmptyStateDeColecaoVisivel(container: HTMLElement, message: string) {
+  const estadoVazio = await screen.findByRole("region", { name: message });
+  expect(estadoVazio).toHaveAttribute("aria-label", message);
+  expect(estadoVazio).toHaveTextContent(message);
+  expect(estadoVazio).toBeVisible();
+  expect(estadoVazio.closest("ul, ol, li")).toBeNull();
+  expect(container.querySelector("ul, ol, li")).toBeNull();
+}
+
 function confirmarEmptyStateAusente(message: string) {
   expect(screen.queryByRole("region", { name: message })).not.toBeInTheDocument();
 }
@@ -261,7 +270,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio de profissionais somente quando a lista estiver vazia @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ProfissionaisPage />);
     await waitFor(() => expect(mocks.listProfissionais).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.profissionais);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.profissionais);
     listaVazia.unmount();
 
     mocks.listProfissionais.mockResolvedValue([profissional]);
@@ -274,7 +283,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio de clientes somente quando a lista estiver vazia @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ClientesPage />);
     await waitFor(() => expect(mocks.listClientes).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.clientes);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.clientes);
     listaVazia.unmount();
 
     mocks.listClientes.mockResolvedValue([cliente]);
@@ -287,7 +296,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio de serviços somente quando a lista estiver vazia @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ServicosPage />);
     await waitFor(() => expect(mocks.listServicos).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.servicos);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.servicos);
     listaVazia.unmount();
 
     mocks.listServicos.mockResolvedValue([servico]);
@@ -300,7 +309,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio de produtos somente quando a lista estiver vazia @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ProdutosPage />);
     await waitFor(() => expect(mocks.listProdutos).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.produtos);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.produtos);
     listaVazia.unmount();
 
     mocks.listProdutos.mockResolvedValue([produto]);
@@ -313,7 +322,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio de configurações de comissão somente quando a lista estiver vazia @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ConfigComissoesPage />);
     await waitFor(() => expect(mocks.listConfigComissoes).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.configuracoes);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.configuracoes);
     listaVazia.unmount();
 
     mocks.listConfigComissoes.mockResolvedValue([config]);
@@ -331,7 +340,7 @@ describe("Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034", ()
   it("exibe o estado vazio inicial de comandas sem alterar a lista com registros @spec:AC-033 @spec:AC-034", async () => {
     const listaVazia = render(<ComandasPage />);
     await waitFor(() => expect(mocks.listComandas).toHaveBeenCalledTimes(1));
-    await confirmarEmptyStateVisivel(mensagens.comandas);
+    await confirmarEmptyStateDeColecaoVisivel(listaVazia.container, mensagens.comandas);
     listaVazia.unmount();
 
     mocks.listComandas.mockResolvedValue([comanda]);

@@ -90,13 +90,11 @@ export function ServicosPage() {
         <Card>
           {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-          <ul>
-            {!erro && servicos.length === 0 ? (
-              <li>
-                <EmptyState message="Nenhum serviço cadastrado." />
-              </li>
-            ) : (
-              servicos.map((s) => (
+          {!erro && servicos.length === 0 ? (
+            <EmptyState message="Nenhum serviço cadastrado." />
+          ) : (
+            <ul>
+              {servicos.map((s) => (
                 <li key={s.id}>
                   <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
                   {s.ativo && (
@@ -112,9 +110,9 @@ export function ServicosPage() {
                     </button>
                   )}
                 </li>
-              ))
-            )}
-          </ul>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
     </section>

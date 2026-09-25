@@ -247,7 +247,7 @@ describe("Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @s
       expect(conteudoPosterior, pagina.nome).not.toBeNull();
       expect(conteudoPosterior?.tagName).toBe("SECTION");
       expect(conteudoPosterior?.getAttribute("aria-label")).toMatch(/^Lista/);
-      expect(conteudoPosterior?.querySelector("ul"), pagina.nome).not.toBeNull();
+      expect(conteudoPosterior?.querySelector('ul, [role="region"]'), pagina.nome).not.toBeNull();
       expect(
         parseFloat(conteudoPosterior?.style.marginTop ?? ""),
         pagina.nome
@@ -255,7 +255,7 @@ describe("Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @s
 
       const cartao = conteudoPosterior?.querySelector<HTMLElement>('[data-testid="card"]');
       if (cartao) {
-        expect(cartao.querySelector("ul"), pagina.nome).not.toBeNull();
+        expect(cartao.querySelector('ul, [role="region"]'), pagina.nome).not.toBeNull();
       }
 
       const candidatosBorda = [

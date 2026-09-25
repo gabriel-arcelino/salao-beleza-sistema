@@ -95,21 +95,19 @@ export function ProfissionaisPage() {
           {erro && <p style={{ color: "crimson" }}>{erro}</p>}
           {carregando && <p>Carregando...</p>}
 
-          <ul>
-            {!carregando && !erro && profissionais.length === 0 ? (
-              <li>
-                <EmptyState message="Nenhum profissional cadastrado." />
-              </li>
-            ) : (
-              profissionais.map((p) => (
+          {!carregando && !erro && profissionais.length === 0 ? (
+            <EmptyState message="Nenhum profissional cadastrado." />
+          ) : (
+            <ul>
+              {profissionais.map((p) => (
                 <li key={p.id}>
                   <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
                   {!p.ativo && <em>(inativo)</em>}{" "}
                   {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
                 </li>
-              ))
-            )}
-          </ul>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
     </section>

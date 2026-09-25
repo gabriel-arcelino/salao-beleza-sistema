@@ -104,13 +104,11 @@ export function ProdutosPage() {
         <Card>
           {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-          <ul>
-            {!erro && produtos.length === 0 ? (
-              <li>
-                <EmptyState message="Nenhum produto cadastrado." />
-              </li>
-            ) : (
-              produtos.map((p) => (
+          {!erro && produtos.length === 0 ? (
+            <EmptyState message="Nenhum produto cadastrado." />
+          ) : (
+            <ul>
+              {produtos.map((p) => (
                 <li key={p.id}>
                   <strong>{p.nome}</strong> — venda R$ {p.preco_venda.toFixed(2)} / custo R${" "}
                   {p.preco_custo.toFixed(2)}
@@ -129,9 +127,9 @@ export function ProdutosPage() {
                     </button>
                   )}
                 </li>
-              ))
-            )}
-          </ul>
+              ))}
+            </ul>
+          )}
         </Card>
       </section>
     </section>

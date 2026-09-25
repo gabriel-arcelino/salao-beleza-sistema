@@ -187,13 +187,11 @@ export function ComandasPage() {
 
           <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
             <Card>
-              <ul>
-                {!carregando && !erro && comandas.length === 0 ? (
-                  <li>
-                    <EmptyState message="Nenhuma comanda cadastrada." />
-                  </li>
-                ) : (
-                  comandas.map((c) => (
+              {!carregando && !erro && comandas.length === 0 ? (
+                <EmptyState message="Nenhuma comanda cadastrada." />
+              ) : (
+                <ul>
+                  {comandas.map((c) => (
                     <li key={c.id}>
                       <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
                       <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
@@ -203,9 +201,9 @@ export function ComandasPage() {
                         <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
                       )}
                     </li>
-                  ))
-                )}
-              </ul>
+                  ))}
+                </ul>
+              )}
             </Card>
           </section>
         </>
