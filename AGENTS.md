@@ -52,3 +52,17 @@ Para workflows avançados de engenharia, debugging, análise de causa raiz, pesq
 ```
 /retro-karpathy
 ```
+
+A skill é carregada sob demanda: no Kilo pelo comando acima, e em agentes compatíveis
+(OpenCode) automaticamente pela descrição, sem precisar digitar nada. No OpenCode o
+comando também existe em `.opencode/commands/retro-karpathy.md`, para execução explícita.
+
+Arquivos que sustentam as skills deste projeto:
+
+- `.claude/skills/retro-karpathy/SKILL.md` — fonte da skill (cópia espelhada de `.kilo/skills/`)
+- `.claude/skills/onp-spec-driven/SKILL.md` — motor spec-anchored e seus scripts
+
+Ao editar qualquer `SKILL.md`, o frontmatter precisa ter `name` e `description`, o `name`
+deve ser igual ao nome da pasta, e a `description` é limitado a 1024 caracteres. Evite
+`: ` (dois-pontos + espaço) dentro do valor da `description`, porque isso quebra o parse
+YAML e a skill é descartada silenciosamente.
