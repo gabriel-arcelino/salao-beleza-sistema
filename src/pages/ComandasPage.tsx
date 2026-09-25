@@ -11,6 +11,7 @@ import {
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { listProdutos } from "../lib/api/produtos";
+import { Card } from "../ui/components/Card";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ComandasPage() {
@@ -184,19 +185,21 @@ export function ComandasPage() {
           </form>
 
           <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
-            <ul>
-              {comandas.map((c) => (
-                <li key={c.id}>
-                  <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
-                  <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
-                    Ver
-                  </button>{" "}
-                  {c.status === "ABERTA" && (
-                    <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <Card>
+              <ul>
+                {comandas.map((c) => (
+                  <li key={c.id}>
+                    <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
+                    <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
+                      Ver
+                    </button>{" "}
+                    {c.status === "ABERTA" && (
+                      <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </section>
         </>
       ) : (

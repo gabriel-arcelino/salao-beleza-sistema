@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Servico } from "../types";
 import { listServicos, createServico, desativarServico } from "../lib/api/servicos";
+import { Card } from "../ui/components/Card";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ServicosPage() {
@@ -85,27 +86,29 @@ export function ServicosPage() {
       </form>
 
       <section aria-label="Lista de serviços" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        <Card>
+          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-        <ul>
-          {servicos.map((s) => (
-            <li key={s.id}>
-              <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
-              {s.ativo && (
-                <button
-                  onClick={async () => {
-                    if (confirm("Desativar este serviço?")) {
-                      await desativarServico(s.id);
-                      await carregar();
-                    }
-                  }}
-                >
-                  Desativar
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
+          <ul>
+            {servicos.map((s) => (
+              <li key={s.id}>
+                <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
+                {s.ativo && (
+                  <button
+                    onClick={async () => {
+                      if (confirm("Desativar este serviço?")) {
+                        await desativarServico(s.id);
+                        await carregar();
+                      }
+                    }}
+                  >
+                    Desativar
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Card>
       </section>
     </section>
   );

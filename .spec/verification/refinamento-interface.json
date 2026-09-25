@@ -1,0 +1,27 @@
+{
+  "feature": "refinamento-interface",
+  "timestamp": "2026-09-25T12:13:43.390Z",
+  "gitRev": "8759338",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 24,
+  "results": {
+    "AC-031": {
+      "status": "pass",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "method": "tap"
+    },
+    "AC-032": {
+      "status": "pass",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "method": "tap"
+    },
+    "AC-041": {
+      "status": "pass",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=1385.45ms {",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

@@ -8,6 +8,7 @@ import { ServicosPage } from "../../src/pages/ServicosPage";
 import { ProdutosPage } from "../../src/pages/ProdutosPage";
 import { ConfigComissoesPage } from "../../src/pages/ConfigComissoesPage";
 import { ComandasPage } from "../../src/pages/ComandasPage";
+import { SPACING_LG } from "../../src/ui/tokens/spacing";
 
 const mocks = vi.hoisted(() => ({
   signInWithPassword: vi.fn(),
@@ -148,6 +149,30 @@ function expectControlsWithValidLabels(container: HTMLElement) {
   }
 }
 
+function temBordaPersistente(element: HTMLElement): boolean {
+  const estiloCalculado = window.getComputedStyle(element);
+  const bordaCalculada = ["top", "right", "bottom", "left"].some((lado) => {
+    const largura = Number.parseFloat(
+      estiloCalculado.getPropertyValue(`border-${lado}-width`)
+    );
+    const tipo = estiloCalculado.getPropertyValue(`border-${lado}-style`);
+    return Number.isFinite(largura) && largura > 0 && tipo !== "none" && tipo !== "hidden";
+  });
+
+  if (bordaCalculada) return true;
+
+  return [
+    element.style.border,
+    element.style.borderTop,
+    element.style.borderRight,
+    element.style.borderBottom,
+    element.style.borderLeft,
+  ].some((valor) => {
+    const texto = valor.trim().toLowerCase();
+    return texto.length > 0 && !texto.includes("none") && !texto.includes("hidden");
+  });
+}
+
 describe("Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041", () => {
   it("associa labels visíveis e ids únicos aos controles de cadastro @spec:AC-031 @spec:AC-041", async () => {
     const login = render(<LoginPage onLogin={vi.fn()} />);
@@ -202,7 +227,7 @@ describe("Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @s
     expectControlsWithValidLabels(comandas.container);
   });
 
-  it("mantém listas em contêineres estruturais separados por espaçamento explícito @spec:AC-032", async () => {
+  it("mantém listas em contêineres estruturais com limite visual persistente @spec:AC-032", async () => {
     const paginas = [
       { nome: "Profissionais", Component: ProfissionaisPage, carregar: mocks.listProfissionais },
       { nome: "Clientes", Component: ClientesPage, carregar: mocks.listClientes },
@@ -222,8 +247,23 @@ describe("Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @s
       expect(conteudoPosterior, pagina.nome).not.toBeNull();
       expect(conteudoPosterior?.tagName).toBe("SECTION");
       expect(conteudoPosterior?.getAttribute("aria-label")).toMatch(/^Lista/);
-      expect(conteudoPosterior?.querySelector("ul")).not.toBeNull();
-      expect(parseFloat(conteudoPosterior?.style.marginTop ?? "")).toBeGreaterThanOrEqual(24);
+      expect(conteudoPosterior?.querySelector("ul"), pagina.nome).not.toBeNull();
+      expect(
+        parseFloat(conteudoPosterior?.style.marginTop ?? ""),
+        pagina.nome
+      ).toBeGreaterThanOrEqual(SPACING_LG);
+
+      const cartao = conteudoPosterior?.querySelector<HTMLElement>('[data-testid="card"]');
+      if (cartao) {
+        expect(cartao.querySelector("ul"), pagina.nome).not.toBeNull();
+      }
+
+      const candidatosBorda = [
+        conteudoPosterior,
+        cartao,
+        ...(conteudoPosterior ? Array.from(conteudoPosterior.children) : []),
+      ].filter((element): element is HTMLElement => element instanceof HTMLElement);
+      expect(candidatosBorda.some(temBordaPersistente), pagina.nome).toBe(true);
 
       cleanup();
     }

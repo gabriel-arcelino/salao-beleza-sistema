@@ -22,7 +22,7 @@
 ## 3. Decisões fechadas — uso padronizado
 
 - Usar `EmptyState` com `message` configurada em todas as páginas cobertas por AC-033/AC-034.
-- Usar um contêiner estrutural explícito para o conteúdo posterior e aplicar separação visual por `Card`, borda ou `marginTop >= SPACING_LG`; `marginBottom` apenas no formulário é insuficiente (AC-032).
+- Usar um contêiner estrutural explícito para o conteúdo posterior e aplicar uma diferenciação visual persistente por `Card` ou borda explícita; `marginTop >= SPACING_LG` pode complementar, mas não pode ser o único mecanismo visual. `marginBottom` apenas no formulário é insuficiente (AC-032).
 - Usar o `Button` reutilizável com `variant="primary"` nas ações primárias e `variant="destructive"` nas destrutivas; `destructive` deve ser distinta de `neutral` e `primary`. Nenhuma propriedade CSS específica nem `style` inline é obrigatório.
 
 ---
@@ -36,13 +36,13 @@
 ## 5. Problema — tipografia e espaçamento
 
 - `FONT_HEADING` não é utilizado em todos os títulos principais e não há token `FONT_SIZE_HEADING` no arquivo atual.
-- `SPACING_LG` (`24`) é usado para `marginBottom` do formulário, mas esse `marginBottom` não pode ser a única separação visual entre formulário e conteúdo posterior (AC-032).
+- `SPACING_LG` (`24`) é usado para espaçamento vertical, mas `marginTop` ou `marginBottom` isolados não podem ser a única separação visual entre formulário e conteúdo posterior (AC-032).
 - O `gap` interno do formulário não pode ser a única separação visual entre grupos estruturais (AC-038).
 
 ## 6. Decisões fechadas — tipografia e espaçamento
 
 - **Decisão fechada — `FONT_SIZE_HEADING`:** `src/ui/tokens/typography.ts` deve definir `FONT_SIZE_HEADING = "1.5rem"`; os títulos principais devem usar `FONT_HEADING` e `FONT_SIZE_HEADING` (AC-037). O valor `"1.5rem"` não pode ser usado diretamente sem referência ao token; não há exceção para integração direta.
-- Estruturar os grupos explicitamente e separá-los visualmente por `Card`, borda ou `marginTop`/`marginBottom >= SPACING_MD` (AC-032, AC-038).
+- Estruturar os grupos explicitamente. Para AC-038, separá-los visualmente por `Card`, borda ou `marginTop`/`marginBottom >= SPACING_MD`; para AC-032, `Card` ou borda explícita é obrigatório e o espaçamento apenas complementa (AC-032, AC-038).
 
 ---
 
@@ -60,7 +60,7 @@
 
 - `P2` recorrente: `LoginPage`, `ProfissionaisPage`, `ClientesPage`, `ServicosPage`, `ProdutosPage` dependem de `placeholder` sem `label` associado.
 - `ComandasPage` tem `label` parcial (`Profissional`), mas `Qtd` e `Valor` não têm label associado.
-- AC-032 não é satisfeito apenas pelo `marginBottom` existente (`SPACING_LG`) no elemento `form`: o conteúdo posterior precisa de contêiner estrutural explícito e separação visual entre os grupos.
+- AC-032 não é satisfeito apenas por `marginTop` ou `marginBottom`: o conteúdo posterior precisa de contêiner estrutural explícito e de um limite visual persistente, como `Card` ou borda explícita.
 
 ## 9. Decisões fechadas — labels
 

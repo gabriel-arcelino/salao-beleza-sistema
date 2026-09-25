@@ -46,9 +46,10 @@ Evidência: auditoria visual confirmou que inputs de `Login`, `Profissionais`, `
 
 - **Dado** que uma página possui formulário e conteúdo/lista abaixo (`ProfissionaisPage`, `ClientesPage`, `ServicosPage`, `ProdutosPage`, `ComandasPage`)
 - **Quando** a página for renderizada
-- **Então** o conteúdo posterior deve estar dentro de um contêiner estrutural explícito (`Card`, `section` ou `div` com `role="group"`), e a separação visual deve ser aplicada entre o grupo do formulário e o grupo posterior. São implementações válidas: usar `Card`, aplicar borda ou aplicar `marginTop >= SPACING_LG` no contêiner posterior. O `marginBottom` já existente no elemento `<form>` não satisfaz este AC isoladamente.
-- **Evidência:** auditoria visual (`P2` recorrente) confirmou ausência de separação clara.
-- **Verificação:** a prova mecânica deve confirmar o contêiner posterior e a separação estrutural; a validação visual humana, distinta da prova mecânica, deve confirmar que os grupos estão visualmente separados. Nenhum componente `FormField` será criado para satisfazer este AC.
+- **Então** o conteúdo posterior deve estar dentro de um contêiner estrutural explícito (`Card`, `section` ou `div` com `role="group"`) e deve possuir uma diferenciação visual própria em relação ao formulário. A diferenciação visual deve utilizar pelo menos um limite visual persistente no contêiner posterior, como o componente `Card` ou uma borda explícita. O espaçamento vertical (`marginTop >= SPACING_LG`) pode complementar essa diferenciação, mas não pode ser o único mecanismo visual de separação. O `marginBottom` existente no elemento `<form>` também não satisfaz este AC isoladamente.
+- **Escopo de estado:** para `ComandasPage`, considera-se o estado inicial em que o formulário de abertura e a lista de comandas estão visíveis; o estado de comanda selecionada não é coberto por este AC.
+- **Evidência:** auditoria visual (`P2` recorrente) confirmou ausência de separação clara entre formulário e conteúdo.
+- **Verificação:** a prova mecânica deve confirmar o contêiner posterior e a existência de um limite visual persistente (`Card` ou borda); a validação visual humana, distinta da prova mecânica, deve confirmar que a diferenciação é perceptível na tela. Nenhum componente `FormField` será criado para satisfazer este AC.
 
 ### US-014 — Padronização de estados vazios e uso do componente `EmptyState`
 
@@ -107,7 +108,7 @@ Evidência: auditoria visual (`P3` recorrente) confirmou que a tipografia usa `s
 
 - **Dado** que uma página contém múltiplas seções (formulário, lista, resultados)
 - **Quando** a página é renderizada
-- **Então** os grupos da página devem ter estrutura explícita (por exemplo, `div` com `role="group"` ou `section` com `aria-label`) e deve haver separação visual entre eles. São mecanismos válidos: `Card`, borda ou `marginTop`/`marginBottom` maior ou igual a `SPACING_MD` (`16`) entre os grupos. O `gap` interno do formulário não pode ser a única separação visual.
+- **Então** os grupos da página devem ter estrutura explícita (por exemplo, `div` com `role="group"` ou `section` com `aria-label`) e deve haver separação visual entre eles. Para AC-038, são mecanismos válidos: `Card`, borda ou `marginTop`/`marginBottom` maior ou igual a `SPACING_MD` (`16`) entre os grupos. Essa regra é independente de AC-032, que exige `Card` ou borda explícita para o conteúdo posterior de um formulário. O `gap` interno do formulário não pode ser a única separação visual.
 - **Nota:** a estrutura explícita de grupos (`group` ou `section`) é obrigatória para identificação por tecnologias assistivas (AC-018).
 - **Verificação:** a prova mecânica deve identificar os grupos e a separação estrutural; a validação visual humana, distinta da prova mecânica, deve confirmar a separação visível entre eles.
 - **Evidência:** auditoria confirmou pouca diferenciação (`P3`).
@@ -210,7 +211,7 @@ Evidência: auditoria (`P2`/`P3`) confirmou que `Loading` (`role="status"`, `ari
 - Não criar testes artificiais apenas para gerar rastreabilidade. Cada teste deve validar comportamento ou estrutura observável relacionada ao requisito.
 - Os AC devem ser comprovados automaticamente quando aplicável:
   - **Testes de componente (Vitest + Testing Library):** `AC-031` (label associado), `AC-033` (`EmptyState` renderizado), `AC-034` (prop `message`), `AC-035` (`Button` com variante `primary`), `AC-036` (`Button` com variante `destructive` distinta das demais), `AC-039` (`aria-current="page"` no DOM), `AC-040` (`role` e `aria-live`).
-  - **Testes visuais/DOM (Playwright/inspeção):** `AC-032` (contêiner posterior explícito e separação por `Card`, borda ou `marginTop >= SPACING_LG`), `AC-037` (uso de `FONT_HEADING` e `FONT_SIZE_HEADING`), `AC-038` (grupos explícitos e separação que não dependa apenas de `gap`), `AC-041` (`htmlFor` + `id` quando usados ou label aninhado válido, com `id` único).
+  - **Testes de inspeção do DOM:** `AC-032` (contêiner posterior explícito com `Card` ou borda explícita; `marginTop >= SPACING_LG` pode complementar, mas não substitui), `AC-037` (uso de `FONT_HEADING` e `FONT_SIZE_HEADING`), `AC-038` (grupos explícitos e separação que não dependa apenas de `gap`), `AC-041` (`htmlFor` + `id` quando usados ou label aninhado válido, com `id` único).
 - A verificação final (`onp-spec verify`) deve confirmar que cada AC tem evidência observável no código ou no DOM, sem alterar testes pgTAP existentes.
 
 - **Separação entre prova mecânica e validação visual humana:**

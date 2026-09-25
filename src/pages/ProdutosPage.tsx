@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Produto } from "../types";
 import { listProdutos, createProduto, desativarProduto } from "../lib/api/produtos";
+import { Card } from "../ui/components/Card";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ProdutosPage() {
@@ -99,30 +100,32 @@ export function ProdutosPage() {
       </form>
 
       <section aria-label="Lista de produtos" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        <Card>
+          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-        <ul>
-          {produtos.map((p) => (
-          <li key={p.id}>
-            <strong>{p.nome}</strong> — venda R$ {p.preco_venda.toFixed(2)} / custo R${" "}
-            {p.preco_custo.toFixed(2)}
-            {p.percentual_comissao != null && ` — comissão própria: ${p.percentual_comissao}%`}
-            {!p.ativo && <em> (inativo)</em>}{" "}
-            {p.ativo && (
-              <button
-                onClick={async () => {
-                  if (confirm("Desativar este produto?")) {
-                    await desativarProduto(p.id);
-                    await carregar();
-                  }
-                }}
-              >
-                Desativar
-              </button>
-            )}
-          </li>
-          ))}
-        </ul>
+          <ul>
+            {produtos.map((p) => (
+              <li key={p.id}>
+                <strong>{p.nome}</strong> — venda R$ {p.preco_venda.toFixed(2)} / custo R${" "}
+                {p.preco_custo.toFixed(2)}
+                {p.percentual_comissao != null && ` — comissão própria: ${p.percentual_comissao}%`}
+                {!p.ativo && <em> (inativo)</em>}{" "}
+                {p.ativo && (
+                  <button
+                    onClick={async () => {
+                      if (confirm("Desativar este produto?")) {
+                        await desativarProduto(p.id);
+                        await carregar();
+                      }
+                    }}
+                  >
+                    Desativar
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Card>
       </section>
     </section>
   );

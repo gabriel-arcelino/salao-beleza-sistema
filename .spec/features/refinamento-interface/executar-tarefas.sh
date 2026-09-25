@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 03:32
+# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 12:10
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='salao-beleza-sistema-refinamento-interface-mugenj79'
+RUN_ID='salao-beleza-sistema-refinamento-interface-mugx5nsl'
 FEATURE='refinamento-interface'
 BASE_BRANCH='spec/refinamento-interface'
 ENGINE='.claude/skills/onp-spec-driven/scripts/onp-spec.mjs'

@@ -1,6 +1,6 @@
 # Plano de execução — refinamento-interface
 
-> gerado por `onp-spec plano` em 2026-09-25 03:32 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-25 12:10 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refinamento-interface`
 
 ## Resumo — o que vai acontecer

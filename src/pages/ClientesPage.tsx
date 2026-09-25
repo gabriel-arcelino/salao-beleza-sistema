@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Cliente } from "../types";
 import { listClientes, createCliente, desativarCliente } from "../lib/api/clientes";
+import { Card } from "../ui/components/Card";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ClientesPage() {
@@ -67,28 +68,30 @@ export function ClientesPage() {
       </form>
 
       <section aria-label="Lista de clientes" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        <Card>
+          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
 
-        <ul>
-          {clientes.map((c) => (
-            <li key={c.id}>
-            <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
-            {!c.ativo && <em>(inativo)</em>}{" "}
-            {c.ativo && (
-              <button
-                onClick={async () => {
-                  if (confirm("Desativar este cliente?")) {
-                    await desativarCliente(c.id);
-                    await carregar();
-                  }
-                }}
-              >
-                Desativar
-              </button>
-            )}
-            </li>
-          ))}
-        </ul>
+          <ul>
+            {clientes.map((c) => (
+              <li key={c.id}>
+                <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
+                {!c.ativo && <em>(inativo)</em>}{" "}
+                {c.ativo && (
+                  <button
+                    onClick={async () => {
+                      if (confirm("Desativar este cliente?")) {
+                        await desativarCliente(c.id);
+                        await carregar();
+                      }
+                    }}
+                  >
+                    Desativar
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </Card>
       </section>
     </section>
   );

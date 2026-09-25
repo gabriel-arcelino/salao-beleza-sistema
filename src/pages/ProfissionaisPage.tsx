@@ -5,6 +5,7 @@ import {
   createProfissional,
   desativarProfissional,
 } from "../lib/api/profissionais";
+import { Card } from "../ui/components/Card";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
 export function ProfissionaisPage() {
@@ -89,18 +90,20 @@ export function ProfissionaisPage() {
       </form>
 
       <section aria-label="Lista de profissionais" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
-        {carregando && <p>Carregando...</p>}
+        <Card>
+          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+          {carregando && <p>Carregando...</p>}
 
-        <ul>
-          {profissionais.map((p) => (
-            <li key={p.id}>
-              <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
-              {!p.ativo && <em>(inativo)</em>}{" "}
-              {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
-            </li>
-          ))}
-        </ul>
+          <ul>
+            {profissionais.map((p) => (
+              <li key={p.id}>
+                <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
+                {!p.ativo && <em>(inativo)</em>}{" "}
+                {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
+              </li>
+            ))}
+          </ul>
+        </Card>
       </section>
     </section>
   );
