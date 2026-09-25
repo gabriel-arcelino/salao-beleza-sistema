@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Cliente } from "../types";
 import { listClientes, createCliente, desativarCliente } from "../lib/api/clientes";
 import { Card } from "../ui/components/Card";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
@@ -65,7 +66,7 @@ export function ClientesPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit">Cadastrar cliente</button>
+        <Button type="submit" variant="primary">Cadastrar cliente</Button>
       </form>
 
       <section aria-label="Lista de clientes" style={{ marginTop: SPACING_LG }}>
@@ -81,7 +82,8 @@ export function ClientesPage() {
                   <strong>{c.nome}</strong> {c.telefone && `— ${c.telefone}`}{" "}
                   {!c.ativo && <em>(inativo)</em>}{" "}
                   {c.ativo && (
-                    <button
+                    <Button
+                      variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este cliente?")) {
                           await desativarCliente(c.id);
@@ -90,7 +92,7 @@ export function ClientesPage() {
                       }}
                     >
                       Desativar
-                    </button>
+                    </Button>
                   )}
                 </li>
               ))}

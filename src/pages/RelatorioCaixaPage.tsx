@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getRelatorioCaixa } from "../lib/api/relatorios";
 import type { RelatorioCaixa } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
+import { Button } from "../ui/components/Button";
 
 export function RelatorioCaixaPage() {
   const [inicio, setInicio] = useState("");
@@ -63,9 +64,9 @@ export function RelatorioCaixaPage() {
             style={{ display: "block", marginTop: 4 }}
           />
         </label>
-        <button type="submit" style={{ marginTop: 18 }}>
+        <Button type="submit" variant="primary" style={{ marginTop: 18 }}>
           Filtrar
-        </button>
+        </Button>
       </form>
 
       {consultaRealizada && resultados.length === 0 && !carregando && !erro ? (

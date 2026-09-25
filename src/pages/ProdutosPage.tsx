@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Produto } from "../types";
 import { listProdutos, createProduto, desativarProduto } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
@@ -97,7 +98,7 @@ export function ProdutosPage() {
             onChange={(e) => setPercentualComissao(e.target.value)}
           />
         </label>
-        <button type="submit">Cadastrar produto</button>
+        <Button type="submit" variant="primary">Cadastrar produto</Button>
       </form>
 
       <section aria-label="Lista de produtos" style={{ marginTop: SPACING_LG }}>
@@ -115,7 +116,8 @@ export function ProdutosPage() {
                   {p.percentual_comissao != null && ` — comissão própria: ${p.percentual_comissao}%`}
                   {!p.ativo && <em> (inativo)</em>}{" "}
                   {p.ativo && (
-                    <button
+                    <Button
+                      variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este produto?")) {
                           await desativarProduto(p.id);
@@ -124,7 +126,7 @@ export function ProdutosPage() {
                       }}
                     >
                       Desativar
-                    </button>
+                    </Button>
                   )}
                 </li>
               ))}

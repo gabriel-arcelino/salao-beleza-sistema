@@ -6,6 +6,7 @@ import {
   desativarProfissional,
 } from "../lib/api/profissionais";
 import { Card } from "../ui/components/Card";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
@@ -87,7 +88,7 @@ export function ProfissionaisPage() {
             required
           />
         </label>
-        <button type="submit">Cadastrar profissional</button>
+        <Button type="submit" variant="primary">Cadastrar profissional</Button>
       </form>
 
       <section aria-label="Lista de profissionais" style={{ marginTop: SPACING_LG }}>
@@ -103,7 +104,11 @@ export function ProfissionaisPage() {
                 <li key={p.id}>
                   <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
                   {!p.ativo && <em>(inativo)</em>}{" "}
-                  {p.ativo && <button onClick={() => handleDesativar(p.id)}>Desativar</button>}
+                  {p.ativo && (
+                    <Button variant="destructive" onClick={() => handleDesativar(p.id)}>
+                      Desativar
+                    </Button>
+                  )}
                 </li>
               ))}
             </ul>

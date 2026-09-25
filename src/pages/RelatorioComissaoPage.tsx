@@ -3,6 +3,7 @@ import { getRelatorioComissao } from "../lib/api/relatorios";
 import { listProfissionais } from "../lib/api/profissionais";
 import type { RelatorioComissao, Profissional } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
+import { Button } from "../ui/components/Button";
 
 export function RelatorioComissaoPage() {
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
@@ -86,9 +87,9 @@ export function RelatorioComissaoPage() {
             ))}
           </select>
         </label>
-        <button type="submit" style={{ marginTop: 18 }}>
+        <Button type="submit" variant="primary" style={{ marginTop: 18 }}>
           Filtrar
-        </button>
+        </Button>
       </form>
 
       {!carregando && resultados.length > 0 && relatorio && (

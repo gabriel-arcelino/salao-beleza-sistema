@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { Button } from "../ui/components/Button";
 
 export function LoginPage({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState("");
@@ -48,9 +49,9 @@ export function LoginPage({ onLogin }: { onLogin: () => void }) {
           onChange={(e) => setSenha(e.target.value)}
           required
         />
-        <button type="submit" disabled={carregando}>
+        <Button type="submit" variant="primary" disabled={carregando}>
           {carregando ? "Entrando..." : "Entrar"}
-        </button>
+        </Button>
       </form>
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}
     </main>

@@ -1265,28 +1265,46 @@
       "codigo": "VERIFY_FALHOU",
       "feature": "refinamento-interface",
       "ref": "AC-031",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-25T14:41:08.590Z",
-      "ultimaVez": "2026-09-25T14:41:08.590Z",
-      "gitRev": "db6e978"
+      "ultimaVez": "2026-09-25T20:48:48.058Z",
+      "gitRev": "0fc7cfc"
     },
     "VERIFY_FALHOU::refinamento-interface::AC-032": {
       "codigo": "VERIFY_FALHOU",
       "feature": "refinamento-interface",
       "ref": "AC-032",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-25T14:41:08.590Z",
-      "ultimaVez": "2026-09-25T14:41:08.590Z",
-      "gitRev": "db6e978"
+      "ultimaVez": "2026-09-25T20:48:48.058Z",
+      "gitRev": "0fc7cfc"
     },
     "VERIFY_FALHOU::refinamento-interface::AC-041": {
       "codigo": "VERIFY_FALHOU",
       "feature": "refinamento-interface",
       "ref": "AC-041",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-25T14:41:08.590Z",
-      "ultimaVez": "2026-09-25T14:41:08.590Z",
-      "gitRev": "db6e978"
+      "ultimaVez": "2026-09-25T20:48:48.061Z",
+      "gitRev": "0fc7cfc"
+    },
+    "VERIFY_FALHOU::refinamento-interface::AC-033": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "refinamento-interface",
+      "ref": "AC-033",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-25T20:48:48.060Z",
+      "ultimaVez": "2026-09-25T20:48:48.060Z",
+      "gitRev": "0fc7cfc"
+    },
+    "VERIFY_FALHOU::refinamento-interface::AC-034": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "refinamento-interface",
+      "ref": "AC-034",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-25T20:48:48.060Z",
+      "ultimaVez": "2026-09-25T20:48:48.060Z",
+      "gitRev": "0fc7cfc"
     }
   }
 }

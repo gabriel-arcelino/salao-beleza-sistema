@@ -4,6 +4,7 @@ import { listConfigComissoes, createConfigComissao } from "../lib/api/config_com
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { EmptyState } from "../ui/components/EmptyState";
+import { Button } from "../ui/components/Button";
 
 const METODOS_PAGAMENTO = ["DINHEIRO", "PIX", "DEBITO", "CREDITO"] as const;
 
@@ -189,7 +190,7 @@ export function ConfigComissoesPage() {
           </select>
         </label>
 
-        <button type="submit">Salvar configuração</button>
+        <Button type="submit" variant="primary">Salvar configuração</Button>
       </form>
 
       {erro && <p style={{ color: "crimson" }}>{erro}</p>}

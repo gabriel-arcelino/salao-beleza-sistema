@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Servico } from "../types";
 import { listServicos, createServico, desativarServico } from "../lib/api/servicos";
 import { Card } from "../ui/components/Card";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
@@ -83,7 +84,7 @@ export function ServicosPage() {
           value={duracao}
           onChange={(e) => setDuracao(e.target.value)}
         />
-        <button type="submit">Cadastrar serviço</button>
+        <Button type="submit" variant="primary">Cadastrar serviço</Button>
       </form>
 
       <section aria-label="Lista de serviços" style={{ marginTop: SPACING_LG }}>
@@ -98,7 +99,8 @@ export function ServicosPage() {
                 <li key={s.id}>
                   <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
                   {s.ativo && (
-                    <button
+                    <Button
+                      variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este serviço?")) {
                           await desativarServico(s.id);
@@ -107,7 +109,7 @@ export function ServicosPage() {
                       }}
                     >
                       Desativar
-                    </button>
+                    </Button>
                   )}
                 </li>
               ))}

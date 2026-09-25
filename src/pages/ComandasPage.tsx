@@ -12,6 +12,7 @@ import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { listProdutos } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
+import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 
@@ -182,7 +183,7 @@ export function ComandasPage() {
                 ))}
               </select>
             </label>
-            <button type="submit">Abrir comanda</button>
+            <Button type="submit" variant="primary">Abrir comanda</Button>
           </form>
 
           <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
@@ -194,11 +195,11 @@ export function ComandasPage() {
                   {comandas.map((c) => (
                     <li key={c.id}>
                       <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
-                      <button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>
-                        Ver
-                      </button>{" "}
+                      <Button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>Ver</Button>{" "}
                       {c.status === "ABERTA" && (
-                        <button onClick={() => handleCancelar(c.id)}>Cancelar</button>
+                        <Button variant="destructive" onClick={() => handleCancelar(c.id)}>
+                          Cancelar
+                        </Button>
                       )}
                     </li>
                   ))}
@@ -209,9 +210,9 @@ export function ComandasPage() {
         </>
       ) : (
         <>
-          <button onClick={() => setComandaSelecionada(null)} style={{ marginBottom: 16 }}>
+          <Button onClick={() => setComandaSelecionada(null)} style={{ marginBottom: 16 }}>
             Voltar para lista
-          </button>
+          </Button>
 
           <h3>
             Comanda #{comandaSelecionada.numero} — {comandaSelecionada.status}
@@ -299,7 +300,7 @@ export function ComandasPage() {
                   </option>
                 ))}
               </select>
-              <button type="submit">Adicionar item</button>
+              <Button type="submit" variant="primary">Adicionar item</Button>
             </form>
           )}
 
@@ -338,14 +339,14 @@ export function ComandasPage() {
                     onChange={(e) => setPagamentoValor(e.target.value)}
                   />
                 </label>
-                <button type="button" onClick={adicionarPagamento}>
+                <Button type="button" onClick={adicionarPagamento}>
                   Adicionar pagamento
-                </button>
+                </Button>
               </div>
 
-              <button onClick={handleFechar} disabled={pagamentos.length === 0}>
+              <Button variant="primary" onClick={handleFechar} disabled={pagamentos.length === 0}>
                 Fechar comanda
-              </button>
+              </Button>
             </section>
           )}
         </>
