@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 03:22
+# executar-tarefas.sh — gerado por `onp-spec plano refinamento-interface` em 2026-09-25 03:32
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='salao-beleza-sistema-refinamento-interface-mugeaejh'
+RUN_ID='salao-beleza-sistema-refinamento-interface-mugenj79'
 FEATURE='refinamento-interface'
 BASE_BRANCH='spec/refinamento-interface'
 ENGINE='.claude/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -180,7 +180,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-019 — "Implementar labels e separação estrutural nos formulários"
   critérios/refs: AC-031 (Todos os inputs de formulário de cadastro possuem label associado), AC-032 (Separação visual entre formulário e conteúdo abaixo), AC-041 (Labels associados usam uma estratégia de identificação válida)
-  arquivos permitidos (e seus testes): src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx
+  arquivos permitidos (e seus testes): src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, tests/ui/refinamento-interface-formularios.spec.tsx
   mensagem de commit: "T-019 refinamento-interface: Implementar labels e separação estrutural nos formulários"
 
 Regras inegociáveis:
@@ -195,7 +195,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-020 — "Padronizar estados vazios com componente `EmptyState`"
   critérios/refs: AC-033 (Componentes `EmptyState` utilizados em listas vazias), AC-034 (Mensagem de vazio configurável no componente)
-  arquivos permitidos (e seus testes): src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+  arquivos permitidos (e seus testes): src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-empty-state.spec.tsx
   mensagem de commit: "T-020 refinamento-interface: Padronizar estados vazios com componente `EmptyState`"
 
 Regras inegociáveis:
@@ -210,7 +210,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-021 — "Criar `Button` reutilizável e aplicar variantes de ação"
   critérios/refs: AC-035 (Botões de ação primária possuem variante visual definida), AC-036 (Botões de ação destrutiva possuem variante visual distinta)
-  arquivos permitidos (e seus testes): src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+  arquivos permitidos (e seus testes): src/ui/components/Button.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-button.spec.tsx
   mensagem de commit: "T-021 refinamento-interface: Criar `Button` reutilizável e aplicar variantes de ação"
 
 Regras inegociáveis:
@@ -225,7 +225,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-022 — "Melhorar hierarquia tipográfica e composição"
   critérios/refs: AC-037 (Título principal da página utiliza tamanho e família tipográfica definidos), AC-038 (Seções/formulário e conteúdo possuem separação visual verificável)
-  arquivos permitidos (e seus testes): src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx
+  arquivos permitidos (e seus testes): src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-tipografia.spec.tsx
   mensagem de commit: "T-022 refinamento-interface: Melhorar hierarquia tipográfica e composição"
 
 Regras inegociáveis:
@@ -255,7 +255,7 @@ Leia primeiro: .spec/features/refinamento-interface/spec.md, .spec/features/refi
 Sua tarefa (somente ela):
 T-023 — "Melhorar navegação com indicador visual e semântico"
   critérios/refs: AC-039 (Aba ativa possui indicador visual e semântico verificável)
-  arquivos permitidos (e seus testes): src/App.tsx
+  arquivos permitidos (e seus testes): src/App.tsx, tests/ui/refinamento-interface-navegacao.spec.tsx
   mensagem de commit: "T-023 refinamento-interface: Melhorar navegação com indicador visual e semântico"
 
 Regras inegociáveis:

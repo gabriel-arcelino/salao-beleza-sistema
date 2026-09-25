@@ -1,12 +1,12 @@
 {
-  "runId": "salao-beleza-sistema-refinamento-interface-mugeaejh",
+  "runId": "salao-beleza-sistema-refinamento-interface-mugenj79",
   "feature": "refinamento-interface",
   "agent": "claude",
   "modo": "paralelo",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-25 03:22",
+  "geradoEm": "2026-09-25 03:32",
   "branchTrabalho": "spec/refinamento-interface",
   "baseDir": ".spec/features/refinamento-interface",
   "specDir": ".spec",
@@ -36,7 +36,8 @@
             "src/pages/ServicosPage.tsx",
             "src/pages/ProdutosPage.tsx",
             "src/pages/ConfigComissoesPage.tsx",
-            "src/pages/ComandasPage.tsx"
+            "src/pages/ComandasPage.tsx",
+            "tests/ui/refinamento-interface-formularios.spec.tsx"
           ],
           "refs": [
             "US-013",
@@ -59,7 +60,8 @@
             "src/pages/ComandasPage.tsx",
             "src/pages/RelatorioEstoquePage.tsx",
             "src/pages/RelatorioCaixaPage.tsx",
-            "src/pages/RelatorioComissaoPage.tsx"
+            "src/pages/RelatorioComissaoPage.tsx",
+            "tests/ui/refinamento-interface-empty-state.spec.tsx"
           ],
           "refs": [
             "US-014",
@@ -82,7 +84,8 @@
             "src/pages/ConfigComissoesPage.tsx",
             "src/pages/ComandasPage.tsx",
             "src/pages/RelatorioCaixaPage.tsx",
-            "src/pages/RelatorioComissaoPage.tsx"
+            "src/pages/RelatorioComissaoPage.tsx",
+            "tests/ui/refinamento-interface-button.spec.tsx"
           ],
           "refs": [
             "US-015",
@@ -107,7 +110,8 @@
             "src/pages/ComandasPage.tsx",
             "src/pages/RelatorioEstoquePage.tsx",
             "src/pages/RelatorioCaixaPage.tsx",
-            "src/pages/RelatorioComissaoPage.tsx"
+            "src/pages/RelatorioComissaoPage.tsx",
+            "tests/ui/refinamento-interface-tipografia.spec.tsx"
           ],
           "refs": [
             "US-016",
@@ -128,7 +132,8 @@
           "modelo": "claude-sonnet-5",
           "esforco": "medium",
           "arquivos": [
-            "src/App.tsx"
+            "src/App.tsx",
+            "tests/ui/refinamento-interface-navegacao.spec.tsx"
           ],
           "refs": [
             "US-017",

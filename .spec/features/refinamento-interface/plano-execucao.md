@@ -1,6 +1,6 @@
 # Plano de execução — refinamento-interface
 
-> gerado por `onp-spec plano` em 2026-09-25 03:22 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-25 03:32 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refinamento-interface`
 
 ## Resumo — o que vai acontecer
@@ -22,16 +22,16 @@
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-019 | Implementar labels e separação estrutural nos formulários | `claude-sonnet-5` | medium | `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx` |
-| T-020 | Padronizar estados vazios com componente `EmptyState` | `claude-sonnet-5` | medium | `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
-| T-021 | Criar `Button` reutilizável e aplicar variantes de ação | `claude-sonnet-5` | medium | `src/ui/components/Button.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
-| T-022 | Melhorar hierarquia tipográfica e composição | `claude-sonnet-5` | medium | `src/ui/tokens/typography.ts`, `src/pages/DashboardPage.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx` |
+| T-019 | Implementar labels e separação estrutural nos formulários | `claude-sonnet-5` | medium | `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `tests/ui/refinamento-interface-formularios.spec.tsx` |
+| T-020 | Padronizar estados vazios com componente `EmptyState` | `claude-sonnet-5` | medium | `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx`, `tests/ui/refinamento-interface-empty-state.spec.tsx` |
+| T-021 | Criar `Button` reutilizável e aplicar variantes de ação | `claude-sonnet-5` | medium | `src/ui/components/Button.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx`, `tests/ui/refinamento-interface-button.spec.tsx` |
+| T-022 | Melhorar hierarquia tipográfica e composição | `claude-sonnet-5` | medium | `src/ui/tokens/typography.ts`, `src/pages/DashboardPage.tsx`, `src/pages/LoginPage.tsx`, `src/pages/ProfissionaisPage.tsx`, `src/pages/ClientesPage.tsx`, `src/pages/ServicosPage.tsx`, `src/pages/ProdutosPage.tsx`, `src/pages/ConfigComissoesPage.tsx`, `src/pages/ComandasPage.tsx`, `src/pages/RelatorioEstoquePage.tsx`, `src/pages/RelatorioCaixaPage.tsx`, `src/pages/RelatorioComissaoPage.tsx`, `tests/ui/refinamento-interface-tipografia.spec.tsx` |
 
 #### faixa-2 — branch `spec/refinamento-interface-faixa-2` — worktree `../onp-worktrees/salao-beleza-sistema-refinamento-interface-faixa-2`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-023 | Melhorar navegação com indicador visual e semântico | `claude-sonnet-5` | medium | `src/App.tsx` |
+| T-023 | Melhorar navegação com indicador visual e semântico | `claude-sonnet-5` | medium | `src/App.tsx`, `tests/ui/refinamento-interface-navegacao.spec.tsx` |
 
 ## Tarefas sequenciais (após as ondas, na árvore principal)
 
