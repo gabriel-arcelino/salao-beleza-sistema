@@ -11,6 +11,7 @@ import { RelatorioCaixaPage } from "./pages/RelatorioCaixaPage";
 import { RelatorioComissaoPage } from "./pages/RelatorioComissaoPage";
 import { LoginPage } from "./pages/LoginPage";
 import { supabase } from "./lib/supabaseClient";
+import { COLOR_PRIMARY } from "./ui/tokens/colors";
 
 // Ordem das abas: Fase 1 (cadastros) → Fase 2 (comandas/financeiro) → Fase 3 (dashboard/estoque)
 const ABAS = [
@@ -51,7 +52,14 @@ function App() {
           <button
             key={a.id}
             onClick={() => setAbaAtiva(a.id)}
-            style={{ fontWeight: abaAtiva === a.id ? "bold" : "normal" }}
+            aria-current={abaAtiva === a.id ? "page" : undefined}
+            style={{
+              fontWeight: abaAtiva === a.id ? "bold" : "normal",
+              // A borda transparente nas abas inativas mantém a altura da barra
+              // estável ao trocar de aba, sem adicionar indicador visual.
+              borderBottom:
+                abaAtiva === a.id ? `2px solid ${COLOR_PRIMARY}` : "2px solid transparent",
+            }}
           >
             {a.label}
           </button>

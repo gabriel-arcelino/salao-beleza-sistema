@@ -7,16 +7,16 @@
 
 Corroboradas em múltiplas features. Aplique como guia.
 
-_nenhuma_
+### L-001 — Alterar src/ ou tests/ desatualiza a prova de todas as features que esses arquivos abrangem, nao apenas da tarefa em curso: renove com onp-spec verify <feature> para cada uma, senao o audit acusa prova desatualizada.
+- sinal: `VERIFY_OBSOLETO` · recorrência: 2 feature(s) · escopo: `verificacao` · penalidades: 0
+- features: relatorios-gerenciais, fundacao-ui
+- última evidência: — (fundacao-ui, 2026-09-26T01:18:47.981Z)
 
 ## Candidatas — em observação, NÃO aplicar ainda
 
 Vistas em uma feature só. Registradas, não confiadas.
 
-### L-001 — Alterar src/ ou tests/ desatualiza a prova de todas as features que esses arquivos abrangem, nao apenas da tarefa em curso: renove com onp-spec verify <feature> para cada uma, senao o audit acusa prova desatualizada.
-- sinal: `VERIFY_OBSOLETO` · recorrência: 1 feature(s) · escopo: `verificacao` · penalidades: 0
-- features: relatorios-gerenciais
-- última evidência: — (relatorios-gerenciais, 2026-09-26T00:38:50.775Z)
+_nenhuma_
 
 ## Quarentena — aplicadas e falharam, ignorar
 

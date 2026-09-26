@@ -743,10 +743,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "relatorios-gerenciais",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-25T23:45:31.491Z",
-      "gitRev": "1eb71f7"
+      "ultimaVez": "2026-09-26T01:16:42.488Z",
+      "gitRev": "894d55e"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-013": {
       "codigo": "VERIFY_FALHOU",
@@ -770,10 +770,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "legado-baseline",
       "ref": "—",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-22T22:39:18.046Z",
-      "ultimaVez": "2026-09-25T23:41:25.771Z",
-      "gitRev": "1eb71f7"
+      "ultimaVez": "2026-09-26T01:16:42.488Z",
+      "gitRev": "894d55e"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-017": {
       "codigo": "VERIFY_FALHOU",
@@ -788,10 +788,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "fundacao-ui",
       "ref": "—",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-22T23:05:11.611Z",
-      "ultimaVez": "2026-09-25T23:41:25.761Z",
-      "gitRev": "1eb71f7"
+      "ultimaVez": "2026-09-26T01:16:42.485Z",
+      "gitRev": "894d55e"
     },
     "ID_DUPLICADO::refinamento-interface::US-004": {
       "codigo": "ID_DUPLICADO",
@@ -1247,10 +1247,10 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "refinamento-interface",
       "ref": "AC-040",
-      "ocorrencias": 6,
+      "ocorrencias": 8,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-26T00:39:19.160Z",
-      "gitRev": "1b4d57f"
+      "ultimaVez": "2026-09-26T01:18:07.999Z",
+      "gitRev": "894d55e"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-041": {
       "codigo": "AC_SEM_PROVA",

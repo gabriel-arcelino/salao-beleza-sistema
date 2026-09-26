@@ -39,7 +39,7 @@
 - Arquivos: src/ui/tokens/typography.ts, src/pages/DashboardPage.tsx, src/pages/LoginPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ClientesPage.tsx, src/pages/ServicosPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ConfigComissoesPage.tsx, src/pages/ComandasPage.tsx, src/pages/RelatorioEstoquePage.tsx, src/pages/RelatorioCaixaPage.tsx, src/pages/RelatorioComissaoPage.tsx, tests/ui/refinamento-interface-tipografia.spec.tsx
 - Notas: definir `FONT_SIZE_HEADING = "1.5rem"` em `src/ui/tokens/typography.ts` e usar `FONT_HEADING` e `FONT_SIZE_HEADING` nos títulos principais dos arquivos listados; o valor `"1.5rem"` não pode ser usado diretamente sem o token. Estruturar os grupos explicitamente e aplicar separação visual entre eles por `Card`, borda ou `marginTop`/`marginBottom >= SPACING_MD`; o `gap` interno do formulário não satisfaz AC-038 isoladamente.
 
-## T-023 — Melhorar navegação com indicador visual e semântico [pendente]
+## T-023 — Melhorar navegação com indicador visual e semântico [concluida]
 - Refs: US-017, AC-039
 - Arquivos: src/App.tsx, tests/ui/refinamento-interface-navegacao.spec.tsx
 - Notas: aplicar `aria-current="page"` à aba ativa, preservando `fontWeight: "bold"`, e usar `borderBottom` com `COLOR_PRIMARY` como indicador visual. Nenhuma alteração funcional de navegação.
