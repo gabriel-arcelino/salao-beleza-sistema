@@ -2,6 +2,7 @@ import { useState } from "react";
 import { getRelatorioCaixa } from "../lib/api/relatorios";
 import type { RelatorioCaixa } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { Button } from "../ui/components/Button";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
@@ -14,8 +15,8 @@ export function RelatorioCaixaPage() {
   const [erro, setErro] = useState<string | null>(null);
   const [carregando, setCarregando] = useState(false);
 
-  async function handleFiltrar(e: React.FormEvent) {
-    e.preventDefault();
+  // Separada do submit para que a tela de erro possa reexecutar a busca (AC-042).
+  async function buscar() {
     setErro(null);
     setConsultaRealizada(false);
     setCarregando(true);
@@ -32,13 +33,18 @@ export function RelatorioCaixaPage() {
     }
   }
 
+  async function handleFiltrar(e: React.FormEvent) {
+    e.preventDefault();
+    await buscar();
+  }
+
   return (
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>
         Relatório: Fechamento de Caixa
       </h2>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      {erro && <ErrorMessage message={erro} onRetry={buscar} />}
       {carregando && <p>Carregando...</p>}
 
       <form

@@ -305,10 +305,19 @@ mutação — com o `<h1>` tokenizado de novo, o guarda falha com `expected '1.5
 
 ### Achados abertos (nenhum bloqueia a feature)
 
-1. **Corrida no login (pré-existente).** A primeira busca após o login às vezes sai antes
-   do token de sessão: `HTTP 401 :: JWT issued at future`. O Dashboard fica com erro e
-   "Carregando..." travado até navegar para outra aba e voltar. **Intermitente** — ocorreu
-   numa execução e não nas seguintes. Não introduzido por esta feature, sem AC que o cubra.
+1. **Falha de carga que deixava a tela morta — impacto RESOLVIDO pela feature
+   `recuperacao-carga`.** A primeira busca após o login às vezes falhava com
+   `HTTP 401 :: JWT issued at future`, e o Dashboard ficava com erro e "Carregando..."
+   travado até navegar para outra aba e voltar. **Intermitente:** ocorreu em 2 das execuções
+   de captura e não reproduziu em 11 execuções de controle.
+   - **Causa do `401`: NÃO determinada.** Refutado por medição: token ausente na primeira
+     requisição (sempre presente) e desvio de relógio host/Postgres/auth (0 s). Registrado
+     como Q-015, com o que falta para fechá-la.
+   - **Impacto resolvido.** A feature `recuperacao-carga` deu a ação "Tentar novamente" a
+     todas as páginas que carregam dados. Na validação visual dessa feature o `401`
+     ocorreu de novo — e a recuperação funcionou de imediato. Evidência:
+     `docs/screenshots/validacao-visual/13-carga-com-erro.png` e
+     `14-carga-recuperada.png`. A causa segue desconhecida, mas deixou de ser terminal.
 2. **Abas da navegação não usam o componente `Button`.** Medido: `font-family: Arial`,
    `13.33px`, contra `sans-serif` 16px no resto da app. São `<button>` nativos e destoam.
    AC-035/AC-036 listam outras ações, não as abas.
@@ -341,6 +350,6 @@ mutação — com o `<h1>` tokenizado de novo, o guarda falha com `expected '1.5
 5. **`relatorios-gerenciais` tem 11/11 provados e status `rascunho`**, e
    `legado-baseline` tem 1/1 com status `em-implementacao`. Se a intenção for fechar tudo,
    falta decisão de produto, não trabalho de engenharia.
-6. **A corrida do login (§12.1) é um defeito funcional real e continua aberto.** É
-   intermitente e pré-existente, mas um usuário pode ver erro e "Carregando..." travado na
-   primeira tela. Nenhum AC cobre sessão/token, então corrigi-lo exigiria feature própria.
+6. **A causa do `401` (§12.1) continua desconhecida.** O impacto foi resolvido pela feature
+   `recuperacao-carga`, mas a origem do erro não foi estabelecida. Se reaparecer em uso
+   real, o caminho é o log do GoTrue no instante da falha (Q-015).

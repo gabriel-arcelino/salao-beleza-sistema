@@ -4,6 +4,7 @@ import { listServicos, createServico, desativarServico } from "../lib/api/servic
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -16,6 +17,7 @@ export function ServicosPage() {
   const [erro, setErro] = useState<string | null>(null);
 
   async function carregar() {
+    setErro(null);
     try {
       setServicos(await listServicos());
     } catch (e) {
@@ -94,7 +96,7 @@ export function ServicosPage() {
 
       <section aria-label="Lista de serviços" style={{ marginTop: SPACING_LG }}>
         <Card>
-          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+          {erro && <ErrorMessage message={erro} onRetry={carregar} />}
 
           {!erro && servicos.length === 0 ? (
             <EmptyState message="Nenhum serviço cadastrado." />

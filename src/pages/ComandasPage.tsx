@@ -14,6 +14,7 @@ import { listProdutos } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { SPACING_MD, SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -38,6 +39,7 @@ export function ComandasPage() {
   const [pagamentoValor, setPagamentoValor] = useState("");
 
   async function carregar() {
+    setErro(null);
     setCarregando(true);
     try {
       const [c, p, s, prod] = await Promise.all([
@@ -163,7 +165,7 @@ export function ComandasPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Comandas</h2>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      {erro && <ErrorMessage message={erro} onRetry={carregar} />}
       {carregando && <p>Carregando...</p>}
 
       {!comandaSelecionada ? (

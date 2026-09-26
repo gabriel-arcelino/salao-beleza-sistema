@@ -1368,6 +1368,15 @@
       "primeiraVez": "2026-09-26T03:00:31.314Z",
       "ultimaVez": "2026-09-26T03:00:31.314Z",
       "gitRev": "62fc9c4"
+    },
+    "Q_ABERTA::recuperacao-carga::Q-015": {
+      "codigo": "Q_ABERTA",
+      "feature": "recuperacao-carga",
+      "ref": "Q-015",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-26T03:19:14.888Z",
+      "ultimaVez": "2026-09-26T03:19:14.891Z",
+      "gitRev": "3f32379"
     }
   }
 }

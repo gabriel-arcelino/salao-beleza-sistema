@@ -3,6 +3,7 @@ import type { Produto } from "../types";
 import { getProdutosEstoqueNegativo } from "../lib/api/estoque";
 import { supabase } from "../lib/supabaseClient";
 import { Button } from "../ui/components/Button";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { EmptyState } from "../ui/components/EmptyState";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
@@ -13,6 +14,7 @@ export function RelatorioEstoquePage() {
   const [consultaConcluida, setConsultaConcluida] = useState(false);
 
   async function carregar() {
+    setErro(null);
     try {
       setProdutos(await getProdutosEstoqueNegativo());
       setConsultaConcluida(true);
@@ -33,7 +35,7 @@ export function RelatorioEstoquePage() {
       </h2>
 
       <section aria-label="Produtos com estoque negativo" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        {erro && <ErrorMessage message={erro} onRetry={carregar} />}
 
         {!erro && consultaConcluida && produtos.length === 0 ? (
           <EmptyState message="Nenhum produto com estoque negativo. Todos os saldos estão positivos." />

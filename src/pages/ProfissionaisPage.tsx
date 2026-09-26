@@ -8,6 +8,7 @@ import {
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -20,6 +21,7 @@ export function ProfissionaisPage() {
   const [carregando, setCarregando] = useState(true);
 
   async function carregar() {
+    setErro(null);
     setCarregando(true);
     try {
       setProfissionais(await listProfissionais());
@@ -98,7 +100,7 @@ export function ProfissionaisPage() {
 
       <section aria-label="Lista de profissionais" style={{ marginTop: SPACING_LG }}>
         <Card>
-          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+          {erro && <ErrorMessage message={erro} onRetry={carregar} />}
           {carregando && <p>Carregando...</p>}
 
           {!carregando && !erro && profissionais.length === 0 ? (

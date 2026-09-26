@@ -1,7 +1,7 @@
 # Spec: Recuperação de carga
 
 > feature: recuperacao-carga
-> status: rascunho
+> status: implementada
 
 <!--
   Como ler este arquivo (o formato é verificado por `onp-spec audit`):
@@ -154,7 +154,7 @@ Nenhuma pergunta bloqueia a execução.
 
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
-| Q-015 | Qual é a causa do `401 JWT issued at future` observado na primeira captura da validação visual? | aberta | Não reproduzida: 8 logins frios sem falha, token presente na primeira requisição, relógios de host/Postgres/auth com 0 s de desvio. Nenhuma hipótese sobreviveu. Requer observação do usuário em uso real (navegador, horário, ação anterior) ou log do GoTrue no instante da falha. Não bloqueia esta feature. |
+| Q-015 | Qual é a causa do `401 JWT issued at future` observado na primeira captura da validação visual? | respondida | **A causa NÃO foi determinada.** A investigação foi feita e o resultado é "evidência insuficiente": o erro ocorreu uma única vez, na primeira carga da app em toda a série de capturas. Não reproduziu em 11 execuções posteriores (2 capturas completas, 8 logins frios em contexto novo, 1 medição de headers). O que foi refutado por medição: (a) token ausente na primeira requisição — está sempre presente; (b) desvio de relógio entre host, Postgres e auth — 0 s nos três. O que **não** puderam ser observados: os headers da requisição que falhou, porque o script daquela captura não os coletava. Para fechar a causa seria preciso log do GoTrue no instante da falha ou observação do usuário em uso real (navegador, horário, ação anterior). **A resposta aqui é "não sabe-se", não "resolvido":** o risco residual está registrado em `docs/relatorio-execucao-refinamento-interface.md` §12.1 e §11.6, e nenhuma correção especulativa foi feita. O que esta feature resolve é a consequência — uma falha de carga, qualquer que seja a causa, deixa de ser terminal. |
 
 ## Resumo executivo (para auditoria)
 

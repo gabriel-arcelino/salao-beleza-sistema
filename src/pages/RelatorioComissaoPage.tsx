@@ -3,6 +3,7 @@ import { getRelatorioComissao } from "../lib/api/relatorios";
 import { listProfissionais } from "../lib/api/profissionais";
 import type { RelatorioComissao, Profissional } from "../types";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { Button } from "../ui/components/Button";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
@@ -22,8 +23,8 @@ export function RelatorioComissaoPage() {
       .catch((e) => setErro((e as Error).message));
   }, []);
 
-  async function handleFiltrar(e: React.FormEvent) {
-    e.preventDefault();
+  // Separada do submit para que a tela de erro possa reexecutar a busca (AC-042).
+  async function buscar() {
     if (!profissionalId || !competencia) {
       setConsultaRealizada(false);
       setErro("Selecione um profissional e informe a competência.");
@@ -45,6 +46,11 @@ export function RelatorioComissaoPage() {
     }
   }
 
+  async function handleFiltrar(e: React.FormEvent) {
+    e.preventDefault();
+    await buscar();
+  }
+
   const relatorio = resultados[0] || null;
 
   return (
@@ -53,7 +59,7 @@ export function RelatorioComissaoPage() {
         Relatório: Comissão por Profissional
       </h2>
 
-      {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+      {erro && <ErrorMessage message={erro} onRetry={buscar} />}
       {carregando && <p>Carregando...</p>}
 
       <form

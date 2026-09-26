@@ -4,6 +4,7 @@ import { listConfigComissoes, createConfigComissao } from "../lib/api/config_com
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { Button } from "../ui/components/Button";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
@@ -32,6 +33,7 @@ export function ConfigComissoesPage() {
     useState<ConfigComissao["timing_repasse"]>("IMEDIATO");
 
   async function carregar() {
+    setErro(null);
     try {
       const [c, p, s] = await Promise.all([listConfigComissoes(), listProfissionais(), listServicos()]);
       setConfigs(c);
@@ -202,7 +204,7 @@ export function ConfigComissoesPage() {
       </form>
 
       <section aria-label="Lista de configurações de comissão" style={{ marginTop: SPACING_LG }}>
-        {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+        {erro && <ErrorMessage message={erro} onRetry={carregar} />}
 
         {!erro && configs.length === 0 ? (
           <EmptyState message="Nenhuma configuração de comissão cadastrada." />

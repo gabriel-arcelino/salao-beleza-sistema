@@ -4,6 +4,7 @@ import { listClientes, createCliente, desativarCliente } from "../lib/api/client
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
+import { ErrorMessage } from "../ui/components/ErrorMessage";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -15,6 +16,7 @@ export function ClientesPage() {
   const [erro, setErro] = useState<string | null>(null);
 
   async function carregar() {
+    setErro(null);
     try {
       setClientes(await listClientes());
     } catch (e) {
@@ -76,7 +78,7 @@ export function ClientesPage() {
 
       <section aria-label="Lista de clientes" style={{ marginTop: SPACING_LG }}>
         <Card>
-          {erro && <p style={{ color: "crimson" }}>{erro}</p>}
+          {erro && <ErrorMessage message={erro} onRetry={carregar} />}
 
           {!erro && clientes.length === 0 ? (
             <EmptyState message="Nenhum cliente cadastrado." />
