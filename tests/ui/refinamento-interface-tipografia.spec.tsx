@@ -367,28 +367,25 @@ describe("Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038", ()
     15000
   );
 
-  // O App não entra na lista PAGINAS: ele renderiza a página dentro de um div raiz,
-  // então os grupos da página não são filhos diretos dele e a contagem de AC-038 zeraria.
-  it("aplica os tokens no título do shell em App.tsx @spec:AC-037", async () => {
-    const fonte = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf-8");
-
-    expect(fonte).toMatch(
-      /import\s*\{[^}]*FONT_SIZE_HEADING[^}]*\}\s*from\s*"\.\/ui\/tokens\/typography"/
-    );
-
-    const aberturaTitulo = fonte.match(/<h1\b[^>]*>/)?.[0] ?? "";
-    expect(aberturaTitulo, "título do shell").toContain("fontFamily: FONT_HEADING");
-    expect(aberturaTitulo, "título do shell").toContain("fontSize: FONT_SIZE_HEADING");
-    expect(aberturaTitulo, "título do shell").not.toContain("1.5rem");
-
+  // Guarda de hierarquia, nascida da validação visual: o título do sistema (h1) e o
+  // título da página (h2) NÃO podem acabar com o mesmo tamanho. Sem esta guarda,
+  // aplicar FONT_SIZE_HEADING aos dois deixa a hierarquia plana e nenhum AC acusa —
+  // foi exatamente o que aconteceu quando o h1 foi tokenizado.
+  //
+  // O jsdom não resolve o tamanho default do h1 (2em), então o contrato verificável
+  // aqui é: o shell não impõe tamanho inline, e a página usa o token. A comparação em
+  // pixels foi conferida no navegador (32px no h1 contra 24px no h2).
+  it("não impõe o tamanho do título da página no título do sistema", async () => {
     render(<App />);
-    const titulo = await screen.findByRole("heading", {
+
+    const tituloSistema = await screen.findByRole("heading", {
       level: 1,
       name: "Sistema de Gestão — Salão de Beleza",
     });
+    const tituloPagina = await screen.findByRole("heading", { level: 2 });
 
-    expect(titulo.style.fontFamily).toBe(FONT_HEADING);
-    expect(titulo.style.fontSize).toBe(FONT_SIZE_HEADING);
+    expect(tituloSistema.style.fontSize, "shell não deve fixar tamanho").toBe("");
+    expect(tituloPagina.style.fontSize, "página usa o token").toBe(FONT_SIZE_HEADING);
   }, 15000);
 
   // Guarda do verificador: se o helper passar a aceitar `gap`, este teste quebra.
