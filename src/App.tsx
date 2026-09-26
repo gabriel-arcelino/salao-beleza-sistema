@@ -12,6 +12,7 @@ import { RelatorioComissaoPage } from "./pages/RelatorioComissaoPage";
 import { LoginPage } from "./pages/LoginPage";
 import { supabase } from "./lib/supabaseClient";
 import { COLOR_PRIMARY } from "./ui/tokens/colors";
+import { FONT_HEADING, FONT_SIZE_HEADING } from "./ui/tokens/typography";
 
 // Ordem das abas: Fase 1 (cadastros) → Fase 2 (comandas/financeiro) → Fase 3 (dashboard/estoque)
 const ABAS = [
@@ -46,7 +47,9 @@ function App() {
 
   return (
     <div style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1>Sistema de Gestão — Salão de Beleza</h1>
+      <h1 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>
+        Sistema de Gestão — Salão de Beleza
+      </h1>
       <nav style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
         {ABAS.map((a) => (
           <button

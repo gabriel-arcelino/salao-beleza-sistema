@@ -1,7 +1,7 @@
 # Spec: Refinamento de interface
 
 > feature: refinamento-interface
-> status: rascunho
+> status: implementada
 
 <!--
   Como ler este arquivo (o formato é verificado por `onp-spec audit`):

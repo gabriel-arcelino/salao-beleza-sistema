@@ -44,8 +44,10 @@
 - Arquivos: src/App.tsx, tests/ui/refinamento-interface-navegacao.spec.tsx
 - Notas: aplicar `aria-current="page"` à aba ativa, preservando `fontWeight: "bold"`, e usar `borderBottom` com `COLOR_PRIMARY` como indicador visual. Nenhuma alteração funcional de navegação.
 
-## T-024 — Verificar AC-040 e executar a verificação final de todos os critérios de aceite [pendente]
-- Refs: US-018, AC-031, AC-032, AC-033, AC-034, AC-035, AC-036, AC-037, AC-038, AC-039, AC-040, AC-041
+## T-024 — Verificar AC-040 e executar a verificação final de todos os critérios de aceite [concluida]
+- Refs: US-016, US-018, AC-031, AC-032, AC-033, AC-034, AC-035, AC-036, AC-037, AC-038, AC-039, AC-040, AC-041
 - Evidência gerada: .spec/verification/refinamento-interface.json
+- Arquivos: src/App.tsx, tests/ui/refinamento-interface-tipografia.spec.tsx
 - Testes: tests/ui/refinamento-interface-acessibilidade.spec.tsx
 - Notas: executar somente após T-019, T-020, T-021, T-022 e T-023. Criar o teste de acessibilidade somente após as tarefas de implementação e antes da verificação final. Esse teste deve comprovar AC-040 com a tag `@spec:AC-040` e verificar: Loading com `role="status"` e `aria-live="polite"`; EmptyState com `role="region"` e `aria-label`; ErrorMessage com `role="alert"` e `aria-live="assertive"`. Não alterar `EmptyState`, `Loading` ou `ErrorMessage`. Consolidar a evidência de AC-031 a AC-041 no arquivo indicado. Um teste pode comprovar vários AC quando seu título contiver todas as tags `@spec:AC-xxx` correspondentes e evidenciar cada requisito; não criar testes artificiais apenas para rastreabilidade. Não alterar regras de negócio, banco, RPCs, RLS ou autenticação.
+- Notas: o `h1` do shell em `src/App.tsx` é título principal e passa a usar `FONT_HEADING` e `FONT_SIZE_HEADING` (AC-037), por decisão do dono do produto registrada após a T-022. A prova desse título fica em `tests/ui/refinamento-interface-tipografia.spec.tsx`, em teste próprio: o `App` não pode entrar na lista `PAGINAS` dessa spec, porque renderiza a página dentro de um `div` raiz e os grupos da página não são filhos diretos dele, o que zeraria a contagem de grupos exigida por AC-038. `App.tsx` é dono da T-023 e este título não é escopo de AC-039 (navegação).

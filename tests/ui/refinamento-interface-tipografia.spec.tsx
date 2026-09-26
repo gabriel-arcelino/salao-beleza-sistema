@@ -16,9 +16,13 @@ import { ComandasPage } from "../../src/pages/ComandasPage";
 import { RelatorioEstoquePage } from "../../src/pages/RelatorioEstoquePage";
 import { RelatorioCaixaPage } from "../../src/pages/RelatorioCaixaPage";
 import { RelatorioComissaoPage } from "../../src/pages/RelatorioComissaoPage";
+import App from "../../src/App";
 
 const mocks = vi.hoisted(() => ({
   supabaseFrom: vi.fn(),
+  getSession: vi.fn(),
+  onAuthStateChange: vi.fn(),
+  unsubscribe: vi.fn(),
   listProfissionais: vi.fn(),
   listClientes: vi.fn(),
   listServicos: vi.fn(),
@@ -34,7 +38,11 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("../../src/lib/supabaseClient", () => ({
   supabase: {
-    auth: { signInWithPassword: vi.fn() },
+    auth: {
+      signInWithPassword: vi.fn(),
+      getSession: mocks.getSession,
+      onAuthStateChange: mocks.onAuthStateChange,
+    },
     from: mocks.supabaseFrom,
   },
 }));
@@ -272,6 +280,10 @@ beforeEach(() => {
   mocks.getRelatorioComissao.mockResolvedValue([]);
   mocks.getProdutosEstoqueNegativo.mockResolvedValue([produto]);
   mocks.calcularCMV.mockResolvedValue(1234.56);
+  mocks.getSession.mockResolvedValue({ data: { session: { user: { id: "u-1" } } } });
+  mocks.onAuthStateChange.mockReturnValue({
+    data: { subscription: { unsubscribe: mocks.unsubscribe } },
+  });
 });
 
 afterEach(() => {
@@ -354,6 +366,30 @@ describe("Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038", ()
     },
     15000
   );
+
+  // O App não entra na lista PAGINAS: ele renderiza a página dentro de um div raiz,
+  // então os grupos da página não são filhos diretos dele e a contagem de AC-038 zeraria.
+  it("aplica os tokens no título do shell em App.tsx @spec:AC-037", async () => {
+    const fonte = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf-8");
+
+    expect(fonte).toMatch(
+      /import\s*\{[^}]*FONT_SIZE_HEADING[^}]*\}\s*from\s*"\.\/ui\/tokens\/typography"/
+    );
+
+    const aberturaTitulo = fonte.match(/<h1\b[^>]*>/)?.[0] ?? "";
+    expect(aberturaTitulo, "título do shell").toContain("fontFamily: FONT_HEADING");
+    expect(aberturaTitulo, "título do shell").toContain("fontSize: FONT_SIZE_HEADING");
+    expect(aberturaTitulo, "título do shell").not.toContain("1.5rem");
+
+    render(<App />);
+    const titulo = await screen.findByRole("heading", {
+      level: 1,
+      name: "Sistema de Gestão — Salão de Beleza",
+    });
+
+    expect(titulo.style.fontFamily).toBe(FONT_HEADING);
+    expect(titulo.style.fontSize).toBe(FONT_SIZE_HEADING);
+  }, 15000);
 
   // Guarda do verificador: se o helper passar a aceitar `gap`, este teste quebra.
   // Não é rastreabilidade; é a prova de que AC-038 não pode ser satisfeita por `gap`.
