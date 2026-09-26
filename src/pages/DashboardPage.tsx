@@ -14,19 +14,22 @@ export function DashboardPage() {
   const [erro, setErro] = useState<string | null>(null);
   const competenciaAtual = new Date().toISOString().slice(0, 7);
 
-  useEffect(() => {
-    async function carregar() {
-      try {
-        const [neg, cmvVal] = await Promise.all([
-          getProdutosEstoqueNegativo(),
-          calcularCMV(competenciaAtual),
-        ]);
-        setEstoqueNegativo(neg);
-        setCmv(cmvVal);
-      } catch (e) {
-        setErro((e as Error).message);
-      }
+  // Fora do useEffect para que a tela de erro possa reexecutar a carga (AC-042).
+  async function carregar() {
+    setErro(null);
+    try {
+      const [neg, cmvVal] = await Promise.all([
+        getProdutosEstoqueNegativo(),
+        calcularCMV(competenciaAtual),
+      ]);
+      setEstoqueNegativo(neg);
+      setCmv(cmvVal);
+    } catch (e) {
+      setErro((e as Error).message);
     }
+  }
+
+  useEffect(() => {
     carregar();
   }, [competenciaAtual]);
 
@@ -34,7 +37,7 @@ export function DashboardPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Dashboard</h2>
 
-      {erro && <ErrorMessage message={erro} />}
+      {erro && <ErrorMessage message={erro} onRetry={carregar} />}
 
       <div
         role="group"

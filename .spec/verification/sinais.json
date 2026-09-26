@@ -1305,6 +1305,69 @@
       "primeiraVez": "2026-09-25T20:48:48.060Z",
       "ultimaVez": "2026-09-25T20:48:48.060Z",
       "gitRev": "0fc7cfc"
+    },
+    "ARQUIVO_INEXISTENTE::recuperacao-carga::T-001": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "recuperacao-carga",
+      "ref": "T-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-26T02:59:43.689Z",
+      "ultimaVez": "2026-09-26T02:59:43.707Z",
+      "gitRev": "62fc9c4"
+    },
+    "AC_SEM_TESTE::recuperacao-carga::AC-042": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "recuperacao-carga",
+      "ref": "AC-042",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-26T02:59:43.707Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
+    },
+    "AC_SEM_TESTE::recuperacao-carga::AC-043": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "recuperacao-carga",
+      "ref": "AC-043",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-26T02:59:43.707Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
+    },
+    "AC_SEM_TESTE::recuperacao-carga::AC-044": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "recuperacao-carga",
+      "ref": "AC-044",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-26T02:59:43.707Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
+    },
+    "AC_SEM_TESTE::recuperacao-carga::AC-045": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "recuperacao-carga",
+      "ref": "AC-045",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-26T02:59:43.708Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
+    },
+    "ARQUIVO_INEXISTENTE::recuperacao-carga::T-025": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "recuperacao-carga",
+      "ref": "T-025",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-26T03:00:31.312Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
+    },
+    "ARQUIVO_INEXISTENTE::recuperacao-carga::T-026": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "recuperacao-carga",
+      "ref": "T-026",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-26T03:00:31.314Z",
+      "ultimaVez": "2026-09-26T03:00:31.314Z",
+      "gitRev": "62fc9c4"
     }
   }
 }
