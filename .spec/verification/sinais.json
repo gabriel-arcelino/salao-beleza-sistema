@@ -1157,10 +1157,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refinamento-interface",
       "ref": "T-023",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-26T00:06:06.547Z",
-      "gitRev": "3d2e96e"
+      "ultimaVez": "2026-09-26T00:39:19.146Z",
+      "gitRev": "1b4d57f"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-031": {
       "codigo": "AC_SEM_PROVA",
@@ -1238,19 +1238,19 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "refinamento-interface",
       "ref": "AC-039",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-26T00:06:06.587Z",
-      "gitRev": "3d2e96e"
+      "ultimaVez": "2026-09-26T00:39:19.160Z",
+      "gitRev": "1b4d57f"
     },
     "AC_SEM_TESTE::refinamento-interface::AC-040": {
       "codigo": "AC_SEM_TESTE",
       "feature": "refinamento-interface",
       "ref": "AC-040",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-25T12:10:23.265Z",
-      "ultimaVez": "2026-09-26T00:06:06.587Z",
-      "gitRev": "3d2e96e"
+      "ultimaVez": "2026-09-26T00:39:19.160Z",
+      "gitRev": "1b4d57f"
     },
     "AC_SEM_PROVA::refinamento-interface::AC-041": {
       "codigo": "AC_SEM_PROVA",

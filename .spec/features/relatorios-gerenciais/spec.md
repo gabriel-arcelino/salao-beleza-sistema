@@ -129,7 +129,7 @@ Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, 
 | ID | Suposição | Status | Resolução |
 |---|---|---|---|
 | ASM-001 | `saldo_inicial` é o total de entradas menos o total de saídas até o dia antes do início do intervalo (conforme resposta de Q-001). | confirmada | Q-001 |
-| ASM-002 | Até decisão em contrário, as APIs dos relatórios mantêm a prática atual de retornar todos os registros disponíveis, sem paginação própria. | aberta | — |
+| ASM-002 | Até decisão em contrário, as APIs dos relatórios mantêm a prática atual de retornar todos os registros disponíveis, sem paginação própria. | confirmada | Confirmado por inspeção do código: a premissa não se aplica às RPCs desta feature. `fn_relatorio_caixa` (`supabase/migrations/0012_relatorio_caixa.sql`) e `fn_relatorio_comissao` (`supabase/migrations/0013_relatorio_comissao.sql`) retornam **exatamente uma linha agregada** por construção — a de caixa sai de um único `select ... from agg`, e a de comissão de um cruzamento de quatro CTEs de uma linha cada, com os itens em `jsonb`. Não há lista a paginar, independentemente do volume. A única API de relatório que devolve lista sem limite é `getProdutosEstoqueNegativo` (`produtos` com `estoque_atual < 0`), cujo volume é limitado pelo catálogo de produtos e está fora do escopo desta feature; se o volume real exigir teto, isso será feature nova com critério de aceite próprio, sem alterar estas RPCs. |
 | ASM-003 | total_comissao representa a soma dos valores de comissão dos itens, incluindo ajustes e adiantamentos (conforme resposta de Q-002). | confirmada | Q-002 |
 
 ## Perguntas em aberto
