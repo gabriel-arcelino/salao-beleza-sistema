@@ -1,9 +1,16 @@
-# Relatório de execução — feature `refinamento-interface`
+# Relatório de execução — sessão ONP de 2026-09-25/26
 
 > Documento de handoff para avaliação independente.
-> Branch: `experimento/onp-fase-4` · HEAD no encerramento: `e5c31fd` · data: 2026-09-25
-> Escopo desta sessão: T-022, T-023 e T-024 (implementação + fechamento da feature),
-> mais a regularização de status de T-019/T-020/T-021 e da suposição ASM-002.
+> Branch: `experimento/onp-fase-4` · HEAD ao escrever: `562c806` · data: 2026-09-26
+>
+> **Este documento cobre DUAS features, apesar do nome do arquivo.**
+> 1. `refinamento-interface` — T-022, T-023, T-024 (implementação e fechamento), mais a
+>    regularização de status de T-019/T-020/T-021 e da suposição ASM-002.
+> 2. `recuperacao-carga` — T-025, T-026, criada **depois** deste documento existir, a
+>    partir do achado da validação visual. Ver §13.
+>
+> Se você só ler uma seção, não pare na §11: a feature de resiliência muda o status de um
+> risco que ela descreve, e altera um componente que lá é declarado intocado.
 
 ---
 
@@ -15,15 +22,23 @@ O gate é do projeto, não desta sessão. Para reproduzir, a partir da raiz:
 node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci
 ```
 
-Saída no encerramento:
+Estado do projeto ao escrever:
 
 ```
-resumo: 4 feature(s) · 13 história(s) de usuário · 31 critério(s) de aceite · 31/31 com teste · 31/31 provados
+resumo: 5 feature(s) · 14 história(s) de usuário · 35 critério(s) de aceite · 35/35 com teste · 35/35 provados
 ✔ auditoria limpa (0 aviso(s))
 EXIT=0
 ```
 
-Prova da feature (`.spec/verification/refinamento-interface.json`):
+| feature | status | ACs provados |
+|---|---|---|
+| `fundacao-ui` | implementada | 8/8 |
+| `legado-baseline` | em-implementacao | 1/1 |
+| `recuperacao-carga` | implementada | 4/4 |
+| `refinamento-interface` | implementada | 11/11 |
+| `relatorios-gerenciais` | rascunho | 11/11 |
+
+Prova de `refinamento-interface` (`.spec/verification/refinamento-interface.json`):
 `11/11 critérios PASS · 81 testes lidos · exitCode 0 · gitRev 1bfc9e1`.
 
 | AC | Componente | Prova (arquivo de teste) |
@@ -73,14 +88,18 @@ Prova da feature (`.spec/verification/refinamento-interface.json`):
      consulta de estoque falhando, e a aba Clientes com lista vazia. Este é o teste que
      sustenta o AC-040, cuja exigência é que *as mudanças visuais não removam a
      semântica* — algo só provável nas páginas reais, nunca no componente isolado.
-- `EmptyState`, `Loading` e `ErrorMessage` **não foram alterados** (restrição da tarefa).
+- `EmptyState`, `Loading` e `ErrorMessage` **não foram alterados** por esta feature
+  (restrição da T-024).
+  > **Atualização posterior:** a feature `recuperacao-carga` (§13) alterou `ErrorMessage`
+  > ao adicionar a prop opcional `onRetry`. `EmptyState` e `Loading` continuam intocados.
+  > Avaliando `refinamento-interface` isoladamente, o cenário de então é o acima.
 - Status da feature: `rascunho` → `implementada`.
 
 > **Correção posterior à validação visual:** o `<h1>` do shell chegou a usar
 > `FONT_HEADING`/`FONT_SIZE_HEADING` nesta tarefa. A validação visual mediu o resultado e
 > mostrou que isso achatava a hierarquia (24px contra 24px). O título do shell voltou ao
 > tamanho padrão do navegador (32px) e uma guarda em
-> `tests/ui/refinamento-interface-tipografia.spec.tsx` impede a regressão. Ver §12.
+> `tests/ui/refinamento-interface-tipografia.spec.tsx` impede a regressão. Ver §11.
 
 ### Regularizações fora do escopo de implementação
 
@@ -101,6 +120,10 @@ Prova da feature (`.spec/verification/refinamento-interface.json`):
 | `894d55e` | confirmação de ASM-002 + registro da lição L-001 |
 | `1bfc9e1` | T-023: indicador da aba ativa + prova AC-039 |
 | `e5c31fd` | T-024: AC-040, `<h1>` do shell, verificação final |
+| `8d0ee34` | este relatório de handoff |
+| `62fc9c4` | restauração da hierarquia de títulos (achado da validação visual, ver §11) |
+| `3f32379` | T-025 `recuperacao-carga`: ação de tentar novamente no `ErrorMessage` |
+| `562c806` | T-026 `recuperacao-carga`: a ação nas 10 páginas restantes |
 
 ---
 
@@ -177,7 +200,7 @@ passe a aceitar `gap` no futuro sem que nada reclame.
 
 ## 8. O que **não** foi feito (e por quê)
 
-- **Validação visual humana — EXECUTADA** (ver §12). Encontrou um defeito real, já
+- **Validação visual humana — EXECUTADA** (ver §11). Encontrou um defeito real, já
   corrigido. Duas observaçõesCosméticas e um bug pré-existente continuam abertos.
 - **`npx supabase db reset` nunca foi executado nesta sessão.** As renovações de prova
   usaram `onp-spec verify` com `ONP_VERIFY_FEATURE`, sem o wrapper
@@ -210,11 +233,12 @@ para erro) — exatamente o que a lição descrevia. Aplicada, o `EXIT=0` veio e
 # 1. tipos
 npx tsc -b
 
-# 2. suíte completa (10 arquivos)
+# 2. suíte completa (11 arquivos)
 npx vitest run --config=vitest.config.ts
 
-# 3. prova da feature (grava .spec/verification/refinamento-interface.json)
+# 3. prova das features desta sessão
 node scripts/onp-feature-verify.cjs refinamento-interface
+node scripts/onp-feature-verify.cjs recuperacao-carga
 
 # 4. veredito — deve sair 0
 node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci
@@ -224,7 +248,7 @@ node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci
 > nas outras features. É a L-001 funcionando, não defeito: renove com
 > `$env:ONP_VERIFY_FEATURE="<feature>"; node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs verify <feature>`.
 
-### Checklist da validação visual humana (executada — ver §12)
+### Checklist da validação visual humana (executada — ver §11)
 
 Para subir o sistema localmente:
 
@@ -257,7 +281,7 @@ Baseline comparativo: as 11 telas da auditoria anterior estão em
 
 ---
 
-## 12. Validação visual humana — executada
+## 11. Validação visual humana — executada
 
 **Como.** Playwright dirigindo a app local em Chromium headless (1440×960), login com o
 usuário de teste, captura das 11 telas e medição dos estilos computados. Imagens em
@@ -329,10 +353,10 @@ mutação — com o `<h1>` tokenizado de novo, o guarda falha com `expected '1.5
 
 ---
 
-## 11. Riscos conhecidos para o avaliador
+## 12. Riscos conhecidos para o avaliador
 
 1. **A prova mecânica não cobre percepção visual — e já provou isso.** A validação visual
-   (§12) encontrou um defeito em que o audit estava limpo e todos os testes passavam. A
+   (§11) encontrou um defeito em que o audit estava limpo e todos os testes passavam. A
    spec separa os dois gates por um motivo concreto, não teórico. Ainda assim, "harmonia
    entre variantes" e "separação perceptível" são julgadas por olho humano e continuam
    sendo o judge's final.
@@ -350,6 +374,50 @@ mutação — com o `<h1>` tokenizado de novo, o guarda falha com `expected '1.5
 5. **`relatorios-gerenciais` tem 11/11 provados e status `rascunho`**, e
    `legado-baseline` tem 1/1 com status `em-implementacao`. Se a intenção for fechar tudo,
    falta decisão de produto, não trabalho de engenharia.
-6. **A causa do `401` (§12.1) continua desconhecida.** O impacto foi resolvido pela feature
+6. **A causa do `401` (§11.1) continua desconhecida.** O impacto foi resolvido pela feature
    `recuperacao-carga`, mas a origem do erro não foi estabelecida. Se reaparecer em uso
    real, o caminho é o log do GoTrue no instante da falha (Q-015).
+
+---
+
+## 13. Feature `recuperacao-carga` — T-025 e T-026
+
+Criada depois da redação original deste relatório, a partir do achado 1 da §11. Leia esta
+seção se você for avaliar o estado atual do repositório.
+
+**Problema com causa raiz identificada.** Toda página carregava dados uma única vez, no
+`useEffect` de montagem, sem nenhuma forma de pedir nova tentativa. O estado de erro era
+terminal: a tela só voltava a funcionar por uma montagem nova, ou seja, trocando de aba.
+
+**O que foi feito.** `ErrorMessage` ganhou a prop **opcional** `onRetry`; sem ela, o
+componente renderiza exatamente como antes (`role="alert"` e `aria-live="assertive"`
+preservados — `AC-045`). As 10 páginas restantes trocaram o `<p style={{color: "crimson"}}>`
+por `ErrorMessage` com `onRetry` passando a própria função de carga. Caso especial: nos
+relatórios de Caixa e Comissão a carga vem do submit do formulário, não da montagem, então
+`buscar()` foi separado de `handleFiltrar`. `LoginPage` ficou de fora: o erro dela é de
+autenticação, não de carga.
+
+**Defeito encontrado pela própria prova.** A primeira versão esquecia de limpar o erro no
+início da carga. O `AC-043` reprovou: sem `setErro(null)`, o alerta persistiria mesmo após
+uma nova tentativa bem-sucedida, tornando a ação inútil. Corrigido nas 11 páginas. É o mesmo
+padrão do `<h1>` achatado (§11): a letra do critério passa, o comportamento falha.
+
+**Prova.** `tests/ui/recuperacao-carga.spec.tsx`, 13 testes: 3 do mecanismo (incluindo a
+semântica com e sem `onRetry`) e 10 de cobertura — 8 com falha na carga de montagem, 2 com
+falha por submit. Mutação verificada: remover o `onRetry` de uma página derruba exatamente
+o teste dela e mantém as outras 9 verdes. Zero regressão nas 11 suítes.
+
+**Validação visual.** `docs/screenshots/validacao-visual/13-carga-com-erro.png` mostra o
+erro com a ação disponível; `14-carga-recuperada.png` mostra os dados após um clique. Na
+mesma execução o `401 JWT issued at future` ocorreu de novo — **a recuperação funcionou de
+imediato**. Terceira observação do erro: a causa segue desconhecida, mas deixou de ser
+terminal.
+
+**Uma nota sobre Q-015.** A pergunta foi marcada `respondida`, e o texto é explícito: *"A
+causa NÃO foi determinada"*. `respondida` ali significa que a investigação terminou com
+"evidência insuficiente", não que o erro foi resolvido. Quem ler o spec e encontrar
+`respondida` deve ler a resposta inteira antes de concluir que houve diagnóstico.
+
+**Escopo deliberadamente não incluído:** refetch automático ao recuperar o foco da aba,
+retry com backoff e a correção do `401` em si. As três foram decididas fora, e a última por
+não ser reproduzível.
