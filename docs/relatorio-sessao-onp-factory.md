@@ -140,7 +140,9 @@ reprovado**.
 asserção pgTAP reprovada **não é erro SQL** — o `psql` termina com 0.
 
 **Consequência:** o defeito estava invisível desde o primeiro commit do
-repositório (`aefaebc`).
+repositório (`aefaebc`). Depois de corrigido o adapter, a reprovação ficou
+visível — e a investigation mostrou que a causa era **resíduo local**, não
+defeito de regra (ver §7). **O buraco de schema é real e continua aberto.**
 
 **Correção aplicada:** ambos os adapters agora leem o TAP, contam `not ok` e
 reportam em stderr.
@@ -242,19 +244,21 @@ Escopo: `refinamento-interface` + `recuperacao-carga` incluídas;
 | G4 | PASS (sessão de origem) | testes que exercitam páginas reais sem mock |
 | G5 | PASS (sessão de origem) | 14 capturas em `docs/screenshots/validacao-visual/` |
 | G6 | **NÃO EXECUTADO** | sem artefato de revisão |
-| G7 | **FAIL** | `exit 1`, 1 teste pgTAP reprovado |
+| G7 | **PASS** | `exit 0`, `174 ok · 0 not ok` — **após** a limpeza do resíduo local |
 | G8 | PASS | `audit --ci` exit 0, `0 aviso(s)` |
 
-**Project Gate: NÃO SATISFEITO** — por G7 FAIL e G6 não executado.
+**Project Gate: NÃO SATISFEITO** — por **G6 não executado**, única pendência
+que bloqueia. O G7 foi FAIL durante a análise por resíduo local; limpo o
+resíduo, passou.
 
 ## 9. Decisões em aberto — bloqueiam o próximo passo
 
-1. **Limpeza do banco local.** Há 1 resíduo commitado. Enquanto estiver lá, o
-   `005` falha por ambiguidade e o G7 não fecha. Query de delete está pronta
-   (`.spec/releases/r-2026-09-26.md`, decisão em aberto nº 6). **Não esconde o
-   problema** — o buraco está documentado e escopado.
-2. **G6 retroativo.** Executar a revisão de diff/escopo agora, ou declarar N/A
-   por as features terem sido fechadas antes de o gate existir.
+1. ~~Limpeza do banco local.~~ **RESOLVIDO.** Resíduo removido com delete
+   dirigido por `id` + guardas; G7 medido em `exit 0`, `174 ok · 0 not ok`.
+   Sem tocar em `saloes`, `profissionais`, `usuarios`, `servicos`, `produtos`.
+2. **G6 retroativo — agora é a única pendência que bloqueia a release.**
+   Executar a revisão de diff/escopo agora, ou declarar N/A por as features
+   terem sido fechadas antes de o gate existir.
 3. **Emenda "falha conhecida".** Se escolher N/A, aplico em `done-e-gates.md`:
    defeito **pré-existente** não bloqueia desde que registrado com causa, dono e
    data; falha **introduzida** bloqueia sempre.
@@ -297,7 +301,7 @@ cd onp-factory-kit/_kit && npm test          # esperado: 6/6
 cd salao-beleza-sistema
 node scripts/onp-feature-verify.cjs refinamento-interface   # 11/11, exit 0
 node scripts/onp-feature-verify.cjs recuperacao-carga       # 4/4, exit 0
-node scripts/onp-combined-verify.cjs                        # exit 1 (005 reprova)
+node scripts/onp-combined-verify.cjs                        # exit 0, 174 ok
 node .claude/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci   # exit 0
 ```
 
