@@ -1,5 +1,40 @@
 # Relatório de handoff — consolidação do processo ONP Factory
 
+> ## ⚠️ DOCUMENTO HISTÓRICO — NÃO É FONTE DE ESTADO ATUAL
+>
+> Este arquivo é o **registro histórico da sessão de 2026-09-27**, preservado
+> como estava. **Não use nenhuma informação de estado da entrega contida aqui
+> para decidir.**
+>
+> A **fonte de estado atual da release `r-2026-09-26`** é
+> [`.spec/releases/r-2026-09-26.md`](../.spec/releases/r-2026-09-26.md).
+> A versão atual daquele artefato **supersede** todas as afirmações de estado
+> deste relatório.
+>
+> **Superadas na versão atual do release** — todas as afirmações abaixo foram
+> verdadeiras no momento em que foram escritas e **não** são mais:
+>
+> | Afirmação neste documento | Estado atual |
+> |---|---|
+> | §2, *"Nada foi commitado. Os dois repositórios têm alterações pendentes."* | Superado: o salão tem commits posteriores e working tree limpa |
+> | §2, tabela de HEAD, salão = `55277ff` | Superado: ver `git log` na branch `experimento/onp-fase-4` |
+> | §2, *"Pendentes no salão (5 itens, todos desta sessão)"* | Superado: o release foi commitado |
+> | §8, G6 = `NÃO EXECUTADO` | Superado: G6 **PASS** no nível de entrega e no nível de feature |
+> | §8, *"Project Gate: NÃO SATISFEITO"* | Superado: Project Gate **SATISFEITO** nas dez condições |
+> | §9, item 2, *"G6 retroativo — única pendência"* | Resolvido: executado em 2026-09-27 |
+> | §9, item 1, limpeza do banco local pendente | Resolvido: executada; G7 medido em `exit 0`, `174 ok · 0 not ok` |
+>
+> O release também acrescenta o que este relatório não anticipate: as condições
+> `build PASS` e `lint PASS` do Project Gate, executadas e registradas, os 11
+> achados da revisão de escopo, e a classificação de que a feature de integridade
+> de `config_comissoes` **ainda não possui SPEC**.
+>
+> **A norma `done-e-gates.md`, citada em §4 e §5 deste relatório, está no
+> repositório `gabriel-arcelino/onp-factory-kit`, não neste.** Verifique se a
+> referência resolve antes de citá-la.
+
+---
+
 > **Para:** próximo agente que vai continuar o trabalho.
 > **Data:** 2026-09-27 · **Escopo desta sessão:** da consolidação das decisões
 > de processo até agora.
