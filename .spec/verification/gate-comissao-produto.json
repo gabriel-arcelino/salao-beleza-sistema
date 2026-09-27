@@ -1,0 +1,17 @@
+{
+  "feature": "gate-comissao-produto",
+  "timestamp": "2026-09-27T19:21:13.103Z",
+  "gitRev": "6fbe65b",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 1,
+  "results": {
+    "AC-046": {
+      "status": "pass",
+      "testName": "Gate desligado zera comissao de PRODUTO mesmo com percentual 15 no produto @spec:AC-046",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
