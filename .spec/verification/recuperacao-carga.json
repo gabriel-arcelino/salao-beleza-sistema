@@ -1,7 +1,7 @@
 {
   "feature": "recuperacao-carga",
-  "timestamp": "2026-09-26T03:17:21.227Z",
-  "gitRev": "3f32379",
+  "timestamp": "2026-09-27T00:41:06.427Z",
+  "gitRev": "55277ff",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,22 +9,22 @@
   "results": {
     "AC-042": {
       "status": "pass",
-      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=1875.82ms {",
+      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=2097.24ms {",
       "method": "tap"
     },
     "AC-043": {
       "status": "pass",
-      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=1875.82ms {",
+      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=2097.24ms {",
       "method": "tap"
     },
     "AC-044": {
       "status": "pass",
-      "testName": "Recuperação de carga — cobertura @spec:AC-044 # time=1535.41ms {",
+      "testName": "Recuperação de carga — cobertura @spec:AC-044 # time=1821.16ms {",
       "method": "tap"
     },
     "AC-045": {
       "status": "pass",
-      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=1875.82ms {",
+      "testName": "Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045 # time=2097.24ms {",
       "method": "tap"
     }
   },

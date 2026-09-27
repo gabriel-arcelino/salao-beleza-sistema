@@ -30,6 +30,17 @@ const DB = process.env.PGDATABASE || 'postgres';
 const featureName = process.env.ONP_VERIFY_FEATURE || null;
 
 const TEST_DIR = path.join(ROOT, 'supabase', 'tests');
+// Asserção pgTAP reprovada NÃO é erro SQL: o psql termina com exit 0 e imprime
+// "not ok N" no TAP. Só o exit code não distingue "tudo passou" de "um teste
+// reprovou". Espelha a correção em
+// onp-factory-kit/_kit/adapters/node-vitest-supabase/pgtap-verify.cjs
+function reprovadosTap(out) {
+  return out
+    .split(/\r?\n/)
+    .filter((l) => /^\s*not\s+ok\s+\d+/.test(l))
+    .map((l) => l.trim());
+}
+
 let files = fs
   .readdirSync(TEST_DIR)
   .filter((f) => /^0\d{2}_.*\.sql$/.test(f))
@@ -121,6 +132,16 @@ for (const file of files) {
   if (out) process.stdout.write(out + '\n');
 
   if (proc.status !== 0) {
+    anyFailed = true;
+  }
+
+  const reprovados = reprovadosTap(out);
+  if (reprovados.length) {
+    const nome = file.split(/[\\/]/).pop();
+    console.error(
+      `onp-pgtap-verify: ${reprovados.length} teste(s) pgTAP reprovado(s) em ${nome}:`
+    );
+    for (const l of reprovados) console.error(`  ${l}`);
     anyFailed = true;
   }
 }

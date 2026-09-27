@@ -19,6 +19,36 @@
 - Não faça refatorações oportunistas.
 - Revise o diff antes de concluir.
 
+## Gates
+
+Norma completa (Task Done, Feature Done, Project Gate, estados PASS / FAIL /
+BLOCKED / N/A) no ONP Factory Kit: `docs/done-e-gates.md`. Resumo operacional:
+
+| Gate | Pergunta | Aplicação |
+|---|---|---|
+| **G0** Escopo da Entrega | O que exatamente estamos tentando fechar? | por entrega |
+| **G1** SPEC Review | A SPEC está correta e testável para implementar? | por feature, **antes do código** |
+| **G2** Test/Evidence Design | Sabemos como cada AC será provado? | por feature, antes do código |
+| **G3** Feature Verify | A implementação satisfaz mecanicamente os ACs? | por feature |
+| **G4** QA Funcional | Funciona em cenário real quando a automação não basta? | condicional |
+| **G5** QA Visual | A mudança perceptível produz o resultado esperado? | condicional |
+| **G6** Diff/Scope Review | O que foi alterado corresponde ao escopo? | feature e entrega |
+| **G7** Global Regression | Continua compatível com o resto do projeto? | por entrega |
+| **G8** Audit | O estado estrutural e de evidência está coerente? | por feature e entrega |
+
+Regras que evitam os atalhos mais comuns:
+
+- **Gate obrigatório não executado é BLOCKED, nunca PASS.** "Não consegui rodar o
+  audit" não é pronto. Desligar Docker/Supabase não converte gate em PASS.
+- **PASS não é Done.** PASS é estado da prova; Done é estado do trabalho.
+- **Escopo de entrega é explícito.** Toda entrega tem um artefato
+  `.spec/releases/<id>.md` listando features incluídas e não incluídas.
+- **`Refs:` entre features é dependência de evidência, não de status.** Se uma
+  task de A referencia AC de B, A exige prova PASS válida daquele AC — não
+  exige que B esteja Done.
+- **Ordem:** G0 → G1 → G2 → Tasks → Implementação → G3 → G4 → G5 → G6 → G8 →
+  Feature Done. Para entrega: features Done → G7 → G6 → G8 → Project Gate.
+
 ## Feature Verify vs Regressão Global
 
 Para verificar uma feature ONP neste projeto, use:
