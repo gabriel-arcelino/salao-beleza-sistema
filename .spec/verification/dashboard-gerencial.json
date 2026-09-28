@@ -1,0 +1,47 @@
+{
+  "feature": "dashboard-gerencial",
+  "timestamp": "2026-09-28T03:25:28.484Z",
+  "gitRev": "5f1a690",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 13,
+  "results": {
+    "AC-048": {
+      "status": "pass",
+      "testName": "Faturamento do dashboard e igual a total_vendas do relatorio de caixa na mesma competencia @spec:AC-048",
+      "method": "tap"
+    },
+    "AC-049": {
+      "status": "pass",
+      "testName": "Receita liquida e igual a total_entradas do caixa e menor que o faturamento com taxa @spec:AC-049",
+      "method": "tap"
+    },
+    "AC-050": {
+      "status": "pass",
+      "testName": "CMV do dashboard e igual ao de fn_calcular_cmv para a mesma competencia @spec:AC-050",
+      "method": "tap"
+    },
+    "AC-051": {
+      "status": "pass",
+      "testName": "Despesas do dashboard somam so a despesa e NAO incluem o total_pago do fechamento @spec:AC-051",
+      "method": "tap"
+    },
+    "AC-053": {
+      "status": "pass",
+      "testName": "Competencia sem pagamento, venda ou despesa e marcada como sem movimento @spec:AC-053",
+      "method": "tap"
+    },
+    "AC-056": {
+      "status": "pass",
+      "testName": "So despesa: tem_movimento verdadeiro e Faturamento zero apurado @spec:AC-056",
+      "method": "tap"
+    },
+    "AC-057": {
+      "status": "pass",
+      "testName": "So venda de estoque: tem_movimento verdadeiro, Faturamento zero apurado e CMV maior que zero @spec:AC-057",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

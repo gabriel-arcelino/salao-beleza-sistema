@@ -66,7 +66,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   direta com uma competência vazia devolve uma linha com os quatro numéricos e
   `tem_movimento = false`, **sem** exceção.
 
-## T-029 - Prova pgTAP das agregações da competência [pendente]
+## T-029 - Prova pgTAP das agregações da competência [concluida]
 
 - Refs: AC-048, AC-049, AC-050, AC-051, AC-053, AC-056, AC-057
 - Arquivos: supabase/tests/015_fn_dashboard_indicadores.sql
@@ -125,7 +125,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   campos numéricos mapeados para `number` e `tem_movimento` para `boolean`, com
   os nomes do contrato preservados; `npx tsc -b` passa.
 
-## T-031 - API de consulta dos indicadores [pendente]
+## T-031 - API de consulta dos indicadores [concluida]
 
 - Refs: US-021
 - Arquivos: src/lib/api/dashboard.ts
