@@ -20,9 +20,9 @@
 
 Foi implementado e depois removido um gate em `LoginPage` que confirmava `supabase.auth.getSession()` antes de chamar `onLogin`. A hipótese foi **descartada**: com o gate aplicado, o `PGRST303` voltou a ocorrer em execução autenticada real. `src/pages/LoginPage.tsx` está sem alteração; a entrega não tem mudança de runtime.
 
-## Causa raiz: defeito externo no PostgREST (confirmado)
+## Causa raiz: defeito externo no PostgREST (confirmado a montante; atribuição ao ambiente local por correspondência de fingerprint)
 
-Não há causa própria no projeto. A falha é um defeito documentado do PostgREST, corrigido a montante.
+Não há causa própria no projeto. A falha é um defeito documentado do PostgREST, corrigido a montante. O defeito upstream está confirmado pela issue e pelo changelog; que ele foi a causa **neste ambiente** é uma atribuição por correspondência de fingerprint, não uma medição local — ver a seção de limites.
 
 **Evidência externa (fontes primárias):**
 
@@ -50,6 +50,8 @@ Ressalva: o mantenedor foi cauteloso — *"I'm not even sure this is a bug in Po
 ## Mudança de infraestrutura aplicada
 
 Nenhum arquivo de runtime, migration, RPC ou contrato foi alterado. A mudança foi exclusivamente no stack local.
+
+**Esta correção não é garantida pelo repositório.** Ela existe apenas nesta máquina: o CLI está instalado globalmente e as imagens estão no Docker local. Nenhum arquivo versionado executa ou fixa a mudança — `AGENTS.md` apenas declara o requisito. Um clone novo, ou uma máquina com CLI anterior a 2.118.0, reverte o PostgREST para 16.1 silenciosamente, sem erro e sem aviso, e o defeito volta.
 
 | Item | Antes | Depois |
 |---|---|---|
@@ -86,9 +88,36 @@ Na fase de ociosidade não houve requisição autenticada ao PostgREST durante o
 
 Nas execuções limpas: sem `JWT issued at future`, sem estado de carregamento preso, sem necessidade de retry, `scrollWidth` igual a `clientWidth` (390) e os quatro indicadores (`Faturamento`, `Receita líquida`, `CMV`, `Despesas`) mais `Estoque` legíveis.
 
+## Comparação A/B entre versões do PostgREST
+
+Duas instâncias do PostgREST foram executadas **lado a lado contra o mesmo banco**, com o mesmo token e a mesma requisição, alternando a ordem a cada rodada para que nenhuma versão fosse sempre a primeira a acordar. Cada rodada era precedida por 3 minutos sem nenhuma requisição.
+
+| Versão | Requisições | HTTP ≠ 200 | `PGRST303` | Latência mediana |
+|---|---|---|---|---|
+| PostgREST 16.1 | 12 | 0 | 0 | 78 ms |
+| PostgREST 16.3 | 12 | 0 | 0 | 83 ms |
+
+**O experimento não diferenciou as versões.** Nenhuma das duas falhou em nenhuma das 12 rodadas.
+
+Isso **não** confirma a correção, e **não** a refuta. A janela de ociosidade de 3 minutos é muito menor que o gatilho relatado — a reprodução local original veio após cerca de 50 minutos, e os relatos upstream mencionam horas ou semanas. É perfeitamente compatível que o defeito do 16.1 exista e simplesmente não tenha disparado nessas 12 janelas curtas. O resultado é um nulo não informativo, não uma confirmação.
+
+Para um teste conclusivo seria necessário reproduzir as condições relatadas a montante (ociosidade longa) com volume suficiente para a taxa de falha observada, o que não coube nesta sessão.
+
 ## Teste controlado com a sonda `scripts/diagnostico-jwt.cjs`
 
 A sonda foi executada contra o stack já atualizado (PostgREST 16.3). Ela registra somente claims mínimos, status, duração e erro sanitizado, e imprime `secrets_logged: false`.
+
+Como executar:
+
+```bash
+SUPABASE_URL=http://127.0.0.1:54321 \
+SUPABASE_ANON_KEY=<anon key do .env> \
+DIAGNOSTICO_JWT_EMAIL=<e-mail local> \
+DIAGNOSTICO_JWT_PASSWORD=<senha local> \
+node scripts/diagnostico-jwt.cjs
+```
+
+`SUPABASE_URL` e `SUPABASE_ANON_KEY` caem por padrão para `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` do `.env` quando não são fornecidas. As credenciais vêm **apenas** do ambiente; a sonda não grava arquivo e não imprime token, senha ou chave.
 
 | Execução | `iat` (delta vs agora) | `exp`−`iat` | `nbf` | issuer | audience | `fn_dashboard_indicadores` | estoque |
 |---|---|---|---|---|---|---|---|
@@ -98,12 +127,31 @@ A sonda foi executada contra o stack já atualizado (PostgREST 16.3). Ela regist
 
 Nenhuma resposta `PGRST303`. Validação em navegador, 2 rodadas: login, carga inicial do Dashboard e as duas consultas REST em `200`, 4 indicadores visíveis, sem `JWT issued at future`, sem `Carregando...` preso e sem overflow horizontal. O botão `Tentar novamente` não apareceu em nenhuma rodada, portanto o caminho de retry **não foi exercitado** — não havia falha para recuperar.
 
+## Limites de prova
+
+Estas limitações são sobre a **independência e a completude da evidência**, não sobre a validade dos critérios. Elas permanecem **abertas**.
+
+### AC-058 e AC-059 têm prova parcialmente circular
+
+`tests/ui/diagnostico-jwt.spec.tsx` lê `docs/diagnostico-jwt.md` com `readFileSync` e verifica que o arquivo contém literais como `iat`, `exp` e as frases convencionadas. O documento verificado e o teste que o verifica foram escritos no mesmo contexto, então o teste passa por construção: ele confirmaria a concordância mesmo se o documento afirmasse a conclusão errada.
+
+O mesmo teste também exercita `publicClaims` e `publicResponse` de `scripts/diagnostico-jwt.cjs`, o que **reduz** a circularidade ao cobrir a sanitização de claims e a remoção de `access_token` da resposta. Ainda assim, a parte que valida o conteúdo do documento permanece circular.
+
+O que isso significa: a prova existente **não é independente** para AC-058 e AC-059. Não significa que os critérios estejam incorretos — significa que a prova atual não conseguiria detectar um documento errado.
+
+### AC-062 tem prova parcial
+
+O critério exige, na cláusula "**E**", que a carga inicial não seja duplicada sem ação do usuário. `tests/ui/recuperacao-carga.spec.tsx` conta `getProdutosEstoqueNegativo` (2 chamadas: a inicial e a do retry), mas **não conta `getIndicadoresDashboard`**, que `DashboardPage` carrega na mesma carga inicial via `Promise.all([getProdutosEstoqueNegativo(), getIndicadoresDashboard(...)])`.
+
+Portanto, a ausência de duplicação em `getIndicadoresDashboard` **não está asserida** pelo teste. Metade da segunda cláusula do critério permanece sem prova.
+
 ## Limites
 
-- **O teste A/B controlado não foi executado, e a razão importa.** A atualização para o PostgREST 16.3 já havia sido aplicada antes deste pedido, então o estado "antes" (16.1) não pôde ser medido com a sonda. Um rollback da CLI para 2.116.0 permitiria recriar esse estado, mas não produziria evidência conclusiva: o defeito é esporádico, com taxa observada de 1 falha em 7 execuções no 16.1. Uma única execução da sonda no 16.1 tem cerca de 86% de chance de **não** reproduzir a falha, o que geraria uma conclusão falsa de "sem diferença". Com poder estatístico de 80% e alfa de 5%, seriam necessárias aproximadamente 39 execuções no 16.1, cada uma precedida de janela de ociosidade. Esse experimento não foi feito por não caber no tempo desta sessão.
+- **O teste A/B com rollback da CLI não foi executado.** Um rollback para a CLI 2.116.0 permitiria recriar o estado 16.1 com a CLI, mas não produziria evidência conclusiva: o defeito é esporádico, com taxa observada de 1 falha em 7 execuções no 16.1. Com poder estatístico de 80% e alfa de 5%, seriam necessárias aproximadamente 39 execuções no 16.1, cada uma precedida de janela de ociosidade. Esse experimento não foi feito. A comparação lado a lado que **foi** feita está na seção própria e não diferenciou as versões.
+- **Incerteza residual, com ressalva metodológica.** Se o defeito do 16.1 persistisse na taxa antes observada, a probabilidade de obter 12 execuções sem nenhuma falha seria da ordem de 16%. Esse número é uma **estimativa grosseira**, derivada da taxa observada anteriormente (1 em 7) sob uma hipótese binomial simplificada de falhas independentes e probabilidade constante. Ele **não** é uma medida da probabilidade de o defeito persistir: a taxa de 1 em 7 vem de uma amostra pequena, a probabilidade real varia com a duração da ociosidade, e as execuções não são independentes. Serve apenas para dimensionar a ordem de grandeza da incerteza, e sustenta a conclusão de "**provavelmente corrigido**" — não a de "corrigido".
 - A correção upstream não pôde ser observada diretamente no ambiente: o PostgREST 16.1 não trazia o logging diagnóstico de diferença de tempo (#5197/#5198), e a versão 16.4 ainda não foi publicada no espelho de imagens da Supabase.
 - A atribuição final se apoia na mudança de versão e nas fontes primárias, e não em um log local da ocorrência, porque não há log do GoTrue/PostgREST no ambiente que registre o instante da falha.
-- A ausência de reprodução após a mudança não é prova isolada de correção; a prova é a versão, que passa a incluir a correção publicada.
+- A ausência de reprodução após a mudança não é prova de correção; o indício é a versão, que passa a incluir a correção publicada.
 - `auth.users` estava vazio no início da execução; um usuário local descartável foi criado para habilitar o QA autenticado, com autorização do responsável e sem registro de credencial em repositório.
 - Um processo Vite antigo, iniciado com argumento inválido, ocupava a porta 5173 e respondia `404`; foi encerrado para que o servidor correto respondesse `200`. O servidor caiu novamente após o reinício do stack e foi reiniciado.
 - `supabase start` imprime chaves de desenvolvimento no terminal. São defaults locais compartilhados; nenhuma foi reproduzida nesta evidência.
@@ -117,5 +165,5 @@ Nenhuma resposta `PGRST303`. Validação em navegador, 2 rodadas: login, carga i
 - QA visual mobile 390x844: **PASS** em 12 execuções após a mudança (8 frias e 4 após 12 min de ociosidade), sem `JWT issued at future`, sem estado de carregamento preso e sem overflow horizontal. Antes da mudança a falha ocorria em 1 de 7 execuções.
 - Sonda `scripts/diagnostico-jwt.cjs`: 3/3 execuções em `200` nas duas consultas, sem `PGRST303`; navegador validado em 2/2 rodadas.
 - `git diff --check`: PASS, exit 0 (apenas avisos de normalização LF/CRLF, sem erro de whitespace).
-- Comparação A/B antes/depois: **não executada** — o estado 16.1 já havia sido substituído, e a taxa de falha observada no 16.1 (1 em 7) é baixa demais para um número pequeno de execuções produzir conclusão. Detalhamento na seção de limites.
+- Comparação A/B entre versões: **executada, sem diferenciação** — 12 requisições por versão, 0 falhas em ambas, com ociosidade de 3 min por rodada. Resultado nulo não informativo; ver a seção própria.
 - Auditoria ONP: **BLOCKED**, exit 1; `VERIFY_OBSOLETO` em `dashboard-gerencial`, `fundacao-ui`, `gate-comissao-produto`, `legado-baseline`, `recuperacao-carga`, `refinamento-interface` e `relatorios-gerenciais`. A regra considera prova obsoleta quando qualquer arquivo em `src/` ou `tests/` é mais novo que a prova, então edições desta feature invalidaram as sete. Nenhuma delas decorre da mudança de infraestrutura, e o gate obrigatório não pode ser declarado PASS.

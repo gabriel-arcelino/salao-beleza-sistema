@@ -743,10 +743,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "relatorios-gerenciais",
       "ref": "—",
-      "ocorrencias": 33,
+      "ocorrencias": 34,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-28T22:32:25.561Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-013": {
       "codigo": "VERIFY_FALHOU",
@@ -770,10 +770,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "legado-baseline",
       "ref": "—",
-      "ocorrencias": 32,
+      "ocorrencias": 33,
       "primeiraVez": "2026-09-22T22:39:18.046Z",
-      "ultimaVez": "2026-09-28T22:32:25.560Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-017": {
       "codigo": "VERIFY_FALHOU",
@@ -788,10 +788,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "fundacao-ui",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-22T23:05:11.611Z",
-      "ultimaVez": "2026-09-28T22:32:25.560Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "ID_DUPLICADO::refinamento-interface::US-004": {
       "codigo": "ID_DUPLICADO",
@@ -1409,19 +1409,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "recuperacao-carga",
       "ref": "—",
-      "ocorrencias": 21,
+      "ocorrencias": 22,
       "primeiraVez": "2026-09-27T18:44:51.737Z",
-      "ultimaVez": "2026-09-28T22:32:25.560Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "VERIFY_OBSOLETO::refinamento-interface::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "refinamento-interface",
       "ref": "—",
-      "ocorrencias": 21,
+      "ocorrencias": 22,
       "primeiraVez": "2026-09-27T18:44:51.737Z",
-      "ultimaVez": "2026-09-28T22:32:25.561Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "AC_SEM_TASK::dashboard-gerencial::AC-047": {
       "codigo": "AC_SEM_TASK",
@@ -1643,10 +1643,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "gate-comissao-produto",
       "ref": "—",
-      "ocorrencias": 24,
+      "ocorrencias": 25,
       "primeiraVez": "2026-09-28T02:17:32.694Z",
-      "ultimaVez": "2026-09-28T22:32:25.560Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.769Z",
+      "gitRev": "7be3066"
     },
     "AC_SEM_TESTE::dashboard-gerencial::AC-057": {
       "codigo": "AC_SEM_TESTE",
@@ -1670,10 +1670,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "dashboard-gerencial",
       "ref": "—",
-      "ocorrencias": 17,
+      "ocorrencias": 18,
       "primeiraVez": "2026-09-28T04:10:07.433Z",
-      "ultimaVez": "2026-09-28T22:32:25.559Z",
-      "gitRev": "6f1c96f"
+      "ultimaVez": "2026-09-28T22:59:16.768Z",
+      "gitRev": "7be3066"
     },
     "ID_DUPLICADO::diagnostico-jwt::US-021": {
       "codigo": "ID_DUPLICADO",
