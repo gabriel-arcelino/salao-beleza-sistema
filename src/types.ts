@@ -144,6 +144,22 @@ export interface RelatorioCaixa {
   saldo_final: number;
 }
 
+// Contrato de `fn_dashboard_indicadores` (migration 0014). A camada de API
+// converte os numéricos do Postgres para number; por isso os campos são
+// camelCase, no mesmo padrão de `RelatorioComissao`.
+//
+// `tem_movimento` distingue "sem dado no período" de "valor apurado igual a
+// zero": quando é false, a interface informa que não há movimento em vez de
+// exibir R$ 0,00 como se fosse apurado (AC-053). Quando é true e `faturamento`
+// é 0, o valor zero é apurado e deve ser exibido (AC-056).
+export interface IndicadoresDashboard {
+  faturamento: number;
+  receitaLiquida: number;
+  despesas: number;
+  cmv: number;
+  temMovimento: boolean;
+}
+
 export interface RelatorioComissaoItem {
   comandaId: string;
   numero: number;

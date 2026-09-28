@@ -38,8 +38,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ---
 
-## T-028 - Migration 0014: função compositora dos indicadores [pendente]
-
+## T-028 - Migration 0014: função compositora dos indicadores [concluida]
 - Refs: US-021
 - Arquivos: supabase/migrations/0014_fn_dashboard_indicadores.sql
 - Esforço: baixo
@@ -102,8 +101,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   `.spec/verification/dashboard-gerencial.json` tem `results` com `pass` para os
   seis ACs.
 
-## T-030 - Contrato TypeScript dos indicadores [pendente]
-
+## T-030 - Contrato TypeScript dos indicadores [concluida]
 - Refs: US-021
 - Arquivos: src/types.ts
 - Esforço: baixo
