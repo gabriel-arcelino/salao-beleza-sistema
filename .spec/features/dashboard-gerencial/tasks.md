@@ -68,7 +68,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ## T-029 - Prova pgTAP das agregações da competência [pendente]
 
-- Refs: AC-048, AC-049, AC-050, AC-051, AC-053, AC-056
+- Refs: AC-048, AC-049, AC-050, AC-051, AC-053, AC-056, AC-057
 - Arquivos: supabase/tests/015_fn_dashboard_indicadores.sql
 - Esforço: medio
 - Objetivo: provar, no banco, que os quatro indicadores têm o valor correto e que
@@ -76,7 +76,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 - Depende de: **T-028**. Sem a função, o arquivo não tem o que exercitar.
 - Testes/provas esperados: arquivo pgTAP com `plan(N)` e asserções cujo
   **título** carrega a tag `@spec:AC-xxx` — é o título que o `onp-spec verify`
-  lê; tag em comentário não produz prova. Seis asserções no mínimo:
+  lê; tag em comentário não produz prova. Sete asserções no mínimo:
   - `AC-048`: o `faturamento` devolvido é **igual** ao que
     `public.fn_relatorio_caixa` devolve no mesmo intervalo, lido de
     `total_vendas`, **no mesmo teste** — é essa comparação que impede uma
@@ -92,14 +92,23 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
     devolve `tem_movimento = false`
   - `AC-056`: competência **com** despesa e **sem** pagamento e **sem**
     movimentação `VENDA` devolve `tem_movimento = true`, com `faturamento = 0`
-    e `despesas` igual à despesa inserida. **Este é o teste que fecha a
-    fronteira de ASM-022** — sem ele, uma implementação que ignorasse despesas
-    na definição de movimento passaria em `AC-053` e erraria aqui
+    e `despesas` igual à despesa inserida
+  - `AC-057`: competência **com** movimentação `VENDA` e **sem** pagamento e
+    **sem** despesa devolve `tem_movimento = true`, com `faturamento = 0` e
+    `cmv` maior que zero. **Este é o único teste que reprova uma implementação de
+    `tem_movimento` que ignore `movimentacoes_estoque`** — `AC-053` e `AC-056`
+    passam contra ela, porque as duas definiem movimento só por pagamento ou
+    despesa. Fixture: uma linha em `movimentacoes_estoque` com `tipo = 'VENDA'`,
+    `produto_id` do produto do `seed.sql` (`…0301`), `quantidade` e
+    `custo_unitario` positivos, e `created_at` dentro da competência. As três
+    asserções — `tem_movimento = true`, `faturamento = 0`, `cmv > 0` — precisam
+    estar **no mesmo teste**, porque é a combinação que prova que a competência
+    tem movimento **e** que o Faturamento zero é apurado, e não ausência de dado
 - Critério objetivo de conclusão: o arquivo roda sob
   `node scripts/onp-feature-verify.cjs dashboard-gerencial` com `exit 0`; todas as
   asserções com tag saem `ok`; `plan(N)` bate com o número de asserções; e
   `.spec/verification/dashboard-gerencial.json` tem `results` com `pass` para os
-  seis ACs.
+  sete ACs.
 
 ## T-030 - Contrato TypeScript dos indicadores [concluida]
 - Refs: US-021
@@ -132,7 +141,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ## T-032 - DashboardPage: seletor de competência e indicadores [pendente]
 
-- Refs: AC-047, AC-053, AC-056
+- Refs: AC-047, AC-053, AC-056, AC-057
 - Arquivos: src/pages/DashboardPage.tsx
 - Esforço: medio
 - Objetivo: substituir a competência fixa por um seletor e renderizar os quatro
@@ -146,15 +155,17 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   renderizam rótulo e valor; quando `tem_movimento` é falso, renderizam a
   mensagem de período sem movimento **em vez de** `R$ 0,00`; quando
   `tem_movimento` é verdadeiro e `faturamento` é `0`, renderizam **`R$ 0,00` com
-  rótulo e valor**, e **não** a mensagem — é a distinção de ASM-022, e a razão de
-  `AC-053` e `AC-056` serem estados diferentes na interface; o controle de
+  rótulo e valor**, e **não** a mensagem — é a distinção de ASM-022, e vale para
+  as **duas** origens de `faturamento = 0` com movimento: só despesa (`AC-056`) e
+  só venda de estoque (`AC-057`). A interface **não** distingue as duas; ambas
+  renderizam o mesmo estado. A distinção é da fonte do dado, provada em T-029; o controle de
   competência tem `label` associado com `id`, seguindo o padrão de
   acessibilidade já provado por `AC-031` de `refinamento-interface`; e o alerta
   de estoque e a demonstração de e-mail continuam no JSX.
 
 ## T-033 - Provas de apresentação dos indicadores [pendente]
 
-- Refs: AC-047, AC-048, AC-049, AC-050, AC-051, AC-052, AC-053, AC-054, AC-055, AC-056
+- Refs: AC-047, AC-048, AC-049, AC-050, AC-051, AC-052, AC-053, AC-054, AC-055, AC-056, AC-057
 - Arquivos: tests/ui/dashboard-gerencial-competencia.spec.tsx, tests/ui/dashboard-gerencial-indicadores.spec.tsx, tests/ui/dashboard-gerencial-preservado.spec.tsx
 - Esforço: medio
 - Objetivo: provar, na interface, que a competência é selecionável, que os
@@ -166,22 +177,28 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   - `…-competencia.spec.tsx` → `AC-047` (seletor altera o rótulo) e `AC-052`
     (dados em duas competências mudam ao alternar)
   - `…-indicadores.spec.tsx` → `AC-048`, `AC-049`, `AC-050`, `AC-051` (rótulo e
-    valor renderizados), mais a **fronteira de ASM-022** em dois estados
+    valor renderizados), mais a **fronteira de ASM-022** em três estados
     distintos e mutuamente exclusivos:
     - `AC-053` — sem pagamento, sem venda, sem despesa: mostra a mensagem e
       **não** mostra `R$ 0,00`
     - `AC-056` — com despesa, sem pagamento e sem venda: mostra **`R$ 0,00` com
       rótulo** e **não** mostra a mensagem
+    - `AC-057` — com venda de estoque, sem pagamento e sem despesa: mostra
+      **`R$ 0,00` com rótulo**, mostra **CMV maior que zero** e **não** mostra a
+      mensagem
     Precisam ser asserções separadas. Um teste que só verificasse a ausência da
-    mensagem no caso `AC-056` passaria mesmo com a mensagem também aparecendo.
+    mensagem no caso `AC-056` passaria mesmo com a mensagem também aparecendo. E
+    `AC-057` precisa da asserção de **CMV apurado junto do Faturamento zero**:
+    sem ela a prova não mostra que os dois estados coexistem corretamente, que é
+    exatamente o que a decisão de produto mandou evitar.
   - `…-preservado.spec.tsx` → `AC-054` e `AC-055` (alerta de estoque e
     demonstração de e-mail continuam renderizando)
-  - `AC-048` a `AC-051` e `AC-056` recebem tag **também** aqui, além da prova de
-    valor em T-029. Uma prova o número, a outra prova a exibição. Um AC pode ser
-    carregado por dois arquivos; basta um `pass` e nenhum `fail`.
+  - `AC-048` a `AC-051`, `AC-056` e `AC-057` recebem tag **também** aqui, além da
+    prova de valor em T-029. Uma prova o número, a outra prova a exibição. Um AC
+    pode ser carregado por dois arquivos; basta um `pass` e nenhum `fail`.
 - Critério objetivo de conclusão: os três arquivos rodam verdes sob
   `npx vitest run`; as tags estão nos títulos; e
-  `.spec/verification/dashboard-gerencial.json` mostra `pass` nos **dez** ACs
+  `.spec/verification/dashboard-gerencial.json` mostra `pass` nos **onze** ACs
   com `testsParsed > 0`.
 
 ---

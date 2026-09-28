@@ -106,10 +106,14 @@ ao menos **uma** linha de origem entre
 - `movimentacoes_estoque` com `tipo = 'VENDA'` e `created_at` dentro da
   competência.
 
-Consequência que a decisão produz e que a prova tem de cobrir: **despesa sozinha
-já faz `tem_movimento = true`.** Uma competência com despesa e sem pagamento não
-é "sem movimento" — o Faturamento aparece como `R$ 0,00` apurado. A venda de
-produto sem pagamento é possível (`§10.7` do plano: vendas parcialmente pagas), e
+Consequências que a decisão produz e que a prova tem de cobrir, cada uma com AC
+próprio porque **nenhum dos ACs anteriores a fecha**:
+
+- **despesa sozinha** já faz `tem_movimento = true` → `AC-056`
+- **venda de produto sozinha** também faz, e é o único estado que `AC-053` e
+  `AC-056` não distinguem → `AC-057`
+
+A venda de produto sem pagamento é possível (`§10.7` do plano: vendas parcialmente pagas), e
 por isso `movimentacoes_estoque` entra na definição: sem ela, uma competência com
 produto vendido e não pago cairia em "sem movimento" exibindo `R$ 0,00` de
 Faturamento ao lado de um CMV apurado — os dois Estados juntos, que a decisão
@@ -213,8 +217,24 @@ basta **uma** linha de origem para o período deixar de ser "sem movimento" — 
 
 Este AC existe porque `AC-053` sozinho **não distingue** os dois casos: uma
 implementação que definisse "sem movimento" apenas pela ausência de pagamento e
-venda, ignorando despesas, passaria em `AC-053` e erraria `AC-056`. Juntos, os
-dois fecham a fronteira definida em ASM-022.
+venda, ignorando despesas, passaria em `AC-053` e erraria `AC-056`. Juntos, fecham
+a primeira metade da fronteira definida em ASM-022.
+
+#### AC-057 - Venda de produto sem pagamento é movimento, com Faturamento zero apurado
+
+- **Dado** uma competência com ao menos uma movimentação de estoque do tipo
+  `VENDA` e **sem** pagamento e **sem** despesa na competência
+- **Quando** o dashboard carrega os indicadores dessa competência
+- **Então** a competência **não** é classificada como "sem movimento": o
+  Faturamento aparece como `R$ 0,00` **apurado**, com rótulo e valor, e a
+  mensagem de período sem movimento **não** aparece
+
+Este AC fecha a **segunda metade** da fronteira de ASM-022, e é o único que a
+prova. `AC-053` (tudo vazio) e `AC-056` (despesa sozinha) passam os dois contra uma
+implementação que definisse `tem_movimento` apenas por pagamentos e despesas,
+ignorando `movimentacoes_estoque`. Só `AC-057` reprova essa implementação — e é
+justamente o estado que o dono mandou confirmar: produto vendido e ainda não
+pago, com CMV apurado, **não** é "sem movimento".
 
 ## Fora de escopo
 
@@ -325,7 +345,8 @@ sobre **competência mensal selecionável**, preservando o alerta de estoque
 negativo e a demonstração de e-mail. Não toca `0012`, `0013` nem
 `relatorios-gerenciais`. Comissões, Resultado líquido e Margem ficam para
 features posteriores, porque dependem de decisões de produto que não existem.
-**10 critérios de aceite**, todos verificáveis: 6 por pgTAP, 6 por Vitest, 4
+**11 critérios de aceite**, todos verificáveis: 7 por pgTAP, 11 por Vitest, 6
 com prova nos dois níveis — o número prova o valor, a interface prova a exibição.
-`AC-053` e `AC-056` fecham juntos a fronteira de "sem movimento", que nenhum dos
-dois fecharia sozinho.
+A fronteira de "sem movimento" é fechada por **três** ACs que, sozinhos, não a
+fecham: `AC-053` (tudo vazio), `AC-056` (só despesa) e `AC-057` (só venda de
+estoque). Cada um reprova uma implementação diferente de `tem_movimento`.
