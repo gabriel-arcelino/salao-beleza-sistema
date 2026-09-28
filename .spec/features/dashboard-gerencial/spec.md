@@ -63,6 +63,65 @@ O intervalo de datas da competência é derivado: primeiro dia = dia 1 do mês;
 esse intervalo. **A fórmula não muda** — muda apenas o intervalo derivado, que é
 determinístico e não é regra de negócio.
 
+## Arquitetura da fonte de verdade
+
+Decisão de arquitetura, para que a revisão futura saiba onde cada número nasce e
+se há uma segunda fonte. **Faturamento, Receita líquida e CMV não são
+reimplementados** — a função nova **delega** às funções existentes.
+
+| Métrica | Função de origem | Tipo | Contrato de retorno |
+|---|---|---|---|
+| Faturamento | `public.fn_relatorio_caixa(...)` → `total_vendas` | **delegada** | `numeric`, sem alteração |
+| Receita líquida | `public.fn_relatorio_caixa(...)` → `total_entradas` | **delegada** | `numeric`, sem alteração |
+| CMV | `public.fn_calcular_cmv(p_competencia)` | **delegada** | `numeric`, sem alteração |
+| Despesas | agregação própria na função nova | **nova** | `numeric` |
+
+Por que Despesas é a única fórmula nova: `0012:64-71,108` extrai despesas num CTE
+mas as **funde** com `fechamentos_comissao.total_pago` em `total_saidas`. Não há
+campo de despesas isolado, e D3 exige indicador separado. Extrair exigiria
+reescrever `0012`, **proibido por decisão**. Logo a duplicação é de um único
+agregado, sem semântica de período além de `data_pagamento` e sem filtro de
+status — a referência `0012:64-71` deve constar em comentário na migration nova.
+
+### Contrato congelado da função nova
+
+```sql
+fn_dashboard_indicadores(p_competencia text) returns table (
+  faturamento     numeric,
+  receita_liquida numeric,
+  despesas        numeric,
+  cmv             numeric,
+  tem_movimento   boolean
+)
+```
+
+`tem_movimento` existe porque `AC-053` exige distinguir "sem dado" de
+"R$ 0,00 apurado", e um `numeric` sozinho não faz essa distinção. Definição
+usada: existe ao menos uma linha de origem em `pagamentos` (por `paid_at`),
+`despesas` (por `data_pagamento`) ou `movimentacoes_estoque` (tipo `VENDA`, por
+`created_at`) dentro da competência.
+
+### Garantias técnicas verificadas por execução
+
+Validadas em 2026-09-27 com sonda transitória fora do repositório, em transação
+com `ROLLBACK` (nada persistiu; `git status` de `supabase/` e `src/` limpo). As
+três condições abaixo **foram observadas**, não supostas.
+
+| # | Garantia | Evidência |
+|---|---|---|
+| G1 | A cadeia de três `security definer` preserva o contexto de salão. `current_salon_id()` lê o GUC `request.jwt.claims` (`0007:13`), que atravessa as chamadas | Sonda com despesa de 123.45 no salão do GUC e 999.99 em outro salão: a cadeia devolveu **123.45**, ignorando o intruso. Valor idêntico ao da chamada direta |
+| G2 | **A perda de contexto falha alto, não degrada para zero.** `fn_relatorio_caixa:34-36` e `fn_calcular_cmv:30-32` abortam com exceção | Sem o GUC: `ERROR: Sessão sem salon_id — usuário não autenticado corretamente.` Não há caminho para a interface mostrar `0,00` como se fosse apurado |
+| G3 | Com `set search_path = ''`, **toda** chamada interna precisa de schema qualificado | Chamada sem qualify: `ERROR: function fn_relatorio_caixa(date, date) does not exist` |
+
+**Constraint de implementação, obrigatória:** `fn_dashboard_indicadores` deve
+chamar **`public.fn_relatorio_caixa(...)`** e **`public.fn_calcular_cmv(...)`**.
+Sem o prefixo `public.`, não compila — verificado, não presumido.
+
+**Ressalva de escopo desta validação:** a sonda rodou em conexão local direta. O
+ambiente de produção usa pooler, e a propagação de GUC transacional depende do
+comportamento dele. É risco **pré-existente do Supabase**, não introduzido por
+esta feature, e não é exercitado por esta prova.
+
 ## Histórias
 
 ### US-021 - Gerente avalia os indicadores financeiros da competência no dashboard
@@ -81,25 +140,25 @@ do salão sem abrir cada relatório separadamente.
 
 - **Dado** pagamentos com `paid_at` dentro da competência selecionada
 - **Quando** o dashboard carrega os indicadores
-- **Então** o indicador "Faturamento" mostra a soma de `valor_bruto` desses pagamentos, formatada em real
+- **Então** o indicador "Faturamento" mostra **o mesmo valor que `public.fn_relatorio_caixa` retorna no mesmo intervalo, lido do campo `total_vendas`**, excluindo pagamentos com `estornado` verdadeiro, formatado em real
 
 #### AC-049 - O dashboard apresenta a receita líquida da competência, distinta do faturamento
 
 - **Dado** pagamentos com `paid_at` dentro da competência selecionada, incluindo ao menos um com taxa de maquininha
 - **Quando** o dashboard carrega os indicadores
-- **Então** o indicador "Receita líquida" mostra a soma de `valor_liquido` e é menor que o Faturamento, em indicador separado
+- **Então** o indicador "Receita líquida" mostra **o mesmo valor que `public.fn_relatorio_caixa` retorna no mesmo intervalo, lido do campo `total_entradas`**, e é menor que o Faturamento, em indicador separado
 
 #### AC-050 - O dashboard apresenta o CMV da competência
 
 - **Dado** movimentações de estoque do tipo `VENDA` dentro da competência selecionada
 - **Quando** o dashboard carrega os indicadores
-- **Então** o indicador "CMV" mostra o custo médio ponderado dessas movimentações, no mesmo valor que `fn_calcular_cmv` retorna para a mesma competência
+- **Então** o indicador "CMV" mostra **o mesmo valor que `public.fn_calcular_cmv` retorna para a mesma competência**, sem que a fórmula seja reimplementada
 
 #### AC-051 - O dashboard apresenta as despesas da competência, separadas de repasses
 
 - **Dado** despesas com `data_pagamento` dentro da competência selecionada e um fechamento de comissão no mesmo período
 - **Quando** o dashboard carrega os indicadores
-- **Então** o indicador "Despesas" mostra a soma das despesas e **não** inclui o `total_pago` de fechamentos de comissão
+- **Então** o indicador "Despesas" mostra a soma de `despesas.valor` por `data_pagamento` na competência e **não** inclui o `total_pago` de fechamentos de comissão. É a **única** fórmula nova desta feature, e por isso é a única sem função de origem para comparar
 
 #### AC-052 - Os indicadores acompanham a competência selecionada
 
@@ -210,15 +269,20 @@ dashboard. Registrado porque a verificação é por leitura, não por execução
 | ASM-018 | `fn_relatorio_caixa` pode ser reutilizada para obter faturamento e receita líquida da competência. | confirmada | A fórmula (`0012:83,84`) é a que o plano chama de faturamento e receita líquida, e já está provada por `AC-001`/`AC-002` de `relatorios-gerenciais`. |
 | ASM-019 | A separação de despesas não exige alteração de `0012`. | confirmada | Extensibilidade aditiva, plano §5.7: nova função em migration nova, `0012` intacta. Decisão B2. |
 | ASM-020 | A demonstração de e-mail deve permanecer visível. | confirmada | D6: investigada, é demonstração sem integração (`v2_5:1097`). **Mantida** por decisão do dono, não por ser funcionalidade. |
+| ASM-021 | O "Faturamento" do dashboard **não** é o mesmo número que o `total_bruto` do relatório de comissão, e a diferença é **pré-existente**, não introduzida aqui. | confirmada | `fn_relatorio_caixa.total_vendas` (`0012:83`) soma `pagamentos.valor_bruto` por `paid_at`, no salão. `fn_relatorio_comissao.total_bruto` (`0013:91`) soma `comanda_itens.total` por `closed_at`, **por profissional**. Uma comanda `FINALIZADA` em 31/01 e paga em 05/02 cai em competências diferentes nos dois. Registrado agora, enquanto a tile de Comissões não existe, para que a comparação não seja tratada depois como defeito |
+| ASM-022 | "Sem movimento" (o `Dado` de `AC-053`) cobre o caso em que **nenhum** dos três-indicator tem linha de origem. O caso **parcial** — por exemplo, só despesas, sem pagamento — não é especificado. | aberta | O `Dado` de `AC-053` define apenas o caso total. Se houver despesa e nenhum pagamento, o Faturamento é `0,00` real ou "sem dado"? A resposta muda o que a interface mostra. **Bloqueia o fechamento da feature, não a implementação dos ACs já definidos** — nenhum AC cobre o caso parcial |
+| ASM-023 | A cadeia `security definer` preserva o contexto de salão e falha alto quando ele falta. | confirmada | Verificado por execução em 2026-09-27, não presumido. Ver "Garantias técnicas verificadas por execução": G1 (isolamento preservado, intruso ignorado), G2 (sem GUC, `ERROR: Sessão sem salon_id`, sem degradação para zero), G3 (sem schema qualificado, `function does not exist`) |
 
 ## Perguntas em aberto
 
-Nenhuma pergunta bloqueia a execução.
+Nenhuma pergunta bloqueia a execução. Uma suposição aberta (ASM-022) bloqueia o
+fechamento, não a implementação.
 
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
-| Q-017 | "Sem movimento no período" (`AC-053`): o valor apurado e o aviso de período vazio são estados mutuamente exclusivos? | respondida | Decisão do dono nesta rodada: quando não há dado, o indicador **informa**; não exibe `R$ 0,00` como se fosse valor apurado. Os dois estados não coexistem. |
+| Q-017 | "Sem movimento no período" (`AC-053`): o valor apurado e o aviso de período vazio são estados mutuamente exclusivos? | respondida | Decisão do dono nesta rodada: quando não há dado, o indicador **informa**; não exibe `R$ 0,00` como se fosse valor apurado. Os dois estados não coexistem. O caso parcial não total ficou como ASM-022. |
 | Q-018 | A demonstração de e-mail deve ser removida agora que foi classificada? | respondida | **Não.** Mantida e documentada como demonstração. Remover é decisão de produto futura. |
+| Q-019 | A função nova pode chamar `fn_relatorio_caixa` e `fn_calcular_cmv` por `security definer` sem perder o contexto de salão? | respondida | **Sim, e verificado por execução.** G1, G2 e G3 em "Garantias técnicas verificadas". Com schema qualificado (`public.`) a cadeia preserva o isolamento por salão e aborta com exceção quando falta contexto |
 
 ## Resumo executivo (para auditoria)
 
