@@ -1,4 +1,4 @@
-# Tasks: Dashboard gerencial
+﻿# Tasks: Dashboard gerencial
 
 > feature: dashboard-gerencial
 
@@ -203,6 +203,47 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ---
 
+## T-032b - Reencaixar as suites que renderizam o DashboardPage [concluida]
+
+- Refs: AC-014, AC-042, AC-043
+- Arquivos: tests/ui/fundacao-ui.spec.tsx, tests/ui/recuperacao-carga.spec.tsx, tests/ui/refinamento-interface-tipografia.spec.tsx, tests/ui/refinamento-interface-acessibilidade.spec.tsx
+- Esforço: baixo
+- Objetivo: impedir que a troca da fonte do CMV e a nova chamada a
+  `getIndicadoresDashboard` quebrem as provas de outras features que renderizam
+  `DashboardPage`. Esta task **não** muda o comportamento coberto por aquelas
+  features: muda apenas o **cabeamento** do mock e a afirmação que observa o valor
+  do CMV.
+- Origem: achado de G6/G7 na Onda C. T-032 remove `calcularCMV` do
+  `DashboardPage`, e as duas suítes abaixo observavam exatamente essa chamada.
+- Depende de: **T-032**. Antes dela, `calcularCMV` ainda é a fonte do CMV e os
+  mocks são coerentes.
+- Testes/prova esperada: nenhum teste novo. É reencaixe de harness.
+- O que muda em cada arquivo:
+  - `fundacao-ui.spec.tsx` — duas asserções de "uso dos valores retornados"
+    (`mockCalcularCMV` chamado 1x) e duas observações de `findByText(/1234\.56/)`
+    passam a observar `mockGetIndicadoresDashboard` e o CMV devolvido por ele. As
+    asserções estáticas de contrato de importação (`toContain("../lib/api/estoque")`)
+    e de ausência de camadas intermediárias **permanecem** — `getProdutosEstoqueNegativo`
+    continua vindo de `api/estoque`.
+  - `recuperacao-carga.spec.tsx` — `src/lib/api/dashboard` precisa entrar no
+    `vi.mock`; sem isso a chamada real a `supabase.rpc` acontece dentro do jsdom e
+    a asserção de erro de `AC-042` passa a depender da rede. O `beforeEach` usa
+    `mockReset()` em todos os mocks, então precisa de default para o novo módulo.
+  - `refinamento-interface-tipografia.spec.tsx` — **o terceiro arquivo, e o mais
+    silencioso.** Aqui o `supabaseClient` está mockado **sem `rpc`**. Sem mock de
+    `api/dashboard`, `getIndicadoresDashboard` lança `TypeError`, o `Promise.all`
+    da página rejeita, `setEstoqueNegativo` **nunca roda** e o `<ul>` da lista de
+    e-mail — que `AC-038` conta como "conteúdo a agrupar" — não é renderizado. A
+    falha aparece como `há conteúdo a agrupar: expected 0 to be greater than 0`,
+    que não menciona o Dashboard nem a nova chamada: parece falha de layout, e é
+    falha de mock.
+- Critério objetivo de conclusão: os três arquivos seguem verdes com o
+  `DashboardPage` já migrado para `getIndicadoresDashboard`, e as tags
+  `@spec:AC-014`, `@spec:AC-037`, `@spec:AC-038`, `@spec:AC-042`, `@spec:AC-043`
+  continuam todas carregadas.
+
+---
+
 ## Ordem recomendada e o que é decisão do dono
 
 A ordem abaixo **não** é preferência operacional. As ondas vêm da análise de
@@ -213,12 +254,19 @@ conflito de artefato, contrato e resultado.
 | **A** | T-028 ∥ T-030 | **Condicional ao contrato congelado.** Artefatos disjuntos (`0014.sql` vs `types.ts`), e T-030 depende do contrato descrito na spec, não do resultado de T-028 |
 | **B** | T-029 ∥ T-031 | **Incondicional.** Artefatos disjuntos (`015_…sql` vs `api/dashboard.ts`); cada uma depende de uma task da Onda A diferente, e nenhuma das duas depende da outra |
 | **C** | T-032 | Sozinha. Depende de T-031 |
+| **C′** | T-032b | Sozinha, **sequencial depois de T-032**. Reencaixe de harness de outras features, não implementação |
 | **D** | T-033 | Sozinha. Depende do componente que T-032 produz |
+
+**Onda C′** não existia no plano original: foi criada quando a Onda C mostrou que
+T-032 remove `calcularCMV` do `DashboardPage`, e `fundacao-ui` (`AC-014`) e
+`recuperacao-carga` (`AC-042`, `AC-043`) observavam justamente essa chamada. É
+consequência mecânica de T-032, não expansão de escopo de produto.
 
 **Se você não aceitar a condição da Onda A**, o caminho é T-028 → T-030 → Onda B
 (T-029 ∥ T-031) → T-032 → T-033: cinco ondas em vez de quatro, e T-030 deixa de
 depender de um contrato escrito.
 
 **Sequenciais obrigatórias, por qualquer arranjo:** T-032 antes de T-033
-(T-033 testa o componente que T-032 produz) e T-028 antes de T-029 (o teste não
-tem o que exercitar sem a função).
+(T-033 testa o componente que T-032 produz), **T-032 antes de T-032b** (a
+reencaixe só é coerente depois da migração da fonte do CMV) e T-028 antes de
+T-029 (o teste não tem o que exercitar sem a função).

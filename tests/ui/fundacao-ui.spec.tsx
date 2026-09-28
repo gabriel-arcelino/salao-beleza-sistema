@@ -16,11 +16,26 @@ const mockModule = vi.hoisted(() => ({
     { id: "p-1", nome: "Produto Teste", estoque_atual: -5, estoque_minimo: 0 },
   ]),
   mockCalcularCMV: vi.fn().mockResolvedValue(1234.56),
+  // T-032b: o DashboardPage passou a ler os quatro indicadores de
+  // getIndicadoresDashboard. calcularCMV continua mockado porque a suíte
+  // comprova que a página consome valores retornados, e não qual função os
+  // produz — mas quem é chamado agora é o novo módulo.
+  mockGetIndicadoresDashboard: vi.fn().mockResolvedValue({
+    faturamento: 5000,
+    receitaLiquida: 4900,
+    cmv: 1234.56,
+    despesas: 800,
+    temMovimento: true,
+  }),
 }));
 
 vi.mock("../../src/lib/api/estoque", () => ({
   getProdutosEstoqueNegativo: mockModule.mockGetProdutos,
   calcularCMV: mockModule.mockCalcularCMV,
+}));
+
+vi.mock("../../src/lib/api/dashboard", () => ({
+  getIndicadoresDashboard: mockModule.mockGetIndicadoresDashboard,
 }));
 
 describe("Fundacao UI @spec:fundacao-ui", () => {
@@ -66,7 +81,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       const { container } = render(<DashboardPage />);
 
       expect(mockModule.mockGetProdutos).toHaveBeenCalled();
-      expect(mockModule.mockCalcularCMV).toHaveBeenCalled();
+      expect(mockModule.mockGetIndicadoresDashboard).toHaveBeenCalled();
 
       const hasReusableComponent =
         container.querySelector('[data-testid="card"]') !== null ||
@@ -76,7 +91,9 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(hasReusableComponent).toBe(true);
 
       await screen.findByText("Produto Teste");
-      await screen.findByText(/1234\.56/);
+      // T-032b: o valor do CMV vem de getIndicadoresDashboard e é formatado em
+      // real, então 1234.56 aparece como "R$ 1.234,56", e não mais como 1234.56.
+      await screen.findByText("R$ 1.234,56");
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs = await import("fs");
@@ -88,7 +105,7 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       expect(dashboardSource).not.toContain("repositories/");
       expect(dashboardSource).not.toContain("services/");
       expect(mockModule.mockGetProdutos).toHaveBeenCalledTimes(1);
-      expect(mockModule.mockCalcularCMV).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockGetIndicadoresDashboard).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -205,10 +222,11 @@ describe("Fundacao UI @spec:fundacao-ui", () => {
       render(<DashboardPage />);
 
       expect(mockModule.mockGetProdutos).toHaveBeenCalledTimes(1);
-      expect(mockModule.mockCalcularCMV).toHaveBeenCalledTimes(1);
+      expect(mockModule.mockGetIndicadoresDashboard).toHaveBeenCalledTimes(1);
 
       await screen.findByText("Produto Teste");
-      await screen.findByText(/1234\.56/);
+      // T-032b: ver o comentário do bloco AC-013 — o CMV é formatado em real.
+      await screen.findByText("R$ 1.234,56");
 
       // Evidência 5: preservação do contrato de importação direta (verificação estática no arquivo fonte)
       const fs_213 = await import("fs");

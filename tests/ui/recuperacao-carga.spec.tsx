@@ -16,6 +16,7 @@ import { RelatorioComissaoPage } from "../../src/pages/RelatorioComissaoPage";
 const mocks = vi.hoisted(() => ({
   getProdutosEstoqueNegativo: vi.fn(),
   calcularCMV: vi.fn(),
+  getIndicadoresDashboard: vi.fn(),
   listClientes: vi.fn(),
   listProfissionais: vi.fn(),
   listServicos: vi.fn(),
@@ -29,6 +30,13 @@ const mocks = vi.hoisted(() => ({
 vi.mock("../../src/lib/api/estoque", () => ({
   getProdutosEstoqueNegativo: mocks.getProdutosEstoqueNegativo,
   calcularCMV: mocks.calcularCMV,
+}));
+
+// T-032b: o DashboardPage passou a chamar getIndicadoresDashboard. Sem este
+// mock, a chamada real a supabase.rpc sai para a rede dentro do jsdom e a prova
+// de AC-042 passaria a depender de conectividade, não do comportamento da tela.
+vi.mock("../../src/lib/api/dashboard", () => ({
+  getIndicadoresDashboard: mocks.getIndicadoresDashboard,
 }));
 
 vi.mock("../../src/lib/api/clientes", () => ({
@@ -79,6 +87,16 @@ const FALHA = "Falha ao consultar o estoque.";
 beforeEach(() => {
   Object.values(mocks).forEach((mock) => mock.mockReset());
   mocks.calcularCMV.mockResolvedValue(0);
+  // T-032b: default do novo módulo. mockReset() acima limpa implementação, então
+  // todo teste que renderiza DashboardPage precisa deste default para não
+  // disparar chamada de rede.
+  mocks.getIndicadoresDashboard.mockResolvedValue({
+    faturamento: 0,
+    receitaLiquida: 0,
+    cmv: 0,
+    despesas: 0,
+    temMovimento: false,
+  });
   mocks.listProfissionais.mockResolvedValue([]);
   mocks.listServicos.mockResolvedValue([]);
   mocks.listProdutos.mockResolvedValue([]);
@@ -113,6 +131,13 @@ describe("Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045", ()
   it("oferece tentar novamente quando a carga falha @spec:AC-042", async () => {
     mocks.getProdutosEstoqueNegativo.mockRejectedValue(new Error(FALHA));
     mocks.calcularCMV.mockResolvedValue(0);
+    mocks.getIndicadoresDashboard.mockResolvedValue({
+      faturamento: 0,
+      receitaLiquida: 0,
+      cmv: 0,
+      despesas: 0,
+      temMovimento: false,
+    });
 
     render(<DashboardPage />);
 
@@ -127,6 +152,13 @@ describe("Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045", ()
       { id: "p-1", nome: "Produto Negativo", estoque_atual: -3, estoque_minimo: 0 },
     ]);
     mocks.calcularCMV.mockResolvedValue(1234.56);
+    mocks.getIndicadoresDashboard.mockResolvedValue({
+      faturamento: 5000,
+      receitaLiquida: 4900,
+      cmv: 1234.56,
+      despesas: 800,
+      temMovimento: true,
+    });
 
     render(<DashboardPage />);
 
@@ -138,7 +170,8 @@ describe("Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045", ()
     await waitFor(() => expect(screen.queryByRole("alert")).not.toBeInTheDocument());
     // ...e os dados da segunda chamada aparecem.
     expect(await screen.findByText(/Produto Negativo/)).toBeVisible();
-    expect(screen.getByText(/1234\.56/)).toBeVisible();
+    // T-032b: o CMV vem de getIndicadoresDashboard e é formatado em real.
+    expect(screen.getByText("R$ 1.234,56")).toBeVisible();
 
     // A carga inicial falhou uma vez; a segunda chamada é a nova tentativa.
     expect(mocks.getProdutosEstoqueNegativo).toHaveBeenCalledTimes(2);

@@ -12,6 +12,7 @@ const mocks = vi.hoisted(() => ({
   listClientes: vi.fn(),
   getProdutosEstoqueNegativo: vi.fn(),
   calcularCMV: vi.fn(),
+  getIndicadoresDashboard: vi.fn(),
 }));
 
 vi.mock("../../src/lib/supabaseClient", () => ({
@@ -35,6 +36,14 @@ vi.mock("../../src/lib/api/estoque", () => ({
   calcularCMV: mocks.calcularCMV,
 }));
 
+// T-032b: sem este mock as DUAS promises do Promise.all da página rejeitam —
+// a de estoque com a mensagem de negócio e a de indicadores com TypeError de
+// `supabase.rpc` ausente — e qual das duas chega ao alert depende da ordem de
+// resolução. O teste viraria intermitente em vez de determinístico.
+vi.mock("../../src/lib/api/dashboard", () => ({
+  getIndicadoresDashboard: mocks.getIndicadoresDashboard,
+}));
+
 beforeEach(() => {
   Object.values(mocks).forEach((mock) => mock.mockReset());
   mocks.getSession.mockResolvedValue({ data: { session: { user: { id: "u-1" } } } });
@@ -42,6 +51,13 @@ beforeEach(() => {
   mocks.listClientes.mockResolvedValue([]);
   mocks.getProdutosEstoqueNegativo.mockResolvedValue([]);
   mocks.calcularCMV.mockResolvedValue(0);
+  mocks.getIndicadoresDashboard.mockResolvedValue({
+    faturamento: 0,
+    receitaLiquida: 0,
+    cmv: 0,
+    despesas: 0,
+    temMovimento: false,
+  });
 });
 
 afterEach(() => {
@@ -74,8 +90,11 @@ describe("Refinamento de interface — acessibilidade @spec:AC-040", () => {
   // O AC-040 exige que as mudanças visuais desta feature não removam a semântica.
   // Isso só é provável nas páginas reais, não no componente isolado.
   it("mantém a semântica dos componentes renderizados pela aplicação @spec:AC-040", async () => {
-    // Dashboard: CMV em carregamento (Loading) e consulta de estoque falhando (ErrorMessage).
-    mocks.calcularCMV.mockReturnValue(new Promise(() => undefined));
+    // Dashboard: indicadores em carregamento (Loading) e consulta de estoque
+    // falhando (ErrorMessage).
+    // T-032b: o Loading que mantém role="status" agora depende de
+    // getIndicadoresDashboard, não de calcularCMV. Promise que nunca resolve.
+    mocks.getIndicadoresDashboard.mockReturnValue(new Promise(() => undefined));
     mocks.getProdutosEstoqueNegativo.mockRejectedValue(new Error("Falha ao consultar estoque."));
 
     const { default: App } = await import("../../src/App");

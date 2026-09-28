@@ -34,6 +34,7 @@ const mocks = vi.hoisted(() => ({
   getRelatorioComissao: vi.fn(),
   getProdutosEstoqueNegativo: vi.fn(),
   calcularCMV: vi.fn(),
+  getIndicadoresDashboard: vi.fn(),
 }));
 
 vi.mock("../../src/lib/supabaseClient", () => ({
@@ -93,6 +94,14 @@ vi.mock("../../src/lib/api/relatorios", () => ({
 vi.mock("../../src/lib/api/estoque", () => ({
   getProdutosEstoqueNegativo: mocks.getProdutosEstoqueNegativo,
   calcularCMV: mocks.calcularCMV,
+}));
+
+// T-032b: obrigatório aqui. O supabaseClient deste arquivo é mockado sem `rpc`;
+// sem este mock, getIndicadoresDashboard lança TypeError, o Promise.all da
+// página rejeita, setEstoqueNegativo nunca roda e a lista de e-mail (o <ul> que
+// AC-038 conta como conteúdo a agrupar) não é renderizada.
+vi.mock("../../src/lib/api/dashboard", () => ({
+  getIndicadoresDashboard: mocks.getIndicadoresDashboard,
 }));
 
 const profissional = {
@@ -280,6 +289,13 @@ beforeEach(() => {
   mocks.getRelatorioComissao.mockResolvedValue([]);
   mocks.getProdutosEstoqueNegativo.mockResolvedValue([produto]);
   mocks.calcularCMV.mockResolvedValue(1234.56);
+  mocks.getIndicadoresDashboard.mockResolvedValue({
+    faturamento: 5000,
+    receitaLiquida: 4900,
+    cmv: 1234.56,
+    despesas: 800,
+    temMovimento: true,
+  });
   mocks.getSession.mockResolvedValue({ data: { session: { user: { id: "u-1" } } } });
   mocks.onAuthStateChange.mockReturnValue({
     data: { subscription: { unsubscribe: mocks.unsubscribe } },
