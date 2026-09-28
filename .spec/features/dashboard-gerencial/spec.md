@@ -96,10 +96,24 @@ fn_dashboard_indicadores(p_competencia text) returns table (
 ```
 
 `tem_movimento` existe porque `AC-053` exige distinguir "sem dado" de
-"R$ 0,00 apurado", e um `numeric` sozinho não faz essa distinção. Definição
-usada: existe ao menos uma linha de origem em `pagamentos` (por `paid_at`),
-`despesas` (por `data_pagamento`) ou `movimentacoes_estoque` (tipo `VENDA`, por
-`created_at`) dentro da competência.
+"R$ 0,00 apurado", e um `numeric` sozinho não faz essa distinção.
+
+**Definição, derivada da decisão de produto em ASM-022:** é `true` quando existe
+ao menos **uma** linha de origem entre
+
+- `pagamentos` com `paid_at` dentro da competência;
+- `despesas` com `data_pagamento` dentro da competência;
+- `movimentacoes_estoque` com `tipo = 'VENDA'` e `created_at` dentro da
+  competência.
+
+Consequência que a decisão produz e que a prova tem de cobrir: **despesa sozinha
+já faz `tem_movimento = true`.** Uma competência com despesa e sem pagamento não
+é "sem movimento" — o Faturamento aparece como `R$ 0,00` apurado. A venda de
+produto sem pagamento é possível (`§10.7` do plano: vendas parcialmente pagas), e
+por isso `movimentacoes_estoque` entra na definição: sem ela, uma competência com
+produto vendido e não pago cairia em "sem movimento" exibindo `R$ 0,00` de
+Faturamento ao lado de um CMV apurado — os dois Estados juntos, que a decisão
+proíbe.
 
 ### Garantias técnicas verificadas por execução
 
@@ -172,6 +186,10 @@ do salão sem abrir cada relatório separadamente.
 - **Quando** o dashboard carrega os indicadores dessa competência
 - **Então** cada indicador informa que não há movimento no período, em vez de exibir `R$ 0,00` como se fosse um valor apurado
 
+Este AC cobre **apenas** o caso de ausência total. A fronteira é explícita:
+basta **uma** linha de origem para o período deixar de ser "sem movimento" — ver
+`AC-056` para o caso de despesa sem pagamento, e ASM-022 para a decisão.
+
 #### AC-054 - O dashboard preserva o alerta de estoque negativo
 
 - **Dado** produtos com `estoque_atual` negativo
@@ -183,6 +201,20 @@ do salão sem abrir cada relatório separadamente.
 - **Dado** produtos com `estoque_atual` negativo
 - **Quando** o dashboard é carregado
 - **Então** a seção de simulação de e-mail continua sendo exibida com a lista de produtos em saldo negativo, identificada como demonstração
+
+#### AC-056 - Despesa sem pagamento é valor apurado, não ausência de dado
+
+- **Dado** uma competência com ao menos uma despesa com `data_pagamento` no
+  período, e **sem** pagamento e **sem** movimentação de estoque do tipo `VENDA`
+- **Quando** o dashboard carrega os indicadores dessa competência
+- **Então** o período **não** é tratado como "sem movimento": o indicador
+  Despesas mostra o valor apurado, e o Faturamento aparece como `R$ 0,00`
+  **apurado**, com rótulo e valor — e **não** a mensagem de período sem movimento
+
+Este AC existe porque `AC-053` sozinho **não distingue** os dois casos: uma
+implementação que definisse "sem movimento" apenas pela ausência de pagamento e
+venda, ignorando despesas, passaria em `AC-053` e erraria `AC-056`. Juntos, os
+dois fecham a fronteira definida em ASM-022.
 
 ## Fora de escopo
 
@@ -270,13 +302,14 @@ dashboard. Registrado porque a verificação é por leitura, não por execução
 | ASM-019 | A separação de despesas não exige alteração de `0012`. | confirmada | Extensibilidade aditiva, plano §5.7: nova função em migration nova, `0012` intacta. Decisão B2. |
 | ASM-020 | A demonstração de e-mail deve permanecer visível. | confirmada | D6: investigada, é demonstração sem integração (`v2_5:1097`). **Mantida** por decisão do dono, não por ser funcionalidade. |
 | ASM-021 | O "Faturamento" do dashboard **não** é o mesmo número que o `total_bruto` do relatório de comissão, e a diferença é **pré-existente**, não introduzida aqui. | confirmada | `fn_relatorio_caixa.total_vendas` (`0012:83`) soma `pagamentos.valor_bruto` por `paid_at`, no salão. `fn_relatorio_comissao.total_bruto` (`0013:91`) soma `comanda_itens.total` por `closed_at`, **por profissional**. Uma comanda `FINALIZADA` em 31/01 e paga em 05/02 cai em competências diferentes nos dois. Registrado agora, enquanto a tile de Comissões não existe, para que a comparação não seja tratada depois como defeito |
-| ASM-022 | "Sem movimento" (o `Dado` de `AC-053`) cobre o caso em que **nenhum** dos três-indicator tem linha de origem. O caso **parcial** — por exemplo, só despesas, sem pagamento — não é especificado. | aberta | O `Dado` de `AC-053` define apenas o caso total. Se houver despesa e nenhum pagamento, o Faturamento é `0,00` real ou "sem dado"? A resposta muda o que a interface mostra. **Bloqueia o fechamento da feature, não a implementação dos ACs já definidos** — nenhum AC cobre o caso parcial |
+| ASM-022 | "Sem movimento" cobre o caso em que a competência **não tem nenhum movimento financeiro** — nem pagamento, nem venda, nem despesa. Competência com despesa e sem pagamento **não** é "sem movimento". | confirmada | Decisão do dono do produto: "sem movimento" exige as três ausências. Despesa já é suficiente para o período contar como movimento, e então o Faturamento aparece como `R$ 0,00` **apurado**, não como ausência de dado. Implementado por `tem_movimento` no contrato congelado e provado por `AC-053` (caso total) e `AC-056` (caso parcial) |
 | ASM-023 | A cadeia `security definer` preserva o contexto de salão e falha alto quando ele falta. | confirmada | Verificado por execução em 2026-09-27, não presumido. Ver "Garantias técnicas verificadas por execução": G1 (isolamento preservado, intruso ignorado), G2 (sem GUC, `ERROR: Sessão sem salon_id`, sem degradação para zero), G3 (sem schema qualificado, `function does not exist`) |
 
 ## Perguntas em aberto
 
-Nenhuma pergunta bloqueia a execução. Uma suposição aberta (ASM-022) bloqueia o
-fechamento, não a implementação.
+Nenhuma pergunta bloqueia a execução. Nenhuma suposição aberta: ASM-022 foi
+resolvida pelo dono do produto e a fronteira que ela deixou indefinida ganhou AC
+próprio.
 
 | ID | Pergunta | Status | Resposta |
 |---|---|---|---|
@@ -292,5 +325,7 @@ sobre **competência mensal selecionável**, preservando o alerta de estoque
 negativo e a demonstração de e-mail. Não toca `0012`, `0013` nem
 `relatorios-gerenciais`. Comissões, Resultado líquido e Margem ficam para
 features posteriores, porque dependem de decisões de produto que não existem.
-9 critérios de aceite, todos verificáveis: 4 por pgTAP, 4 por Vitest, 1 por
-ambos.
+**10 critérios de aceite**, todos verificáveis: 6 por pgTAP, 6 por Vitest, 4
+com prova nos dois níveis — o número prova o valor, a interface prova a exibição.
+`AC-053` e `AC-056` fecham juntos a fronteira de "sem movimento", que nenhum dos
+dois fecharia sozinho.

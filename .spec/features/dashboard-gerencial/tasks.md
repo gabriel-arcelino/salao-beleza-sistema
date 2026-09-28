@@ -69,15 +69,15 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ## T-029 - Prova pgTAP das agregações da competência [pendente]
 
-- Refs: AC-048, AC-049, AC-050, AC-051, AC-053
+- Refs: AC-048, AC-049, AC-050, AC-051, AC-053, AC-056
 - Arquivos: supabase/tests/015_fn_dashboard_indicadores.sql
 - Esforço: medio
 - Objetivo: provar, no banco, que os quatro indicadores têm o valor correto e que
-  a competência vazia é distinguível de valor zero.
+  a competência sem movimento é distinguível de valor zero apurado.
 - Depende de: **T-028**. Sem a função, o arquivo não tem o que exercitar.
 - Testes/provas esperados: arquivo pgTAP com `plan(N)` e asserções cujo
   **título** carrega a tag `@spec:AC-xxx` — é o título que o `onp-spec verify`
-  lê; tag em comentário não produz prova. Cinco asserções no mínimo:
+  lê; tag em comentário não produz prova. Seis asserções no mínimo:
   - `AC-048`: o `faturamento` devolvido é **igual** ao que
     `public.fn_relatorio_caixa` devolve no mesmo intervalo, lido de
     `total_vendas`, **no mesmo teste** — é essa comparação que impede uma
@@ -91,11 +91,16 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
     inclui o `total_pago` do fechamento
   - `AC-053`: competência sem pagamento, sem movimentação `VENDA` e sem despesa
     devolve `tem_movimento = false`
+  - `AC-056`: competência **com** despesa e **sem** pagamento e **sem**
+    movimentação `VENDA` devolve `tem_movimento = true`, com `faturamento = 0`
+    e `despesas` igual à despesa inserida. **Este é o teste que fecha a
+    fronteira de ASM-022** — sem ele, uma implementação que ignorasse despesas
+    na definição de movimento passaria em `AC-053` e erraria aqui
 - Critério objetivo de conclusão: o arquivo roda sob
   `node scripts/onp-feature-verify.cjs dashboard-gerencial` com `exit 0`; todas as
   asserções com tag saem `ok`; `plan(N)` bate com o número de asserções; e
   `.spec/verification/dashboard-gerencial.json` tem `results` com `pass` para os
-  cinco ACs.
+  seis ACs.
 
 ## T-030 - Contrato TypeScript dos indicadores [pendente]
 
@@ -129,47 +134,56 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 
 ## T-032 - DashboardPage: seletor de competência e indicadores [pendente]
 
-- Refs: AC-047, AC-053
+- Refs: AC-047, AC-053, AC-056
 - Arquivos: src/pages/DashboardPage.tsx
 - Esforço: medio
 - Objetivo: substituir a competência fixa por um seletor e renderizar os quatro
   indicadores, com estado de "sem movimento".
 - Depende de: **T-031** (a consulta) e **T-030** (o tipo).
-- Não pode remove: o alerta de estoque negativo (`AC-054`) e a seção de
+- Não pode remover: o alerta de estoque negativo (`AC-054`) e a seção de
   demonstração de e-mail (`AC-055`). Preservar é condição, não opção.
 - Testes/prova esperada: nenhum teste próprio; exercitada por T-033.
 - Critério objetivo de conclusão: a constante `new Date().toISOString().slice(0, 7)`
   deixa de ser o valor fixo e passa a vir do seletor; os quatro indicadores
   renderizam rótulo e valor; quando `tem_movimento` é falso, renderizam a
-  mensagem de período sem movimento **em vez de** `R$ 0,00`; o controle de
+  mensagem de período sem movimento **em vez de** `R$ 0,00`; quando
+  `tem_movimento` é verdadeiro e `faturamento` é `0`, renderizam **`R$ 0,00` com
+  rótulo e valor**, e **não** a mensagem — é a distinção de ASM-022, e a razão de
+  `AC-053` e `AC-056` serem estados diferentes na interface; o controle de
   competência tem `label` associado com `id`, seguindo o padrão de
   acessibilidade já provado por `AC-031` de `refinamento-interface`; e o alerta
   de estoque e a demonstração de e-mail continuam no JSX.
 
 ## T-033 - Provas de apresentação dos indicadores [pendente]
 
-- Refs: AC-047, AC-048, AC-049, AC-050, AC-051, AC-052, AC-053, AC-054, AC-055
+- Refs: AC-047, AC-048, AC-049, AC-050, AC-051, AC-052, AC-053, AC-054, AC-055, AC-056
 - Arquivos: tests/ui/dashboard-gerencial-competencia.spec.tsx, tests/ui/dashboard-gerencial-indicadores.spec.tsx, tests/ui/dashboard-gerencial-preservado.spec.tsx
 - Esforço: medio
 - Objetivo: provar, na interface, que a competência é selecionável, que os
-  indicadores aparecem com rótulo e valor, e que o conteúdo preexistente
-  sobreviveu.
+  indicadores aparecem com rótulo e valor, que "sem movimento" é distinguível de
+  valor zero apurado, e que o conteúdo preexistente sobreviveu.
 - Depende de: **T-032**.
 - Testes/prova esperada: três arquivos, agrupados por preocupação, seguindo o
   padrão de `refinamento-interface` (um arquivo por grupo de AC, não um por AC):
   - `…-competencia.spec.tsx` → `AC-047` (seletor altera o rótulo) e `AC-052`
     (dados em duas competências mudam ao alternar)
   - `…-indicadores.spec.tsx` → `AC-048`, `AC-049`, `AC-050`, `AC-051` (rótulo e
-    valor renderizados) e `AC-053` (mensagem de período sem movimento, e
-    **ausência** de `R$ 0,00` nesse estado)
+    valor renderizados), mais a **fronteira de ASM-022** em dois estados
+    distintos e mutuamente exclusivos:
+    - `AC-053` — sem pagamento, sem venda, sem despesa: mostra a mensagem e
+      **não** mostra `R$ 0,00`
+    - `AC-056` — com despesa, sem pagamento e sem venda: mostra **`R$ 0,00` com
+      rótulo** e **não** mostra a mensagem
+    Precisam ser asserções separadas. Um teste que só verificasse a ausência da
+    mensagem no caso `AC-056` passaria mesmo com a mensagem também aparecendo.
   - `…-preservado.spec.tsx` → `AC-054` e `AC-055` (alerta de estoque e
     demonstração de e-mail continuam renderizando)
-  - `AC-048` a `AC-051` recebem tag **também** aqui, além da prova de valor em
-    T-029. Uma prova o número, a outra prova a exibição. Um AC pode ser
+  - `AC-048` a `AC-051` e `AC-056` recebem tag **também** aqui, além da prova de
+    valor em T-029. Uma prova o número, a outra prova a exibição. Um AC pode ser
     carregado por dois arquivos; basta um `pass` e nenhum `fail`.
 - Critério objetivo de conclusão: os três arquivos rodam verdes sob
   `npx vitest run`; as tags estão nos títulos; e
-  `.spec/verification/dashboard-gerencial.json` mostra `pass` nos **nove** ACs
+  `.spec/verification/dashboard-gerencial.json` mostra `pass` nos **dez** ACs
   com `testsParsed > 0`.
 
 ---
