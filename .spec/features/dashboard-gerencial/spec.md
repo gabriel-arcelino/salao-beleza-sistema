@@ -41,6 +41,36 @@ fórmulas citadas são **re-derivadas do código existente**, não inventadas.
   destinatários fixos em JSX. O plano confirma: `v2_5:1097` — *"E-mail via Resend
   | planejado; sem integração atual"*. Ela é mantida **e** documentada como
   demonstração, para que ninguém a leia como funcionalidade.
+- **D7 — A formatação monetária deste dashboard segue a SPEC (`R$ 1.234,56`) e
+  diverge da convenção histórica do projeto (`R$ 1234.56`).** Ver a seção
+  "Divergência de formatação monetária" abaixo. Decisão registrada pelo dono
+  nesta rodada: **não refatorar agora**; a padronização monetária do projeto
+  será feature própria.
+
+### Divergência de formatação monetária (decisão D7, sem correção nesta feature)
+
+Esta feature **introduz uma segunda convenção** de exibição de dinheiro no
+projeto, e isso é deliberado, não acidental. Registrado para que a duplicidade
+não passe por herança de código.
+
+- **O que o dashboard faz:** `DashboardPage.tsx` formata com
+  `toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })`,
+  produzindo `R$ 1.234,56` — separador de milhar e vírgula decimal.
+- **De onde vem a exigência:** a SPEC pede "formatado em real" (`AC-048`) e
+  escreve literalmente `R$ 0,00` em `AC-053`, `AC-056` e `AC-057`. A vírgula é
+  a leitura literal do contrato.
+- **O que o projeto faz hoje:** `toFixed(2)` com ponto, em mais de 20 sítios
+  incluindo `ComandasPage`, `ProdutosPage`, `ServicosPage`,
+  `RelatorioCaixaPage` e `RelatorioComissaoPage`. A revisão da Onda C custou
+  duas asserções de outras features, que passaram a observar `R$ 1.234,56`.
+- **Decisão:** seguir a SPEC. **Não** há, nesta feature, refatoração da
+  formatação dos demais pontos.
+- **Consequência aceita:** o projeto passa a exibir dinheiro de duas maneiras.
+  Isso é dívida conhecida, não dívida oculta.
+- **Trabalho futuro, explicitamente fora do escopo:** uma feature de padronização
+  monetária deve decidir entre (a) migrar o dashboard para `toFixed(2)` e
+  ajustar a SPEC, ou (b) migrar o projeto para `pt-BR` e extrair um formatador
+  único. A escolha é de produto e **não** foi antecipada aqui.
 
 ### Observação que sustenta D1
 
