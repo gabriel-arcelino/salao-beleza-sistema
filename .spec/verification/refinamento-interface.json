@@ -1,7 +1,7 @@
 {
   "feature": "refinamento-interface",
-  "timestamp": "2026-09-27T19:30:24.304Z",
-  "gitRev": "6fbe65b",
+  "timestamp": "2026-09-28T14:55:55.279Z",
+  "gitRev": "6f1c96f",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,57 +9,57 @@
   "results": {
     "AC-031": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5730.40ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5175.99ms {",
       "method": "tap"
     },
     "AC-032": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5730.40ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5175.99ms {",
       "method": "tap"
     },
     "AC-033": {
       "status": "pass",
-      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=8432.06ms {",
+      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=7693.29ms {",
       "method": "tap"
     },
     "AC-034": {
       "status": "pass",
-      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=8432.06ms {",
+      "testName": "Refinamento de interface — EmptyState @spec:AC-033 @spec:AC-034 # time=7693.29ms {",
       "method": "tap"
     },
     "AC-035": {
       "status": "pass",
-      "testName": "Refinamento de interface — Button @spec:AC-035 @spec:AC-036 # time=8737.61ms {",
+      "testName": "Refinamento de interface — Button @spec:AC-035 @spec:AC-036 # time=7793.15ms {",
       "method": "tap"
     },
     "AC-036": {
       "status": "pass",
-      "testName": "Refinamento de interface — Button @spec:AC-035 @spec:AC-036 # time=8737.61ms {",
+      "testName": "Refinamento de interface — Button @spec:AC-035 @spec:AC-036 # time=7793.15ms {",
       "method": "tap"
     },
     "AC-037": {
       "status": "pass",
-      "testName": "Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038 # time=4886.12ms {",
+      "testName": "Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038 # time=5112.36ms {",
       "method": "tap"
     },
     "AC-038": {
       "status": "pass",
-      "testName": "Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038 # time=4886.12ms {",
+      "testName": "Refinamento de interface — tipografia @spec:AC-037 @spec:AC-038 # time=5112.36ms {",
       "method": "tap"
     },
     "AC-039": {
       "status": "pass",
-      "testName": "Navegação — aba ativa @spec:AC-039 # time=5660.67ms {",
+      "testName": "Navegação — aba ativa @spec:AC-039 # time=6039.63ms {",
       "method": "tap"
     },
     "AC-040": {
       "status": "pass",
-      "testName": "Refinamento de interface — acessibilidade @spec:AC-040 # time=5018.36ms {",
+      "testName": "Refinamento de interface — acessibilidade @spec:AC-040 # time=4396.93ms {",
       "method": "tap"
     },
     "AC-041": {
       "status": "pass",
-      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5730.40ms {",
+      "testName": "Refinamento de interface — formulários @spec:AC-031 @spec:AC-032 @spec:AC-041 # time=5175.99ms {",
       "method": "tap"
     }
   },

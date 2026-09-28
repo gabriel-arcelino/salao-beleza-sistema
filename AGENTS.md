@@ -13,6 +13,29 @@
 - Use `context7` para verificar documentação e APIs de bibliotecas quando necessário.
 - Não use MCPs apenas porque estão disponíveis.
 
+## Stack local (Supabase)
+
+O stack local exige **Supabase CLI >= 2.118.0**, que fornece **PostgREST >= 16.3**.
+
+- Motivo: o PostgREST 16.1 tem um defeito documentado — [#5196](https://github.com/PostgREST/postgrest/issues/5196),
+  corrigido em 16.3 — em que o relógio interno em cache faz um `iat` correto ser
+  julgado como futuro, retornando `401 PGRST303 "JWT issued at future"` na primeira
+  requisição após um período longo sem tráfego. Ver `docs/diagnostico-jwt.md`.
+- A versão da imagem fica **hardcoded no binário da CLI**, não em
+  `supabase/config.toml`. Não existe flag para pinar a tag.
+- Portanto: rodar `npx supabase start` com uma CLI mais antiga **reverte o
+  PostgREST para 16.1 silenciosamente**, sem erro e sem aviso, e o bug volta.
+  Verifique a versão **antes** de qualquer `supabase start` ou `supabase stop`:
+
+  ```bash
+  npx supabase --version
+  docker exec supabase_rest_salao-beleza-sistema postgrest --version
+  ```
+
+- Nunca use `supabase stop --no-backup`: apaga os volumes de dados.
+- `npx supabase start` imprime chaves de desenvolvimento no terminal. São defaults
+  locais compartilhados; não as reproduza em logs, commits ou documentação.
+
 ## Escopo
 
 - Não altere arquivos não relacionados.

@@ -146,7 +146,7 @@ describe("Recuperação de carga — @spec:AC-042 @spec:AC-043 @spec:AC-045", ()
     expect(screen.getByRole("button", { name: "Tentar novamente" })).toBeVisible();
   }, 15000);
 
-  it("reexecuta a carga e limpa o erro quando a nova tentativa funciona @spec:AC-042 @spec:AC-043", async () => {
+  it("reexecuta a carga e limpa o erro quando a nova tentativa funciona @spec:AC-042 @spec:AC-043 @spec:AC-062", async () => {
     mocks.getProdutosEstoqueNegativo.mockRejectedValueOnce(new Error(FALHA));
     mocks.getProdutosEstoqueNegativo.mockResolvedValueOnce([
       { id: "p-1", nome: "Produto Negativo", estoque_atual: -3, estoque_minimo: 0 },
