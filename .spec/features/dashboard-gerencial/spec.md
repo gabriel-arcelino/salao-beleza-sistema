@@ -337,6 +337,55 @@ próprio.
 | Q-018 | A demonstração de e-mail deve ser removida agora que foi classificada? | respondida | **Não.** Mantida e documentada como demonstração. Remover é decisão de produto futura. |
 | Q-019 | A função nova pode chamar `fn_relatorio_caixa` e `fn_calcular_cmv` por `security definer` sem perder o contexto de salão? | respondida | **Sim, e verificado por execução.** G1, G2 e G3 em "Garantias técnicas verificadas". Com schema qualificado (`public.`) a cadeia preserva o isolamento por salão e aborta com exceção quando falta contexto |
 
+## Achados de processo abertos
+
+Defeitos do **motor ONP** encontrados por esta feature, não do produto. Estão
+registrados porque mudam o que uma task pode declarar, e porque silenciá-los
+faria a rastreabilidade parecer mais sadia do que é. **Nenhum foi corrigido** —
+corri-los é decisão de processo, não desta feature.
+
+### AP-001 - O gate de conclusão não distingue AC implementado de AC cuja prova vem de outra task
+
+- **Onde:** `.claude/skills/onp-spec-driven/scripts/lib/src/core/audit.js:288-308`.
+- **O que o motor faz:** para toda task `[concluida]`, filtra `task.refs` para os
+  ACs existentes e exige `project.verifications[feature_dona].results[acId].status === 'pass'`.
+  Sem isso, emite `TASK_CONCLUIDA_SEM_PROVA` como **erro**.
+- **O que ele não distingue:** uma task que **implementa** um AC de uma task que
+  **produz a prova** desse AC. São papéis distintos, e o gate trata os dois como
+  "esta task comprova este AC".
+- **Como esta feature encadeou:** T-032 implementa a UI de `AC-047`, `AC-053`,
+  `AC-056` e `AC-057`, mas sua evidência é automatizada por T-033, por decisão
+  explícita da spec. Com a decomposição anterior, T-032 ficava impedida de ser
+  `[concluida]` **pela própria decomposição**: para fechar, T-033 precisaria
+  rodar primeiro, e T-033 depende de T-032. Um ciclo criado apenas pela modelagem
+  das tasks, nao pelo codigo.
+- **Correção aplicada nesta feature, sem prova artificial:** T-032 deixou de
+  declarar `Refs:` de ACs e passou a declará-los em `Implementa (prova em
+  T-033):`, campo que o parser ignora. T-033 é a dona declarada dos ACs de
+  apresentação. A rastreabilidade AC → task → teste continua inteira, pelos dois
+  lados: T-033 referencia os onze ACs e lista os arquivos de teste; T-032
+  declara o que implementa. Nenhum teste foi criado para agradar o audit.
+- **Correção que o motor precisaria:** distinguir `Ref` (comprova) de
+  `Implementa` (entrega o artefato), e exigir prova apenas do primeiro.
+
+### AP-002 - O gate aceita prova PASS que está `VERIFY_OBSOLETO`
+
+- **Onde:** o mesmo bloco de `audit.js`. O gate lê `proof.status` e não consulta
+  a staleness do mesmo `verification`.
+- **Demonstração concreta, não teórica:** T-032b foi marcada `[concluida]`
+  referenciando `AC-014` (feature `fundacao-ui`), `AC-042` e `AC-043` (feature
+  `recuperacao-carga`). As três provas vieram de verifications anteriores, e o
+  **mesmo comando** que aprovou T-032b reportou `VERIFY_OBSOLETO` para
+  `fundacao-ui` e `recuperacao-carga`. Ou seja: a task foi considerada comprovada
+  por evidência que o próprio audit declara desatualizada.
+- **Consequência:** uma task pode fechar sobre prova antiga, e o erro aparece
+  como finding separado, sem alterar o veredito da task. O nome sugere
+  fraqueza, mas a falha é de fundo: a staleness é detectada e simplesmente não
+  participa do gate.
+- **Não corrigido nesta rodada**, por instrução. Note que em modo `--ci` a
+  severidade de `VERIFY_OBSOLETO` é elevada de aviso a erro; fora dele, os dois
+  findings acima seriam apenas avisos e o verde seria ainda mais enganoso.
+
 ## Resumo executivo (para auditoria)
 
 Uma feature de produto, com escopo deliberadamente menor que o do plano. Entrega

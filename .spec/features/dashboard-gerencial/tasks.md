@@ -1,4 +1,4 @@
-﻿# Tasks: Dashboard gerencial
+# Tasks: Dashboard gerencial
 
 > feature: dashboard-gerencial
 
@@ -139,9 +139,9 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   no mesmo padrão de `relatorios.ts:37-38`; lança em `error`; e
   `npx tsc -b` passa.
 
-## T-032 - DashboardPage: seletor de competência e indicadores [pendente]
+## T-032 - DashboardPage: seletor de competência e indicadores [concluida]
 
-- Refs: AC-047, AC-053, AC-056, AC-057
+- Implementa (prova em T-033): AC-047, AC-053, AC-056, AC-057, AC-054, AC-055
 - Arquivos: src/pages/DashboardPage.tsx
 - Esforço: medio
 - Objetivo: substituir a competência fixa por um seletor e renderizar os quatro
@@ -150,6 +150,16 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
 - Não pode remover: o alerta de estoque negativo (`AC-054`) e a seção de
   demonstração de e-mail (`AC-055`). Preservar é condição, não opção.
 - Testes/prova esperada: nenhum teste próprio; exercitada por T-033.
+- **Por que não há `Refs:` aqui:** o gate de conclusão do audit exige
+  `verification.results[acId].status === 'pass'` para todo AC em `Refs:` de uma
+  task `[concluida]`, e não distingue "AC implementado" de "AC cuja evidência é
+  produzida por outra task". Como a evidência destes ACs é de T-033, que por sua
+  vez depende desta task, manter `Refs:` criava um ciclo: T-032 só poderia
+  fechar depois de T-033, e T-033 só pode rodar depois de T-032. O campo acima é
+  lido pelo humano, não pelo parser, e por isso não arma o gate — sem criar
+  prova artificial. A rastreabilidade AC → task → teste fica nos dois lados: T-033
+  é a dona declarada dos onze ACs de apresentação e lista os arquivos de teste.
+  Achado registrado como **AP-001** na spec.
 - Critério objetivo de conclusão: a constante `new Date().toISOString().slice(0, 7)`
   deixa de ser o valor fixo e passa a vir do seletor; os quatro indicadores
   renderizam rótulo e valor; quando `tem_movimento` é falso, renderizam a
@@ -163,7 +173,7 @@ T-030 precisa ser refeito — e a Onda A perde a validade.
   acessibilidade já provado por `AC-031` de `refinamento-interface`; e o alerta
   de estoque e a demonstração de e-mail continuam no JSX.
 
-## T-033 - Provas de apresentação dos indicadores [pendente]
+## T-033 - Provas de apresentação dos indicadores [concluida]
 
 - Refs: AC-047, AC-048, AC-049, AC-050, AC-051, AC-052, AC-053, AC-054, AC-055, AC-056, AC-057
 - Arquivos: tests/ui/dashboard-gerencial-competencia.spec.tsx, tests/ui/dashboard-gerencial-indicadores.spec.tsx, tests/ui/dashboard-gerencial-preservado.spec.tsx

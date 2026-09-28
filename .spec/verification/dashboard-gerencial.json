@@ -1,12 +1,17 @@
 {
   "feature": "dashboard-gerencial",
-  "timestamp": "2026-09-28T03:25:28.484Z",
-  "gitRev": "5f1a690",
+  "timestamp": "2026-09-28T12:19:31.497Z",
+  "gitRev": "e902e3a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 13,
+  "testsParsed": 71,
   "results": {
+    "AC-047": {
+      "status": "pass",
+      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=3279.88ms {",
+      "method": "tap"
+    },
     "AC-048": {
       "status": "pass",
       "testName": "Faturamento do dashboard e igual a total_vendas do relatorio de caixa na mesma competencia @spec:AC-048",
@@ -27,9 +32,24 @@
       "testName": "Despesas do dashboard somam so a despesa e NAO incluem o total_pago do fechamento @spec:AC-051",
       "method": "tap"
     },
+    "AC-052": {
+      "status": "pass",
+      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=3279.88ms {",
+      "method": "tap"
+    },
     "AC-053": {
       "status": "pass",
       "testName": "Competencia sem pagamento, venda ou despesa e marcada como sem movimento @spec:AC-053",
+      "method": "tap"
+    },
+    "AC-054": {
+      "status": "pass",
+      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=3489.41ms {",
+      "method": "tap"
+    },
+    "AC-055": {
+      "status": "pass",
+      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=3489.41ms {",
       "method": "tap"
     },
     "AC-056": {
