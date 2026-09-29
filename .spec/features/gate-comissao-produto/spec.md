@@ -31,7 +31,12 @@ Esta feature **não altera comportamento**. Ela cria a prova que falta.
   implementado e documentado no plano. A feature só registra, em forma de teste
   automatizado, o que a norma e o código já determinam. Essa é a razão de esta
   feature existir separada da feature de integridade de `config_comissoes`:
-  aquela exige três decisões de produto; esta não exige nenhuma.
+  esta não exige decisão de produto alguma. A feature `integridade-config-comissoes`
+  é justamente onde as três decisões de produto que um dia bloquearam o trabalho
+  foram tomadas: o segundo salvamento é rejeitado e não faz `upsert`, medido como
+  inexpressível no PostgREST atual sem exigir RPC; a exclusão de configuração é
+  adiada para feature de ciclo de vida própria; e a ordem deixou de ser bloqueio
+  quando os fixtures passaram a se isolar por `delete` estreito.
 - **O teste replica o `005` com o gate invertido.** Mesmo produto, mesmo
   profissional, mesmos valores, mudando apenas `comissao_sobre_produto` de
   `true` para `false`. Assim os dois testes ficam diretamente comparáveis: 7.50
@@ -74,7 +79,8 @@ valor apurado no fechamento eu confio sem precisar conferir item a item.
   defeito, não motivo para "consertar" o código dentro desta feature.
 - **Não** cria índice, **não** migra schema, **não** implementa `upsert`, **não**
   cria `delete` em `config_comissoes`. Isso pertence à feature de integridade de
-  `config_comissoes`, que está bloqueada em três decisões de produto.
+  `config_comissoes`, `integridade-config-comissoes`, que já decidiu esses três
+  pontos e os deixou fora do próprio escopo — ver Q-022, Q-023 e a nota de T-044.
 - **Não** corrige `processo-dev-salao-beleza.md:47`, que resume a regra e omite o
   gate. Divergência de documentação registrada, behandada em outra rodada.
 - **Não** adiciona `@spec:` aos outros 12 arquivos pgTAP sem tag.
