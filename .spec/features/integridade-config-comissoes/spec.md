@@ -246,7 +246,7 @@ domínios diferentes:
   diretamente (`:44-45`, `40.00`). A linha de config diz `comissao_percentual = 40`,
   o mesmo valor de `profissionais.comissao_percentual_padrao` (`:14-16`): ela
   documenta de onde veio o snapshot, mas com um valor indistinguível de outras duas
-  fontes. Fica com comentário declaring que é procedência e não entrada, e com a
+  fontes. Fica com comentário dizendo que é procedência e não entrada, e com a
   limpeza estreita acima.
 
 Registrado explicitamente: **`011` e `012` não cobrem unicidade.** Eles cobrem
