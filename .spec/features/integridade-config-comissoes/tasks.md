@@ -84,8 +84,28 @@
   mockado devolvendo `{ code: '23505' }` e afirmar o erro de domínio, com
   `@spec:AC-065` no título. Nenhum dos seis testes Vitest existentes exercita esta
   API — os que renderizam `ConfigComissoesPage` apenas a mockam, e sem `@spec:`.
-  Esta tarefa confirma a suposição ASM-038: se o cliente não expõe `code`, o
-  teste reprova e a suposição é falsa, o que muda o desenho.
+  **O papel deste teste é a tradução feita pelo código da aplicação, não o
+  comportamento do PostgREST.** A forma do erro foi observada por medição real em
+  2026-09-29, através da mesma fronteira que a aplicação usa (`createClient` +
+  `.insert().select().single()`), com a violação de unicidade provocada em
+  `config_comissoes`. O objeto de erro chegou ao cliente com as quatro chaves
+  `code`, `details`, `hint` e `message`: `code` valeu `'23505'`, e `details` e
+  `hint` vieram como `null` no corpo HTTP e como `""` no objeto do cliente. Disso
+  resultam três restrições para a tradução: ancorar em `error.code === '23505'`;
+  não usar `details` nem `hint`, que chegam vazios; e não usar o texto de
+  `message` como discriminante da regra, porque é texto técnico que varia por
+  versão e locale. A mesma medição mostrou que `message` carrega hoje o nome da
+  constraint e que `ConfigComissoesPage.tsx:72` faz `setErro((e as Error).message)`,
+  ou seja, sem a tradução o usuário leria esse texto técnico na tela.
+
+  **Limitações que esta tarefa não fecha.** A medição foi feita contra a
+  constraint de três colunas; o comportamento específico do índice parcial de
+  T-044 ainda não foi medido, porque o índice não existe. ASM-038/C — "traduzir
+  basta" — continua sem prova, por ser afirmação de projeto. E o caminho real de
+  login do GoTrue não foi medido: a verificação foi feita na fronteira abaixo
+  dele. O registro durável da medição também ainda não existe; isto fica anotado
+  para que ninguém trate o teste desta tarefa como substituto da medição de
+  fronteira.
 
 ## T-048 — Alinhar as fixtures de `011` e `012` à invariante [pendente]
 - Refs: US-024
