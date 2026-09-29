@@ -1,7 +1,7 @@
 # Spec: Integridade da configuração de comissões
 
 > feature: integridade-config-comissoes
-> status: rascunho
+> status: implementada
 
 ## Contexto
 
@@ -341,7 +341,7 @@ Mutation Check é **experimental** e não é gate, conforme a norma. Segue o pre
 | ASM-035 | A configuração de nível profissional é única por `(salon_id, profissional_id)`. | confirmada | É a intenção declarada da restrição em `v2_4:679-681`, lida com a semântica de `NULL` do PostgreSQL. A restrição foi escrita com a intenção de cobrir os dois níveis e não cobre o profissional. |
 | ASM-036 | O profissional pode ter, ao mesmo tempo, um percentual padrão e um override por serviço. | confirmada | `v2_4:2061` ("config_comissoes tem servico_id opcional, permitindo override por combinação profissional+serviço") e a precedência em `0004:207-219` pressupõem as duas linhas existindo. |
 | ASM-037 | Não há dado corrompido a corrigir; a feature é de prevenção. | confirmada | Medido em 2026-09-29: 0 linhas, 0 duplicatas. Registrado em "Estado atual no banco local". |
-| ASM-038 | Traduzir `23505` na camada de API é suficiente e não exige RPC. | aberta | A existência e o formato de `error.code = '23505'` na fronteira real foram confirmados por medição em 2026-09-29, com a violação de unicidade provocada em `config_comissoes` através de `createClient` + `.insert().select().single()`: o cliente recebeu `code` valendo `'23505'`, com `details` e `hint` vazios. A tradução pode ocorrer em `config_comissoes.ts` sem alterar o banco. **T-047 verifica a tradução feita pelo código da aplicação, não o comportamento do PostgREST**, que já tem evidência independente. Pendentes: o comportamento específico após o índice parcial de T-044 ainda não foi medido, e a parte C desta suposição — "traduzir basta" — continua sem prova, por ser afirmação de projeto. |
+| ASM-038 | Traduzir `23505` na camada de API é suficiente e não exige RPC. | confirmada | Confirmada nas três partes pela evidência de T-047. **A**: `error.code = "23505"` chega ao cliente, medido em 2026-09-29 pela fronteira PostgREST em dois cenários — a constraint de três colunas de `0001:141` e o índice parcial `config_comissoes_prof_nivel_uniq` de T-044 —, com `details` e `hint` vazios nos dois. **B**: a tradução foi implementada apenas em `src/lib/api/config_comissoes.ts`, sem migration, sem RPC e sem alteração de `ConfigComissoesPage.tsx`. **C**: "traduzir basta" foi demonstrado por 4/4 asserts em `tests/api/config_comissoes.spec.ts`, dos quais 3 discriminam a ausência de tradução contra o arquivo pré-T-047. |
 | ASM-039 | `seed.sql` não popula `config_comissoes`, e por isso os testes partem de tabela vazia. | confirmada | `grep` de `config_comiss` em `supabase/seed.sql`: 2 ocorrências, ambas em `motivos_desconto` e `profissionais`. Confirmado por medição: 0 linhas após `db reset`. |
 
 ## Perguntas em aberto
@@ -357,20 +357,21 @@ Nenhuma pergunta bloqueia a execução. Nenhuma decisão de produto é pendente.
 
 ## Estado dos gates (2026-09-29)
 
-A feature permanece `rascunho`: T-047 não está implementada e AC-065 não tem prova.
-G0 a G3 abaixo refletem o que foi medido; G4 em diante não foram executados.
+Feature em `implementada`: as 8 tarefas estão `concluida`, os 3 critérios de aceite têm
+prova PASS e **todos os oito gates foram executados**. G8 fica `exit 1` por erro alheio
+à feature, detalhado abaixo.
 
 | Gate | Estado | Evidência |
 |---|---|---|
-| G0 Escopo | **PASS** | escopo fechado nesta spec; as três decisões de produto que bloqueavam a feature estão resolvidas (Q-022, Q-023, e a ordem deixou de ser bloqueio) |
-| G1 SPEC Review | **revisão semântica executada; falta o aval do dono** | Mecanicamente limpo: `audit` sem `ID_DUPLICADO`, `AC_INCOMPLETO`, `US_SEM_AC`. Revisão semântica executada: 12+ citações conferidas contra fonte primária; base normativa de AC-063 e AC-064 reforçada por `v2_4:681` e `:2061`; poder discriminante de AC-064 medido. Dois achados já corrigidos: T-047 subespecificada (nota reescrita) e a referência de ASM-038 na spec, que ainda apontava T-047 como prova do PostgREST. |
-| G2 Test/Evidence | **PASS com ressalva** | cada AC tem prova declarada: AC-063 e AC-064 em `supabase/tests/016…sql`, AC-065 em Vitest. A ressalva vem do mutation check: o mapeamento 1:1 **não se confirmou**, e duas correções de tagueamento estão registradas sem aplicadas. |
-| G3 Feature Verify | **parcial** | `integridade-config-comissoes 2/2 critério(s) com prova PASS · 5 teste(s) lidos · exit 0`; artefato `.spec/verification/integridade-config-comissoes.json` com `AC-063` e `AC-064` em `pass`. **AC-065 não tem prova** e o gate não fecha enquanto T-047 não existir. |
-| G4 QA funcional | **pendente, e não é N/A** | o índice muda comportamento observável: um segundo salvamento do mesmo par passa a ser recusado, onde antes criava duplicata. Verificado por fronteira, mas o cenário de usuário real não foi exercido. |
-| G5 QA visual | **pendente, e não é N/A** | AC-065 altera a mensagem exibida ao usuário. Além disso, a mensagem atual vaza o nome da constraint, medido. |
-| G6 Diff/Scope Review | **pendente** | 3 arquivos criados: migration `0015`, teste `016`, artefato de prova. Nenhuma alteração em `src/`, RLS, `seed.sql` ou motor. |
-| G7 Global Regression | **parcial** | suíte pgTAP: `80 ok · 0 not ok`, incluindo os 4 asserts novos. A/B do índice: `76 ok · 0 not ok` com e sem ele, logo neutro. **Ressalva:** o `audit` reporta 8 `VERIFY_OBSOLETO` em outras features — ver a seção seguinte. |
-| G8 Audit | **pendente** | `exit 1`. Estado atual e causa da invalidação alheia, na seção seguinte. |
+| G0 Escopo | **PASS** | escopo fechado na spec; as três decisões de produto que bloqueavam a feature foram resolvidas (Q-022, Q-023, e a ordem deixou de ser bloqueio) |
+| G1 SPEC Review | **revisão semântica executada; falta o aval do dono** | mecanicamente limpo. Revisão semântica executada em três rodadas: citações conferidas contra fonte primária; base normativa de AC-063 e AC-064 reforçada por `v2_4:681` e `:2061`; poder discriminante de AC-064 medido; T-047 reescrito porque o teste mockado era circular; AC-065 reescrito porque duas de suas quatro cláusulas não eram discriminantes na forma planejada. Três defeitos encontrados e corrigidos antes de implementar. |
+| G2 Test/Evidence | **PASS com ressalva registrada** | cada AC tem prova: AC-063 e AC-064 em `016_config_comissoes_uniq_profissional.sql`, AC-065 em `tests/api/config_comissoes.spec.ts`. A ressalva: o mapeamento de mutação **não é 1:1**, e a assert 1 de AC-065 não discrimina sozinha — ambas registradas em "Mutation check". |
+| G3 Feature Verify | **PASS** | `integridade-config-comissoes: 3/3 critério(s) de aceite com prova PASS · 11 teste(s) lidos · exit 0`; artefato `.spec/verification/integridade-config-comissoes.json` com os três em `pass`. Mutação (c) aferida: as asserts 2, 3 e 4 reprovam contra o arquivo pré-T-047. |
+| G4 QA funcional | **PASS** | Executado no build de produção (`tsc -b && vite build`, exit 0) servido por `vite preview`, com usuário ADMIN autenticado. Quatro passos, todos verificados no banco: salvar nível profissional foi aceito; salvar o mesmo par de novo foi **recusado** e nenhuma linha foi criada; salvar nível serviço foi aceito, convivendo com a de nível profissional; salvar o mesmo serviço de novo foi **recusado** e nenhuma linha foi criada. Rejeição real, não cosmética: o total ficou em 2 linhas, uma `servico_id IS NULL` e outra `…0201`. A coexistência que AC-064 exige foi observada no app, não só por medição de fronteira. |
+| G5 QA visual | **PASS** | A mensagem aparece ao usuário em vermelho, com a ação "Tentar novamente". Nível profissional: *"Já existe uma configuração de comissão padrão para este profissional. Edite a existente ou remova-a antes de criar outra."* Nível serviço: *"Já existe uma configuração de comissão para este profissional neste serviço. Edite a existente ou remova-a antes de criar outra."* As duas são distintas, o que confirma a discriminação por nível. Verificado no DOM que ambas **não** contêm `23505`, nem nome de constraint, nem `duplicate key`. Antes de T-047 o usuário lia `duplicate key value violates unique constraint "config_comissoes_…_key"`, via `ConfigComissoesPage.tsx:72`. |
+| G6 Diff/Scope Review | **PASS** | 6 arquivos criados ou alterados, todos em `Arquivos:` das tarefas correspondentes: migration `0015`, teste pgTAP `016`, teste Vitest `tests/api/`, `src/lib/api/config_comissoes.ts`, `011`, `012`. Nenhuma alteração em RLS, `seed.sql`, motor ou outra feature. |
+| G7 Global Regression | **PASS com ressalva** | pgTAP `80 ok · 0 not ok`; Vitest `16 arquivos · 101 testes · 0 falhas`; `onp-combined-verify` exit 0; `tsc -b` exit 0. Ressalva: o `audit` reporta 8 `VERIFY_OBSOLETO` alheios, falso positivo do mecanismo — ver a seção seguinte. |
+| G8 Audit | **exit 1, alheio à feature** | `54/54` ACs com prova. Os 8 erros restantes são `VERIFY_OBSOLETO` de outras features. |
 
 ### Estado do `audit --ci` neste momento
 

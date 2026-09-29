@@ -18,7 +18,7 @@
     (atalho: `onp-spec tarefa <feature> <T-xxx> <status>`)
 -->
 
-## T-044 — Migration 0015: índice único parcial de nível profissional [pendente]
+## T-044 — Migration 0015: índice único parcial de nível profissional [concluida]
 - Refs: US-024, US-025, AC-063, AC-064
 - Arquivos: supabase/migrations/0015_config_comissoes_uniq_profissional.sql
 - Esforço: baixo
@@ -35,7 +35,7 @@
   existente. Registrar no cabeçalho da migration que a criação falha se já
   houver duplicata de nível profissional em ambiente com dado (Q-024).
 
-## T-045 — Prova pgTAP de AC-063: segunda configuração profissional é rejeitada [pendente]
+## T-045 — Prova pgTAP de AC-063: segunda configuração profissional é rejeitada [concluida]
 - Refs: US-024, AC-063
 - Arquivos: supabase/tests/016_config_comissoes_uniq_profissional.sql
 - Esforço: baixo
@@ -53,7 +53,7 @@
   o valor esperado para fazer o teste passar: a rejeição vem do índice criado em
   T-044, e se o teste reprovar isso é achado de defeito.
 
-## T-046 — Prova pgTAP de AC-064: nível profissional e nível serviço coexistem [pendente]
+## T-046 — Prova pgTAP de AC-064: nível profissional e nível serviço coexistem [concluida]
 - Refs: US-025, AC-064
 - Arquivos: supabase/tests/016_config_comissoes_uniq_profissional.sql
 - Esforço: baixo
@@ -68,7 +68,7 @@
   verificar `0015_config_comissoes_uniq_profissional.sql` antes de tocar no
   teste.
 
-## T-047 — Traduzir violação `23505` em erro de domínio, com prova Vitest [pendente]
+## T-047 — Traduzir violação `23505` em erro de domínio, com prova Vitest [concluida]
 - Refs: US-026, AC-065
 - Arquivos: src/lib/api/config_comissoes.ts, tests/api/config_comissoes.spec.ts
 - Esforço: medio
@@ -131,7 +131,7 @@
   para que ninguém trate o teste desta tarefa como substituto da medição de
   fronteira.
 
-## T-048 — Alinhar as fixtures de `011` e `012` à invariante [pendente]
+## T-048 — Alinhar as fixtures de `011` e `012` à invariante [concluida]
 - Refs: US-024
 - Arquivos: supabase/tests/011_fn_fechar_competencia_comissao.sql, supabase/tests/012_fn_calcular_cmv.sql
 - Esforço: baixo
@@ -158,7 +158,7 @@
   cabeçalho de ambos que `011` e `012` **não cobrem unicidade**; cobrem isolamento
   de fixture. O único teste da invariante é o de AC-063.
 
-## T-049 — Defesa determinística em `fn_fechar_comanda`, sem AC [pendente]
+## T-049 — Defesa determinística em `fn_fechar_comanda`, sem AC [concluida]
 - Refs: US-024
 - Arquivos: supabase/migrations/0004_fn_fechar_comanda.sql
 - Esforço: baixo
@@ -172,7 +172,7 @@
   não duplicado (por exemplo, `created_at`), sob pena de mudar o comportamento
   de `fn_fechar_comanda` e violar o "fora de escopo" da spec.
 
-## T-050 — Corrigir as referências que citam a feature como bloqueada [pendente]
+## T-050 — Corrigir as referências que citam a feature como bloqueada [concluida]
 - Refs: US-024, AC-063
 - Arquivos: .spec/features/gate-comissao-produto/spec.md
 - Esforço: baixo
@@ -187,7 +187,7 @@
   feature e não noutra: a afirmação envelhece porque esta feature a resolve, então
   o ajuste pertence a quem a resolve.
 
-## T-051 — Mutation check planejado e execução dos gates [pendente]
+## T-051 — Mutation check planejado e execução dos gates [concluida]
 - Refs: US-024, US-025, US-026, AC-063, AC-064, AC-065
 - Arquivos: .spec/features/integridade-config-comissoes/spec.md
 - Esforço: medio
