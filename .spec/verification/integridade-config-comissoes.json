@@ -1,0 +1,22 @@
+{
+  "feature": "integridade-config-comissoes",
+  "timestamp": "2026-09-29T12:34:02.469Z",
+  "gitRev": "93553da",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 5,
+  "results": {
+    "AC-063": {
+      "status": "pass",
+      "testName": "Segunda configuracao de nivel profissional rejeitada por violacao de unicidade @spec:AC-063",
+      "method": "tap"
+    },
+    "AC-064": {
+      "status": "pass",
+      "testName": "Configuracao de nivel servico convive com a de nivel profissional @spec:AC-064",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
