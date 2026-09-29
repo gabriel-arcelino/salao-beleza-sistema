@@ -148,14 +148,29 @@ serviço.
 Como responsável pelo salão, quero ver uma mensagem que diga o que aconteceu, para
 que eu não receba um erro técnico e fique sem saber o que corrigir.
 
-#### AC-065 - A violação de unicidade é traduzida em erro de domínio
+#### AC-065 - A violação de unicidade é traduzida em erro de domínio, nomeando o nível
 
-- **Dado** um profissional que já possui configuração de nível profissional
-- **Quando** a API de criação tenta gravar uma segunda configuração de nível
-  profissional e o banco rejeita por violação de unicidade
-- **Então** a API lança erro de domínio informando que já existe configuração para
-  aquele profissional e naquele serviço, e não expõe o código ou a mensagem
-  técnica da constraint
+O `23505` chega hoje de **duas** constraints distintas: `config_comissoes_prof_nivel_uniq`,
+criada em T-044, para duplicata de nível profissional; e
+`config_comissoes_salon_id_profissional_id_servico_id_key`, preexistente, para duplicata de
+nível serviço. As duas foram medidas em 2026-09-29 pela fronteira PostgREST, e as duas
+entregam `code = '23505'`, com `details` e `hint` vazios, diferindo apenas no texto de
+`message`. Como a mensagem do banco não pode ser usada como discriminante, o nível vem do
+payload, que a API já tem em mãos em `config_comissoes.ts:16`.
+
+- **Dado** um profissional que já possui uma configuração no nível `N`
+- **Quando** a API de criação tenta gravar uma segunda configuração no mesmo nível `N`
+  e o banco rejeita por violação de unicidade
+- **Então** a API lança um `Error` comum, sem classe nova, cujo `.message` distingue
+  o nível: a do padrão do profissional quando `servico_id` é nulo, a do override do
+  serviço quando preenchido. As duas mensagens são entre si diferentes, nenhuma delas
+  é igual à mensagem técnica devolvida pelo banco no respectivo caso, e nenhuma contém
+  nome de constraint nem o código `23505`
+
+Os dois valores de `N` são cenários obrigatórios da prova: a mensagem por nível só é
+verificada se ambos forem exercitados. E a cláusula de não-exposição é exigível
+mecanicamente — asserção negativa sobre o texto da mensagem — ao contrário de "não expor",
+que um teste que verifica apenas que a API lançou um erro não distinguiria.
 
 ## Evidência/origem do requisito
 

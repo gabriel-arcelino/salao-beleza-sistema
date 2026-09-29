@@ -74,16 +74,40 @@
 - Esforço: medio
 - Notas: em `src/lib/api/config_comissoes.ts`, dentro de `createConfigComissao`
   (hoje `.insert()` puro em `:35-39`), tratar o retorno `error` quando
-  `error.code === '23505'` lançando erro de domínio que informe que já existe
-  configuração para aquele profissional e naquele serviço. **Não** expor o código
-  nem a mensagem técnica da constraint ao usuário. Qualquer outro `error.code`
+  `error.code === '23505'` lançando erro de domínio **por nível**, com o nível
+  lido de `input.servico_id`, que já está em mãos em `:16`: nulo significa padrão
+  do profissional, preenchido significa override do serviço. A mensagem **não**
+  pode conter o código `23505` nem o nome de constraint. Qualquer outro `error.code`
   continua propagando como hoje, sem mudança de comportamento. Não alterar
   `ConfigComissoesPage.tsx`: o fluxo de exibição de erro já existe
   (`setErro` em `:71-73`, `ErrorMessage` em `:207`); muda o conteúdo da mensagem,
   não o caminho. Criar `tests/api/config_comissoes.spec.ts` com o cliente Supabase
-  mockado devolvendo `{ code: '23505' }` e afirmar o erro de domínio, com
-  `@spec:AC-065` no título. Nenhum dos seis testes Vitest existentes exercita esta
-  API — os que renderizam `ConfigComissoesPage` apenas a mockam, e sem `@spec:`.
+  mockado devolvendo `{ code: '23505' }`. São **quatro** asserts tagueados
+  `@spec:AC-065`, todos por **igualdade de mensagem**, nunca por substring:
+
+  1. a mensagem de domínio do nível profissional e a do nível serviço são
+     **diferentes entre si**;
+  2. a do nível profissional é **diferente** da mensagem técnica real devolvida pelo
+     banco nesse caso;
+  3. a do nível serviço é **diferente** da mensagem técnica real devolvida pelo banco
+     nesse caso;
+  4. **nenhuma das duas** — a de nível profissional e a de nível serviço, ambas
+     obrigatórias — contém nome de constraint nem o código `23505`.
+
+  **Não** provar tradução com `contains('profissional')` nem `contains('servico')`.
+  Medido: a mensagem técnica do nível serviço é
+  `duplicate key value violates unique constraint "config_comissoes_salon_id_profissional_id_servico_id_key"`,
+  que contém `profissional` **e** `servico`. Uma prova por substring passaria com o erro
+  não traduzido. E `contains('23505')` seria tautologia: `23505` vive em `error.code`,
+  nunca em `error.message`, então a mensagem crua também não o contém. A prova separa
+  os casos por igualdade, não por grafia, acento ou token.
+
+  As duas mensagens técnicas a comparar são as **medidas** em 2026-09-29, uma por
+  cenário, e a distinção de caso não pode ser perdida: a de nível profissional vem de
+  `config_comissoes_prof_nivel_uniq`, a de nível serviço de
+  `config_comissoes_salon_id_profissional_id_servico_id_key`. Nenhum dos seis testes
+  Vitest existentes exercita esta API — os que renderizam `ConfigComissoesPage` apenas a
+  mockam, e sem `@spec:`.
   **O papel deste teste é a tradução feita pelo código da aplicação, não o
   comportamento do PostgREST.** A forma do erro foi observada por medição real em
   2026-09-29, através da mesma fronteira que a aplicação usa (`createClient` +

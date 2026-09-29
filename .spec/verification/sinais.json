@@ -743,10 +743,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "relatorios-gerenciais",
       "ref": "—",
-      "ocorrencias": 41,
+      "ocorrencias": 43,
       "primeiraVez": "2026-09-20T01:20:10.996Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.176Z",
+      "gitRev": "ca6760e"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-013": {
       "codigo": "VERIFY_FALHOU",
@@ -770,10 +770,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "legado-baseline",
       "ref": "—",
-      "ocorrencias": 38,
+      "ocorrencias": 40,
       "primeiraVez": "2026-09-22T22:39:18.046Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     },
     "VERIFY_FALHOU::fundacao-ui::AC-017": {
       "codigo": "VERIFY_FALHOU",
@@ -788,10 +788,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "fundacao-ui",
       "ref": "—",
-      "ocorrencias": 35,
+      "ocorrencias": 37,
       "primeiraVez": "2026-09-22T23:05:11.611Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     },
     "ID_DUPLICADO::refinamento-interface::US-004": {
       "codigo": "ID_DUPLICADO",
@@ -1409,19 +1409,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "recuperacao-carga",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 30,
       "primeiraVez": "2026-09-27T18:44:51.737Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.176Z",
+      "gitRev": "ca6760e"
     },
     "VERIFY_OBSOLETO::refinamento-interface::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "refinamento-interface",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 30,
       "primeiraVez": "2026-09-27T18:44:51.737Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.176Z",
+      "gitRev": "ca6760e"
     },
     "AC_SEM_TASK::dashboard-gerencial::AC-047": {
       "codigo": "AC_SEM_TASK",
@@ -1643,10 +1643,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "gate-comissao-produto",
       "ref": "—",
-      "ocorrencias": 32,
+      "ocorrencias": 34,
       "primeiraVez": "2026-09-28T02:17:32.694Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     },
     "AC_SEM_TESTE::dashboard-gerencial::AC-057": {
       "codigo": "AC_SEM_TESTE",
@@ -1670,10 +1670,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "dashboard-gerencial",
       "ref": "—",
-      "ocorrencias": 25,
+      "ocorrencias": 27,
       "primeiraVez": "2026-09-28T04:10:07.433Z",
-      "ultimaVez": "2026-09-29T12:37:13.052Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.160Z",
+      "gitRev": "ca6760e"
     },
     "ID_DUPLICADO::diagnostico-jwt::US-021": {
       "codigo": "ID_DUPLICADO",
@@ -1832,10 +1832,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "diagnostico-jwt",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-28T16:03:38.124Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     },
     "VERIFY_FALHOU::diagnostico-jwt::AC-058": {
       "codigo": "VERIFY_FALHOU",
@@ -1958,10 +1958,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "integridade-config-comissoes",
       "ref": "T-047",
-      "ocorrencias": 7,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-29T04:38:58.939Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     },
     "AC_SEM_TESTE::integridade-config-comissoes::AC-063": {
       "codigo": "AC_SEM_TESTE",
@@ -1985,10 +1985,10 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "integridade-config-comissoes",
       "ref": "AC-065",
-      "ocorrencias": 7,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-29T04:38:58.939Z",
-      "ultimaVez": "2026-09-29T12:37:13.065Z",
-      "gitRev": "93553da"
+      "ultimaVez": "2026-09-29T13:07:38.175Z",
+      "gitRev": "ca6760e"
     }
   }
 }
