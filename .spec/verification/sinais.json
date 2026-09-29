@@ -1863,6 +1863,132 @@
       "primeiraVez": "2026-09-28T20:37:05.741Z",
       "ultimaVez": "2026-09-28T20:37:05.741Z",
       "gitRev": "6f1c96f"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::US-021": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "US-021",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.928Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::US-022": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "US-022",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::Q-017": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "Q-017",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::Q-018": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "Q-018",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::Q-019": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "Q-019",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ID_DUPLICADO::integridade-config-comissoes::Q-020": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "integridade-config-comissoes",
+      "ref": "Q-020",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ASM_STATUS_INVALIDO::integridade-config-comissoes::ASM-033": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "integridade-config-comissoes",
+      "ref": "ASM-033",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:38:58.939Z",
+      "gitRev": "a7f50ce"
+    },
+    "ARQUIVO_INEXISTENTE::integridade-config-comissoes::T-044": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "T-044",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.129Z",
+      "gitRev": "a7f50ce"
+    },
+    "ARQUIVO_INEXISTENTE::integridade-config-comissoes::T-045": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "T-045",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
+    },
+    "ARQUIVO_INEXISTENTE::integridade-config-comissoes::T-046": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "T-046",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
+    },
+    "ARQUIVO_INEXISTENTE::integridade-config-comissoes::T-047": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "T-047",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
+    },
+    "AC_SEM_TESTE::integridade-config-comissoes::AC-063": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "AC-063",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
+    },
+    "AC_SEM_TESTE::integridade-config-comissoes::AC-064": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "AC-064",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
+    },
+    "AC_SEM_TESTE::integridade-config-comissoes::AC-065": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "integridade-config-comissoes",
+      "ref": "AC-065",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-29T04:38:58.939Z",
+      "ultimaVez": "2026-09-29T04:39:35.130Z",
+      "gitRev": "a7f50ce"
     }
   }
 }
