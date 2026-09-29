@@ -37,7 +37,20 @@ export async function createConfigComissao(input: {
     .insert({ ...input, salon_id })
     .select()
     .single();
-  if (error) throw error;
+  if (error) {
+    if (error.code === "23505") {
+      // O nível vem do payload, nunca de error.message/details/hint: as duas
+      // duplicatas possíveis — nível profissional e nível serviço — entregam
+      // o mesmo `23505`, e a mensagem do banco é texto técnico que varia por
+      // versão e locale. Ver AC-065.
+      throw new Error(
+        input.servico_id
+          ? "Já existe uma configuração de comissão para este profissional neste serviço. Edite a existente ou remova-a antes de criar outra."
+          : "Já existe uma configuração de comissão padrão para este profissional. Edite a existente ou remova-a antes de criar outra."
+      );
+    }
+    throw error;
+  }
   return data as ConfigComissao;
 }
 

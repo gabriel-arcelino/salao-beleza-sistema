@@ -1,11 +1,11 @@
 {
   "feature": "integridade-config-comissoes",
-  "timestamp": "2026-09-29T12:34:02.469Z",
-  "gitRev": "93553da",
+  "timestamp": "2026-09-29T14:12:23.856Z",
+  "gitRev": "12a23cd",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 5,
+  "testsParsed": 11,
   "results": {
     "AC-063": {
       "status": "pass",
@@ -15,6 +15,11 @@
     "AC-064": {
       "status": "pass",
       "testName": "Configuracao de nivel servico convive com a de nivel profissional @spec:AC-064",
+      "method": "tap"
+    },
+    "AC-065": {
+      "status": "pass",
+      "testName": "a mensagem de dominio do nivel profissional e a do nivel servico sao diferentes entre si @spec:AC-065 # time=13.43ms",
       "method": "tap"
     }
   },
