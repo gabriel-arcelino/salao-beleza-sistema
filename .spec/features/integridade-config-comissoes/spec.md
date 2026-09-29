@@ -254,19 +254,69 @@ isolamento de fixture. O único teste da invariante é o de AC-063. Isso precisa
 constar para que ninguém mais tarde conte `011`/`012` como cobertura da
 invariante.
 
-### Mutation check planejado
+### Mutation check — medido em 2026-09-29
 
-A feature inteira é sensível a mutação, e o plano é um mapeamento 1:1 entre mutação
-e critério destruído. Ao verificar (G3), executar cada mutação e registrar o TAP:
+Executado contra `supabase/tests/016_config_comissoes_uniq_profissional.sql`
+(`plan(4)`). O plano previa um mapeamento 1:1 entre mutação e critério destruído.
+**A medição desmentiu o 1:1 em duas das três mutações.** Registro do observado.
 
-| Mutação | Critério que deve falhar |
-|---|---|
-| Remover o índice parcial | **AC-063** reprova (a segunda linha passa a ser aceita) |
-| Remover a cláusula `WHERE servico_id IS null` do índice | **AC-064** reprova (a configuração de nível serviço é indevidamente proibida) |
-| Remover a tradução de `23505` em `config_comissoes.ts` | **AC-065** reprova (o erro cru passa a vazar) |
+**Baseline** — índice intacto:
 
-Mutation Check é **experimental** e não é gate, conforme a norma. É usado aqui como
-aferição de força de prova, seguindo o precedente de
+```text
+ok 1 - Segunda configuracao de nivel profissional rejeitada por violacao de unicidade @spec:AC-063
+ok 2 - Permanece exatamente uma configuracao de nivel profissional @spec:AC-063
+ok 3 - Configuracao de nivel servico convive com a de nivel profissional @spec:AC-064
+ok 4 - As duas configuracoes coexistem para o mesmo profissional @spec:AC-064
+```
+
+**Mutação (a) — remover o índice parcial inteiro.** O plano dizia: AC-063 reprova.
+Observado: **três** asserções reprovam.
+
+```text
+not ok 1 - ... @spec:AC-063   caught: no exception / wanted: 23505
+not ok 2 - ... @spec:AC-063   have: 2   want: 1
+ok     3 - ... @spec:AC-064
+not ok 4 - ... @spec:AC-064   have: 3   want: 2
+# Looks like you failed 3 tests of 4
+```
+
+A asserção 4 conta **todas** as linhas do profissional, e por isso também é sensível à
+unicidade de nível profissional. Ela está tagueada `@spec:AC-064` mas não é prova
+exclusiva de AC-064. O defeito é de **tagueamento da asserção**, não de força do AC.
+
+**Mutação (b) — remover apenas a cláusula `WHERE servico_id is null`.** O plano dizia:
+AC-064 reprova. Observado: a inserção de nível serviço levanta violação, **aborta a
+transação**, e as asserções 3 e 4 nunca executam.
+
+```text
+ok 1 - ... @spec:AC-063
+ok 2 - ... @spec:AC-063
+ERROR:  duplicate key value violates unique constraint "config_comissoes_prof_nivel_uniq"
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+```
+
+A mutação é detectada — alta e sem ambiguidade — mas **não** como um `not ok` limpo
+atribuível a AC-064. O insert de nível serviço não está dentro de `lives_ok`, então a
+falha derruba a transação em vez de reprovar uma asserção. Efeito prático: sob esta
+mutação o `onp-spec verify` não veria prova `fail` de AC-064, e sim prova ausente ou
+quebrada.
+
+**Mutação (c) — remover a tradução de `23505` em `config_comissoes.ts`.** **Não
+executada.** T-047 não está implementada, logo não existe tradução a remover. Só
+poderá ser aferida quando T-047 existir.
+
+### Correções que este mutation check impõe
+
+Registradas, **não aplicadas** — T-051 manda registrar em vez de ajustar o teste.
+
+1. A tabela de mutações **não é 1:1**, e a spec não deve afirmar que é. A mutação (a)
+   destrói AC-063 e também parte de AC-064.
+2. A asserção 4 de `016` está sobrecarretada: ela mede coexistência **e** unicidade de
+   nível profissional ao mesmo tempo, mas está tagueada só com `@spec:AC-064`.
+3. O insert de nível serviço em `016` deveria estar dentro de `lives_ok`, para que a
+   mutação (b) produza reprovação limpa em vez de transação abortada.
+
+Mutation Check é **experimental** e não é gate, conforme a norma. Segue o precedente de
 `gate-comissao-produto/spec.md:134-150`.
 
 ## Suposições
@@ -290,27 +340,54 @@ Nenhuma pergunta bloqueia a execução. Nenhuma decisão de produto é pendente.
 | Q-024 | Como tratar dados duplicados já existentes em ambientes outros que o local? | respondida | Não há dado local. Para ambiente com dado, a migration precisa de passo de detecção antes do índice, porque o índice parcial falha ao ser criado se já houver duplicata. Registrado como risco de execução em G3, não como AC: o ambiente-alvo do produto não foi definido. |
 | Q-025 | As três FKs sem `ON DELETE` devem ganhar `CASCADE` ou `SET NULL`? | respondida | Fora de escopo; feature de ciclo de vida referencial. |
 
-## Estado dos gates
+## Estado dos gates (2026-09-29)
 
-Feature em `rascunho`. G0 fechado por esta spec. G1 e G2 com evidência mecânica
-parcial; **a revisão semântica da spec é do responsável e ainda não ocorreu**, então
-a feature não sobe para `pronta` por auto-certificação.
+A feature permanece `rascunho`: T-047 não está implementada e AC-065 não tem prova.
+G0 a G3 abaixo refletem o que foi medido; G4 em diante não foram executados.
 
 | Gate | Estado | Evidência |
 |---|---|---|
 | G0 Escopo | **PASS** | escopo fechado nesta spec; as três decisões de produto que bloqueavam a feature estão resolvidas (Q-022, Q-023, e a ordem deixou de ser bloqueio) |
-| G1 SPEC Review | **pendente** | Mecanicamente limpo: `audit` não reporta `ID_DUPLICADO`, `AC_INCOMPLETO` nem `US_SEM_AC`. Falta a revisão semântica, que é humana. |
-| G2 Test/Evidence | **PASS** | cada AC tem estratégia de prova declarada: AC-063 e AC-064 em pgTAP (`plan` e títulos com `@spec:`), AC-065 em Vitest. Mutation check 1:1 mapeado em "Mutation check planejado". |
-| G3 Feature Verify | **pendente** | espera T-044 a T-051. Hoje `audit` reporta `AC_SEM_TESTE` para AC-063, AC-064 e AC-065, que é a consequência esperada de não haver implementação. |
-| G4 QA funcional | **pendente** | depende de G3 |
-| G5 QA visual | **pendente** | **não presumir N/A.** AC-065 altera a mensagem exibida ao usuário, então há mudança perceptível e QA visual é cabível. |
-| G6 Diff/Scope Review | **pendente** | — |
-| G7 Global Regression | **pendente** | — |
-| G8 Audit | **pendente** | — |
+| G1 SPEC Review | **revisão semântica executada; falta o aval do dono** | Mecanicamente limpo: `audit` sem `ID_DUPLICADO`, `AC_INCOMPLETO`, `US_SEM_AC`. Revisão semântica executada: 12+ citações conferidas contra fonte primária; base normativa de AC-063 e AC-064 reforçada por `v2_4:681` e `:2061`; poder discriminante de AC-064 medido. Dois achados já corrigidos: T-047 subespecificada (nota reescrita) e a referência de ASM-038 na spec, que ainda apontava T-047 como prova do PostgREST. |
+| G2 Test/Evidence | **PASS com ressalva** | cada AC tem prova declarada: AC-063 e AC-064 em `supabase/tests/016…sql`, AC-065 em Vitest. A ressalva vem do mutation check: o mapeamento 1:1 **não se confirmou**, e duas correções de tagueamento estão registradas sem aplicadas. |
+| G3 Feature Verify | **parcial** | `integridade-config-comissoes 2/2 critério(s) com prova PASS · 5 teste(s) lidos · exit 0`; artefato `.spec/verification/integridade-config-comissoes.json` com `AC-063` e `AC-064` em `pass`. **AC-065 não tem prova** e o gate não fecha enquanto T-047 não existir. |
+| G4 QA funcional | **pendente, e não é N/A** | o índice muda comportamento observável: um segundo salvamento do mesmo par passa a ser recusado, onde antes criava duplicata. Verificado por fronteira, mas o cenário de usuário real não foi exercido. |
+| G5 QA visual | **pendente, e não é N/A** | AC-065 altera a mensagem exibida ao usuário. Além disso, a mensagem atual vaza o nome da constraint, medido. |
+| G6 Diff/Scope Review | **pendente** | 3 arquivos criados: migration `0015`, teste `016`, artefato de prova. Nenhuma alteração em `src/`, RLS, `seed.sql` ou motor. |
+| G7 Global Regression | **parcial** | suíte pgTAP: `80 ok · 0 not ok`, incluindo os 4 asserts novos. A/B do índice: `76 ok · 0 not ok` com e sem ele, logo neutro. **Ressalva:** o `audit` reporta 8 `VERIFY_OBSOLETO` em outras features — ver a seção seguinte. |
+| G8 Audit | **pendente** | `exit 1`. Estado atual e causa da invalidação alheia, na seção seguinte. |
 
 ### Estado do `audit --ci` neste momento
 
-`3 erro(s), 4 aviso(s)`, `exit 1`. Os 3 erros são `AC_SEM_TESTE` para os três ACs
-novos; os 4 avisos são `ARQUIVO_INEXISTENTE` para os arquivos que T-044 a T-047
-criam. Ambos são consequências esperadas de uma feature em `rascunho` e fecham em
-G3. Nenhum deles indica defeito na spec.
+`9 erro(s), 1 aviso(s)`, `exit 1`, `53/54` ACs com prova.
+
+Composição dos 9 erros:
+
+- **1** `AC_SEM_TESTE` de AC-065, esperada: T-047 não existe.
+- **8** `VERIFY_OBSOLETO`, um por feature — `dashboard-gerencial`, `diagnostico-jwt`,
+  `fundacao-ui`, `gate-comissao-produto`, `legado-baseline`, `recuperacao-carga`,
+  `refinamento-interface`, `relatorios-gerenciais`.
+
+**Os 8 são falso positivo do mecanismo, e a causa está medida em `core/audit.js:378-381`:**
+
+```js
+const codeMtime = latestMtime(config.rootDir, [
+  ...project.srcFiles,   // globs GLOBAIS do projeto
+  ...project.testFiles,   // globs GLOBAIS do projeto
+]);
+if (codeMtime > Date.parse(verification.timestamp)) { /* VERIFY_OBSOLETO */ }
+```
+
+`project.srcFiles` e `project.testFiles` são as listas **globais**, construídas de
+`srcGlobs` (`src/**`) e `testGlobs` (`test/**`, `tests/**`) em
+`onpspec.config.json`. O nome da feature escolhe apenas **qual timestamp** comparar.
+A regra efetiva é: **qualquer arquivo de código ou teste novo no projeto invalida a
+prova de todas as features.**
+
+Criar `supabase/tests/016_config_comissoes_uniq_profissional.sql` invalidou as 8 provas
+mesmo que, semanticamente, nada naquelas features tenha mudado. Nenhuma delas é
+instância deste feature nem foi tocada por T-044, T-045 ou T-046.
+
+Renovar essas provas é caminho conhecido (L-01, sem `db reset`) e não foi feito aqui:
+está fora do escopo desta feature e é dívida de mecanismo, não dela. Registrado em vez
+de tratado.
