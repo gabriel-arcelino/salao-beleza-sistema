@@ -1,7 +1,7 @@
 # Spec: Baseline do código legado
 
 > feature: legado-baseline
-> status: em-implementacao
+> status: auditada
 
 ## Contexto
 
@@ -26,6 +26,16 @@ Como responsável pelo desenvolvimento do sistema, quero registrar explicitament
 * **Então** cada arquivo de implementação existente antes do ponto de adoção deve estar explicitamente registrado na task de baseline, enquanto novos arquivos criados após a adoção continuam sujeitos ao fluxo normal SPEC → AC → TASK → teste.
 
 A task de baseline registra somente rastreabilidade de arquivos pré-existentes; ela não declara novos requisitos de produto nem altera regras de negócio.
+
+## Decisão de encerramento (2026-09-29)
+
+**Decisão do responsável pelo produto: o baseline está completo ecumpre a função de rastreabilidade; a feature é encerrada.**
+
+`T-012` foi executada: a lista de arquivos pré-adoção passou de 19 para **22**, cobrindo exatamente os 22 arquivos `.ts/.tsx` do primeiro commit do repositório (`aefaebc`, ponto de adoção). Antes da correção faltavam `src/App.tsx`, `src/pages/DashboardPage.tsx` e `src/types.ts` — o AC-020 exige completude, e a lista estava incompleta apesar de o teste passar.
+
+**O status sobe para `auditada`.** ASM-009 e ASM-010 estão `confirmada` e Q-009 `respondida`, então a promoção não introduz `ASM_ABERTA` nem `Q_ABERTA`.
+
+**Limitação que permanece, registrada:** `tests/processo/legado-baseline.spec.ts` assere **uma direção apenas** — que os arquivos listados existam. A completude (todo pré-ONP listado) é garantida pela lista e verificada por medição nesta data, **não por asserção de teste**. Um teste dedicado seria trabalho futuro.
 
 ## Fora de escopo
 

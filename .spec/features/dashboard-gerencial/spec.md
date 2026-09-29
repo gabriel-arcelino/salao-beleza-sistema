@@ -1,7 +1,7 @@
 # Spec: Dashboard gerencial
 
 > feature: dashboard-gerencial
-> status: rascunho
+> status: auditada
 
 ## Contexto
 
@@ -265,6 +265,16 @@ implementação que definisse `tem_movimento` apenas por pagamentos e despesas,
 ignorando `movimentacoes_estoque`. Só `AC-057` reprova essa implementação — e é
 justamente o estado que o dono mandou confirmar: produto vendido e ainda não
 pago, com CMV apurado, **não** é "sem movimento".
+
+## Decisão de encerramento (2026-09-29)
+
+**Decisão do responsável pelo produto: a entrega funcional está aprovada e não há mudança funcional prevista para esta tela.**
+
+Sete tasks `[concluida]`, 16 de 16 critérios de aceite com prova PASS, build e lint verdes. A feature seguia com status `rascunho` desde a entrega de 2026-09-26 — situação em que o trabalho está pronto mas o status mente sobre isso, que é exatamente o caso de "PASS ≠ Done" registrado em `done-e-gates.md` §1.5.
+
+**O status sobe para `auditada`.** Nenhuma suposição está `aberta` (ASM-017 a ASM-023 `confirmada`) e nenhuma pergunta está `aberta` (Q-017 a Q-019 `respondida`), então a promoção não introduz `ASM_ABERTA` nem `Q_ABERTA`.
+
+**O que este encerramento não afirma:** que a interface está pronta. A decisão é sobre **funcionamento**. Uma modernização visual é trabalho futuro e não é abrangida por esta entrega.
 
 ## Fora de escopo
 

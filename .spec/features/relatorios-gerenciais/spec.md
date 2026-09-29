@@ -1,7 +1,7 @@
 # Spec: Relatórios gerenciais
 
 > feature: relatorios-gerenciais
-> status: rascunho
+> status: auditada
 
 <!--
   Como ler este arquivo (o formato é verificado por `onp-spec audit`):
@@ -115,6 +115,16 @@ Como gerente, quero aplicar filtros e visualizar os resultados dos relatórios, 
 - **Dado** que não existe registro elegível para os filtros informados
 - **Quando** o gerente solicita um relatório
 - **Então** a página exibe uma mensagem informativa de ausência de dados e não apresenta totais como se houvesse resultado
+
+## Decisão de encerramento (2026-09-29)
+
+**Decisão do responsável pelo produto: a entrega funcional está aprovada e não há mudança funcional prevista para estas telas.**
+
+Cinco tasks `[concluida]`, 11 de 11 critérios de aceite com prova PASS, build e lint verdes. A feature seguia com status `rascunho` desde a entrega de 2026-09-26 — situação em que o trabalho está pronto mas o status mente sobre isso, que é exatamente o caso de "PASS ≠ Done" registrado em `done-e-gates.md` §1.5.
+
+**O status sobe para `auditada`.** Nenhuma suposição está `aberta` (ASM-001 a ASM-003 `confirmada`) e nenhuma pergunta está `aberta` (Q-001 a Q-006 `respondida`), então a promoção não introduz `ASM_ABERTA` nem `Q_ABERTA`.
+
+**O que este encerramento não afirma:** que a interface está pronta. A decisão é sobre **funcionamento**. Uma modernização visual é trabalho futuro e não é abrangida por esta entrega.
 
 ## Fora de escopo
 
