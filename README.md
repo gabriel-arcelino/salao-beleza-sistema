@@ -1,6 +1,7 @@
 # Sistema de Gestão — Salão de Beleza
 
 Setup inicial gerado a partir de:
+- `docs/software-factory.md` (processo oficial congelado experimentalmente)
 - `plano-arquitetura-salao-beleza-v2_4.md` (schema, regras de negócio)
 - `processo-dev-salao-beleza.md` (processo de desenvolvimento com IA)
 
