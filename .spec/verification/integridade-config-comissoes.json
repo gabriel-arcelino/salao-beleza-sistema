@@ -1,7 +1,7 @@
 {
   "feature": "integridade-config-comissoes",
-  "timestamp": "2026-09-29T14:12:23.856Z",
-  "gitRev": "12a23cd",
+  "timestamp": "2026-09-29T17:50:40.843Z",
+  "gitRev": "c0b33e4",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -19,7 +19,7 @@
     },
     "AC-065": {
       "status": "pass",
-      "testName": "a mensagem de dominio do nivel profissional e a do nivel servico sao diferentes entre si @spec:AC-065 # time=13.43ms",
+      "testName": "a mensagem de dominio do nivel profissional e a do nivel servico sao diferentes entre si @spec:AC-065 # time=5.90ms",
       "method": "tap"
     }
   },
