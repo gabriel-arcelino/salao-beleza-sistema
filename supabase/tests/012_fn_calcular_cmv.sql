@@ -27,9 +27,13 @@ insert into config_taxas (salon_id, metodo, taxa_percentual) values
   ('00000000-0000-0000-0000-000000000001', 'DINHEIRO', 0)
 on conflict (salon_id, metodo) do nothing;
 
-insert into config_comissoes (salon_id, profissional_id, servico_id, comissao_percentual, base_calculo, rateio_taxa, comissao_sobre_produto, timing_repasse) values
-  ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000101', null, 40, 'BRUTO', 'SALAO', true, 'IMEDIATO')
-on conflict (salon_id, profissional_id, servico_id) do nothing;
+-- Sem config_comissoes de propósito. fn_calcular_cmv (0011) calcula
+-- preco_custo * quantidade sobre movimentações de venda e não lê nada de comissão:
+-- `config_comissoes` e `comissao_percentual` têm zero ocorrências em 0011. A linha
+-- que existia aqui era de outro domínio e ainda divergia de 011 em
+-- comissao_sobre_produto, ou seja, nem era cópia fiel. Nenhuma das 5 asserções
+-- dependia dela.
+-- Este arquivo NÃO cobre unicidade de config_comissoes; cobre o cálculo de CMV.
 
 insert into usuarios (id, salon_id, auth_user_id, nome, perfil) values
   ('a0000000-0000-0000-0000-000000000012', '00000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-00000000001c', 'Admin Teste CMV', 'ADMIN')

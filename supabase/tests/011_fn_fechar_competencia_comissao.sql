@@ -24,9 +24,26 @@ insert into config_taxas (salon_id, metodo, taxa_percentual) values
   ('00000000-0000-0000-0000-000000000001', 'DINHEIRO', 0)
 on conflict (salon_id, metodo) do nothing;
 
+-- Configuração de nível profissional. Esta linha é PROCEDÊNCIA do
+-- comanda_itens.comissao_valor_snapshot gravado logo abaixo: fn_fechar_competencia_comissao
+-- (0010) não lê config_comissoes, e o valor 40 aqui é o mesmo de
+-- profissionais.comissao_percentual_padrao e do snapshot, por isso a linha documenta a
+-- origem do número sem participar de nenhuma asserção.
+-- Este arquivo NÃO cobre unicidade de config_comissoes; cobre isolamento de fixture.
+-- O único teste da invariante é supabase/tests/016_config_comissoes_uniq_profissional.sql.
+--
+-- Limpeza estreita antes do insert, em vez de `on conflict do nothing`: o alvo de três
+-- colunas nunca absorve esta linha, porque servico_id é nulo e NULL não gera conflito —
+-- o `do nothing` resolveria o erro escondendo se o fixture entrou ou colidiu. O
+-- `and servico_id is null` é obrigatório: um delete só por (salon_id, profissional_id)
+-- apagaria overrides de serviço legítimos do mesmo profissional.
+delete from config_comissoes
+where salon_id = '00000000-0000-0000-0000-000000000001'
+  and profissional_id = '00000000-0000-0000-0000-000000000101'
+  and servico_id is null;
+
 insert into config_comissoes (salon_id, profissional_id, servico_id, comissao_percentual, base_calculo, rateio_taxa, comissao_sobre_produto, timing_repasse) values
-  ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000101', null, 40, 'BRUTO', 'SALAO', false, 'IMEDIATO')
-on conflict (salon_id, profissional_id, servico_id) do nothing;
+  ('00000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000101', null, 40, 'BRUTO', 'SALAO', false, 'IMEDIATO');
 
 -- Usuários para testar perfis
 insert into usuarios (id, salon_id, auth_user_id, nome, perfil) values

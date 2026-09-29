@@ -172,7 +172,9 @@ begin
       and cc_esp.servico_id = v_item.servico_id
       left join public.config_comissoes cc_prof
       on cc_prof.salon_id = v_salon_id and cc_prof.profissional_id = v_item.profissional_id
-      and cc_prof.servico_id is null;
+      and cc_prof.servico_id is null
+      order by coalesce(cc_esp.created_at, cc_prof.created_at)
+      limit 1;
 
       if v_config.rateio_taxa = 'SALAO' then
         v_reducao_taxa_comissao := 0;
@@ -216,7 +218,9 @@ begin
       left join public.config_comissoes cc_prof
       on cc_prof.salon_id = v_salon_id and cc_prof.profissional_id = v_item.profissional_id
       and cc_prof.servico_id is null
-      where prof.id = v_item.profissional_id;
+      where prof.id = v_item.profissional_id
+      order by coalesce(cc_esp.created_at, cc_prof.created_at)
+      limit 1;
 
       if v_item.tipo = 'PRODUTO' then
         if not v_comissao_sobre_produto then
