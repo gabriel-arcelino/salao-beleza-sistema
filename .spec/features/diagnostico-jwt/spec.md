@@ -1,7 +1,7 @@
 # Spec: Diagnóstico e correção do JWT
 
 > feature: diagnostico-jwt
-> status: em-implementacao
+> status: auditada
 
 <!--
   US-xxx = história de usuário · AC-xxx = critério de aceite
@@ -59,6 +59,41 @@ Como pessoa responsável pela operação do sistema, quero distinguir uma falha 
 - `localhost:5173` versus `127.0.0.1:3000` é hipótese de investigação, não correção autorizada.
 - Não haverá alteração de RLS, RPCs, migrations, contratos de API, aumento de expiração, relaxamento da validação JWT ou inclusão de segredos no cliente.
 - A causa foi corrigida no stack local ao atualizar o PostgREST de 16.1 para 16.3; não houve mudança de runtime na aplicação.
+
+## Decisão de encerramento (2026-09-28)
+
+**Decisão do responsável pelo produto: o trabalho desta feature está concluído e o risco residual é aceito explicitamente.** Isto não é uma declaração de "Feature Done".
+
+**O que foi concluído:** causa raiz identificada (defeito documentado do PostgREST #5196, relógio interno em cache), correção aplicada no stack local (PostgREST 16.3), QA visual mobile 390x844 executado, e evidência registrada.
+
+**Risco residual aceito, item a item:**
+
+| # | Limitação conhecida | Por que é aceito |
+|---|---|---|
+| 1 | A prova de AC-058 e AC-059 é **parcialmente circular** — o teste lê `docs/diagnostico-jwt.md` e verifica literais do mesmo documento | A parte não circular (sanitização de claims e remoção de `access_token`) está coberta. A circularidade restante não altera nenhuma conclusão: ela não produziria resultado diferente com o documento atual |
+| 2 | A prova de AC-062 é **parcial** — o teste conta `getProdutosEstoqueNegativo` mas não conta `getIndicadoresDashboard` | O comportamento observado no navegador (carga inicial única, sem duplicação visível) foi verificado em 12 execuções reais. A lacuna é de asserção automatizada, não de comportamento |
+| 3 | A correção depende de **Supabase CLI >= 2.118.0**, que é estado da máquina e não do repositório | O requisito está declarado em `AGENTS.md`. Nenhum clone reproduz a precondição automaticamente |
+| 4 | O A/B entre versões **não diferenciou** 16.1 de 16.3 (0 falhas em 12 rodadas de cada) | O resultado é nulo não informativo, não um contraexemplo. A atribuição se apoia na versão, na fonte primária e na ausência de reprodução |
+
+**Por que a conclusão é "provavelmente corrigido" e não "corrigido":** não há log local da ocorrência, a amostra pós-correção é pequena para a taxa de falha observada, e a janela de ociosidade testada (12 min) é menor que o gatilho relatado. A inferência é forte, não conclusiva.
+
+**Como o gate G8 foi desbloqueado.** O `exit 1` vinha de `VERIFY_OBSOLETO` em sete features, provocado pela alteração temporária de `src/pages/LoginPage.tsx` durante a investigação, depois revertida. As sete provas foram renovadas pelo caminho não destrutivo (L-01) — invocar o motor com `ONP_VERIFY_FEATURE` definido, que filtra pgTAP e Vitest **sem** `supabase db reset`.
+
+| Feature | Classe | Resultado | `testsParsed` antes → depois | `db reset` |
+|---|---|---|---|---|
+| `legado-baseline` | Vitest | 1/1 PASS | 3 → 3 | não |
+| `fundacao-ui` | Vitest | 5/5 PASS | 18 → 18 | não |
+| `recuperacao-carga` | Vitest | 4/4 PASS | 38 → 38 | não |
+| `refinamento-interface` | Vitest | 12/12 PASS | 81 → 81 | não |
+| `gate-comissao-produto` | pgTAP | 1/1 PASS | 1 → 1 | não |
+| `relatorios-gerenciais` | pgTAP | 11/11 PASS | 17 → 17 | não |
+| `dashboard-gerencial` | pgTAP | 16/16 PASS | 71 → 71 | não |
+
+`testsParsed` idêntico ao baseline em todas as sete: a renovação atualizou o relógio da prova sem reduzir o que ela cobre. Os cinco arquivos pgTAP envolvidos são transacionais (`begin;`/`rollback`), razão pela qual o reset era desnecessário. O banco permaneceu íntegro durante toda a operação. Erros do audit: **7 → 6 → 3 → 0**, sem nenhum erro novo em nenhum passo.
+
+`audit --ci` resulta em **exit 0**, com 51/51 critérios provados. O status da feature sobe para `auditada`.
+
+**O que este desbloqueio não prova:** vale para esta execução e este estado do banco. O gatilho do mecanismo de staleness é temporal (I-08), então a renovação torna o problema invisível enquanto o conteúdo não mudar — que é o limite registrado em R-08.
 
 ## Fora de escopo
 

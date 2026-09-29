@@ -156,6 +156,31 @@ Portanto, a ausência de duplicação em `getIndicadoresDashboard` **não está 
 - Um processo Vite antigo, iniciado com argumento inválido, ocupava a porta 5173 e respondia `404`; foi encerrado para que o servidor correto respondesse `200`. O servidor caiu novamente após o reinício do stack e foi reiniciado.
 - `supabase start` imprime chaves de desenvolvimento no terminal. São defaults locais compartilhados; nenhuma foi reproduzida nesta evidência.
 
+## Decisão de encerramento
+
+**Decisão do responsável pelo produto, 2026-09-28: o trabalho desta feature está concluído e o risco residual é aceito explicitamente.**
+
+O que foi concluído: causa raiz identificada (defeito documentado do PostgREST #5196), correção aplicada no stack local, QA visual mobile executado, evidência registrada.
+
+O que **não** foi declarado: "Feature Done". O gate G8 está em `exit 1` por `VERIFY_OBSOLETO` em sete features. Esse bloqueio foi provocado pela alteração temporária de `src/pages/LoginPage.tsx` durante a investigação, depois revertida; hoje `src/` está sem diff. Enquanto o audit não sair 0, marcar a feature como pronta seria uma afirmação falsa.
+
+**Status final: `auditada`.** O gate G8 saiu **exit 0** com 51/51 critérios provados. A feature está fechada; o que permanece são limitações aceitas, não trabalho pendente.
+
+O que **não** foi declarado: que o problema está "corrigido". Ver a ressalva abaixo.
+
+**Risco residual aceito, item a item:**
+
+1. **Prova parcialmente circular de AC-058 e AC-059.** O teste lê este documento e verifica literais dele. A parte não circular — sanitização de claims e remoção de `access_token` da resposta — está coberta. A circularidade restante não mudaria nenhuma conclusão com o documento atual.
+2. **Prova parcial de AC-062.** O teste conta `getProdutosEstoqueNegativo` e não conta `getIndicadoresDashboard`, que é carregado na mesma `Promise.all`. O comportamento foi verificado em 12 execuções reais no navegador: carga inicial única, sem duplicação observável.
+3. **Correção não garantida pelo repositório.** Depende de Supabase CLI >= 2.118.0, que é estado da máquina. O requisito está declarado em `AGENTS.md`; nenhum clone o reproduz automaticamente.
+4. **A/B não diferenciou** 16.1 de 16.3 — 0 falhas em 12 rodadas de cada. Resultado nulo não informativo, não um contraexemplo.
+
+**Conclusão mantida: provavelmente corrigido.** Não há log local da ocorrência, a amostra pós-correção é pequena para a taxa de falha observada, e a janela de ociosidade testada (12 min) é menor que o gatilho relatado (≈50 min local; horas ou semanas nos relatos upstream).
+
+**Como o gate G8 foi desbloqueado.** O `exit 1` vinha de `VERIFY_OBSOLETO` em sete features, causado pela alteração temporária de `src/pages/LoginPage.tsx` revertida depois. As sete provas foram renovadas pelo caminho não destrutivo (L-01): invocar o motor com `ONP_VERIFY_FEATURE` definido, filtrando pgTAP e Vitest **sem** `supabase db reset`. Todas passaram, com `testsParsed` idêntico ao baseline (3, 18, 38, 81, 1, 17, 71) e o banco preservado. Erros do audit: 7 → 6 → 3 → 0. Os cinco arquivos pgTAP envolvidos são transacionais (`begin;`/`rollback`), razão pela qual o reset era desnecessário.
+
+Limite desta evidência: vale para esta execução e este estado do banco. O gatilho do mecanismo de staleness é temporal, então renovar torna o problema invisível enquanto o conteúdo não mudar.
+
 ## Gates executados
 
 - Teste focal e Feature verify: 4/4 critérios PASS, exit 0.
@@ -166,4 +191,4 @@ Portanto, a ausência de duplicação em `getIndicadoresDashboard` **não está 
 - Sonda `scripts/diagnostico-jwt.cjs`: 3/3 execuções em `200` nas duas consultas, sem `PGRST303`; navegador validado em 2/2 rodadas.
 - `git diff --check`: PASS, exit 0 (apenas avisos de normalização LF/CRLF, sem erro de whitespace).
 - Comparação A/B entre versões: **executada, sem diferenciação** — 12 requisições por versão, 0 falhas em ambas, com ociosidade de 3 min por rodada. Resultado nulo não informativo; ver a seção própria.
-- Auditoria ONP: **BLOCKED**, exit 1; `VERIFY_OBSOLETO` em `dashboard-gerencial`, `fundacao-ui`, `gate-comissao-produto`, `legado-baseline`, `recuperacao-carga`, `refinamento-interface` e `relatorios-gerenciais`. A regra considera prova obsoleta quando qualquer arquivo em `src/` ou `tests/` é mais novo que a prova, então edições desta feature invalidaram as sete. Nenhuma delas decorre da mudança de infraestrutura, e o gate obrigatório não pode ser declarado PASS.
+- Auditoria ONP: **PASS**, exit 0, 51/51 critérios provados. As sete provas que estavam obsoletas foram renovadas sem `db reset`, com `testsParsed` preservado e o banco intacto.

@@ -1,7 +1,7 @@
 {
   "feature": "gate-comissao-produto",
-  "timestamp": "2026-09-27T19:21:13.103Z",
-  "gitRev": "6fbe65b",
+  "timestamp": "2026-09-29T02:35:44.855Z",
+  "gitRev": "f93154c",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
