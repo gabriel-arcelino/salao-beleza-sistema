@@ -1,7 +1,7 @@
 {
   "feature": "legado-baseline",
-  "timestamp": "2026-09-29T02:33:33.684Z",
-  "gitRev": "f93154c",
+  "timestamp": "2026-09-29T03:46:10.392Z",
+  "gitRev": "ccd1c3a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,7 +9,7 @@
   "results": {
     "AC-020": {
       "status": "pass",
-      "testName": "mantém todos os arquivos registrados no baseline presentes no projeto @spec:AC-020 # time=5.52ms",
+      "testName": "mantém todos os arquivos registrados no baseline presentes no projeto @spec:AC-020 # time=7.58ms",
       "method": "tap"
     }
   },
