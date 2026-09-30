@@ -15,6 +15,8 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
+import { usePerfil } from "../lib/perfil";
 import { SPACING_MD, SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -32,6 +34,12 @@ export function ComandasPage() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [comandaSelecionada, setComandaSelecionada] = useState<ComandaComItens | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita em "comandas". CUIDADO com a extensao deste gate: RECEPCAO
+  // tem(comandas_write medido) e fechar comanda e o trabalho dela. Um gate que
+  // tirasse a recepcao da comanda seria pior que o defeito que veio corrigir.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("comandas");
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
   const [carregando, setCarregando] = useState(true);
 
   const [novaComandaProfissional, setNovaComandaProfissional] = useState("");
@@ -179,6 +187,7 @@ export function ComandasPage() {
 
       {!comandaSelecionada ? (
         <>
+          {podeGravar ? (
           <form
             onSubmit={handleCriarComanda}
             aria-label="Formulário de abertura de comanda"
@@ -201,6 +210,12 @@ export function ComandasPage() {
             </label>
             <Button type="submit" variant="primary">Abrir comanda</Button>
           </form>
+          ) : (
+            <AvisoPerfilSemEscrita
+              perfil={perfilCarregado!}
+              oQue="comandas"
+            />
+          )}
 
           <section aria-label="Lista de comandas" style={{ marginTop: SPACING_LG }}>
             <Card>
@@ -212,7 +227,7 @@ export function ComandasPage() {
                     <li key={c.id}>
                       <strong>#{c.numero}</strong> — {c.status} — R$ {c.total.toFixed(2)}{" "}
                       <Button onClick={() => getComanda(c.id).then(setComandaSelecionada)}>Ver</Button>{" "}
-                      {c.status === "ABERTA" && (
+                      {c.status === "ABERTA" && podeGravar && (
                         <Button variant="destructive" onClick={() => handleCancelar(c.id)}>
                           Cancelar
                         </Button>
@@ -247,9 +262,10 @@ export function ComandasPage() {
             </ul>
           </section>
 
-          {comandaSelecionada.status === "ABERTA" && (
-            <form
-              onSubmit={handleAddItem}
+          {comandaSelecionada.status === "ABERTA" &&
+            (podeGravar ? (
+              <form
+                onSubmit={handleAddItem}
               aria-label="Formulário de item da comanda"
               style={{ marginBottom: SPACING_LG }}
             >
@@ -323,8 +339,10 @@ export function ComandasPage() {
                 ))}
               </select>
               <Button type="submit" variant="primary">Adicionar item</Button>
-            </form>
-          )}
+              </form>
+            ) : (
+              <AvisoPerfilSemEscrita perfil={perfilCarregado!} oQue="itens de comanda" />
+            ))}
 
           {comandaSelecionada.status === "ABERTA" && (
             <section aria-label="Pagamentos da comanda" style={{ marginTop: SPACING_LG }}>
@@ -336,39 +354,45 @@ export function ComandasPage() {
                   </li>
                 ))}
               </ul>
-              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-                <label>
-                  Forma de pagamento
-                  <select
-                    id="comanda-pagamento-metodo"
-                    value={pagamentoMetodo}
-                    onChange={(e) => setPagamentoMetodo(e.target.value)}
-                  >
-                    <option value="DINHEIRO">Dinheiro</option>
-                    <option value="PIX">Pix</option>
-                    <option value="DEBITO">Débito</option>
-                    <option value="CREDITO">Crédito</option>
-                  </select>
-                </label>
-                <label>
-                  Valor
-                  <input
-                    id="comanda-pagamento-valor"
-                    type="number"
-                    step="0.01"
-                    placeholder="Valor"
-                    value={pagamentoValor}
-                    onChange={(e) => setPagamentoValor(e.target.value)}
-                  />
-                </label>
-                <Button type="button" onClick={adicionarPagamento}>
-                  Adicionar pagamento
-                </Button>
-              </div>
+              {/* Ler os pagamentos e ver o que falta nao e permissao de escrita: quem
+                  nao grava ve a lista, e so os controles de gravar somem. */}
+              {podeGravar && (
+                <>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                    <label>
+                      Forma de pagamento
+                      <select
+                        id="comanda-pagamento-metodo"
+                        value={pagamentoMetodo}
+                        onChange={(e) => setPagamentoMetodo(e.target.value)}
+                      >
+                        <option value="DINHEIRO">Dinheiro</option>
+                        <option value="PIX">Pix</option>
+                        <option value="DEBITO">Débito</option>
+                        <option value="CREDITO">Crédito</option>
+                      </select>
+                    </label>
+                    <label>
+                      Valor
+                      <input
+                        id="comanda-pagamento-valor"
+                        type="number"
+                        step="0.01"
+                        placeholder="Valor"
+                        value={pagamentoValor}
+                        onChange={(e) => setPagamentoValor(e.target.value)}
+                      />
+                    </label>
+                    <Button type="button" onClick={adicionarPagamento}>
+                      Adicionar pagamento
+                    </Button>
+                  </div>
 
-              <Button variant="primary" onClick={handleFechar} disabled={pagamentos.length === 0}>
-                Fechar comanda
-              </Button>
+                  <Button variant="primary" onClick={handleFechar} disabled={pagamentos.length === 0}>
+                    Fechar comanda
+                  </Button>
+                </>
+              )}
             </section>
           )}
         </>

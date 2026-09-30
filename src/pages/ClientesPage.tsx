@@ -5,6 +5,8 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
+import { usePerfil } from "../lib/perfil";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -23,6 +25,12 @@ export function ClientesPage() {
   const [email, setEmail] = useState("");
   const [observacoes, setObservacoes] = useState("");
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita: a RLS ja recusa, o gate evita oferecer o clique que vai falhar.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("clientes");
+  // O aviso so aparece com o perfil em maos: enquanto carrega, ou se a leitura
+  // falhou (D-3), as acoes continuam visiveis e nao ha o que avisar.
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
   // null = modo cadastro. Preenchido = modo edicao. O mesmo formulario atende os
   // dois casos: os campos e o tratamento de erro sao identicos, e duas copias
   // divergem no primeiro ajuste sem dar sinal.
@@ -116,6 +124,7 @@ export function ClientesPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Clientes</h2>
 
+      {podeGravar ? (
       <form
         onSubmit={handleSalvar}
         aria-label={
@@ -162,6 +171,12 @@ export function ClientesPage() {
           </Button>
         )}
       </form>
+      ) : (
+        <AvisoPerfilSemEscrita
+          perfil={perfilCarregado!}
+          oQue="cadastros de cliente"
+        />
+      )}
 
       <section aria-label="Lista de clientes" style={{ marginTop: SPACING_LG }}>
         <Card>
@@ -175,24 +190,28 @@ export function ClientesPage() {
                 <li key={c.id}>
                   <strong>{c.nome}</strong> {c.telefone && `- ${c.telefone}`}{" "}
                   {!c.ativo && <em>(inativo)</em>}{" "}
-                  <Button variant="neutral" onClick={() => iniciarEdicao(c)}>
-                    Editar
-                  </Button>{" "}
-                  {c.ativo ? (
-                    <Button
-                      variant="destructive"
-                      onClick={async () => {
-                        if (confirm("Desativar este cliente?")) {
-                          await alternarAtivo(c.id, false);
-                        }
-                      }}
-                    >
-                      Desativar
-                    </Button>
-                  ) : (
-                    <Button variant="primary" onClick={() => alternarAtivo(c.id, true)}>
-                      Reativar
-                    </Button>
+                  {podeGravar && (
+                    <>
+                      <Button variant="neutral" onClick={() => iniciarEdicao(c)}>
+                        Editar
+                      </Button>{" "}
+                      {c.ativo ? (
+                        <Button
+                          variant="destructive"
+                          onClick={async () => {
+                            if (confirm("Desativar este cliente?")) {
+                              await alternarAtivo(c.id, false);
+                            }
+                          }}
+                        >
+                          Desativar
+                        </Button>
+                      ) : (
+                        <Button variant="primary" onClick={() => alternarAtivo(c.id, true)}>
+                          Reativar
+                        </Button>
+                      )}
+                    </>
                   )}
                 </li>
               ))}
@@ -203,3 +222,4 @@ export function ClientesPage() {
     </section>
   );
 }
+

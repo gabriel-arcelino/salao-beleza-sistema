@@ -20,7 +20,18 @@ export async function createServico(input: {
     .insert({ ...input, salon_id })
     .select()
     .single();
-  if (error) throw error;
+  if (error) {
+    // 42501: medido em 2026-09-30, e o que o INSERT recusado pelo RLS levanta. E
+    // DIFERENTE do UPDATE, que devolve zero linhas em silencio - e por isso
+    // desativar* precisa de .select(), em reativar-cadastros. Traduzido para que
+    // o texto do banco, que cita o nome da tabela, nunca chegue a tela.
+    if (error.code === "42501") {
+      throw new Error(
+        "Não foi possível gravar o serviço. Seu perfil pode não ter permissão para esta operação."
+      );
+    }
+    throw error;
+  }
   return data as Servico;
 }
 

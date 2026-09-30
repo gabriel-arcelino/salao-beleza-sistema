@@ -49,6 +49,15 @@ export async function createConfigComissao(input: {
           : "Já existe uma configuração de comissão padrão para este profissional. Edite a existente ou remova-a antes de criar outra."
       );
     }
+    // 42501: medido em 2026-09-30, e o que o INSERT recusado pelo RLS levanta. E
+    // DIFERENTE do UPDATE, que devolve zero linhas em silencio - e por isso o
+    // updateConfigComissao, mais abaixo, trata PGRST116 e nao 42501. Traduzido
+    // para que o texto do banco, que cita o nome da tabela, nunca chegue a tela.
+    if (error.code === "42501") {
+      throw new Error(
+        "Não foi possível gravar a configuração de comissão. Seu perfil pode não ter permissão para esta operação."
+      );
+    }
     throw error;
   }
   return data as ConfigComissao;

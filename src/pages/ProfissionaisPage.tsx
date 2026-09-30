@@ -10,6 +10,8 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
+import { usePerfil } from "../lib/perfil";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -19,6 +21,12 @@ export function ProfissionaisPage() {
   const [telefone, setTelefone] = useState("");
   const [comissaoPadrao, setComissaoPadrao] = useState("40");
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita: a RLS ja recusa, o gate evita oferecer o clique que vai falhar.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("profissionais");
+  // O aviso so aparece com o perfil em maos: enquanto carrega, ou se a leitura
+  // falhou (D-3), as acoes continuam visiveis e nao ha o que avisar.
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
   const [carregando, setCarregando] = useState(true);
 
   async function carregar() {
@@ -77,6 +85,7 @@ export function ProfissionaisPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Profissionais</h2>
 
+      {podeGravar ? (
       <form
         onSubmit={handleCriar}
         aria-label="Formulário de cadastro de profissional"
@@ -110,6 +119,12 @@ export function ProfissionaisPage() {
         </label>
         <Button type="submit" variant="primary">Cadastrar profissional</Button>
       </form>
+      ) : (
+        <AvisoPerfilSemEscrita
+          perfil={perfilCarregado!}
+          oQue="cadastros de profissional"
+        />
+      )}
 
       <section aria-label="Lista de profissionais" style={{ marginTop: SPACING_LG }}>
         <Card>
@@ -124,15 +139,16 @@ export function ProfissionaisPage() {
                 <li key={p.id}>
                   <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
                   {!p.ativo && <em>(inativo)</em>}{" "}
-                  {p.ativo ? (
-                    <Button variant="destructive" onClick={() => handleAlternarAtivo(p.id, false)}>
-                      Desativar
-                    </Button>
-                  ) : (
-                    <Button variant="primary" onClick={() => handleAlternarAtivo(p.id, true)}>
-                      Reativar
-                    </Button>
-                  )}
+                  {podeGravar &&
+                    (p.ativo ? (
+                      <Button variant="destructive" onClick={() => handleAlternarAtivo(p.id, false)}>
+                        Desativar
+                      </Button>
+                    ) : (
+                      <Button variant="primary" onClick={() => handleAlternarAtivo(p.id, true)}>
+                        Reativar
+                      </Button>
+                    ))}
                 </li>
               ))}
             </ul>
@@ -142,3 +158,4 @@ export function ProfissionaisPage() {
     </section>
   );
 }
+

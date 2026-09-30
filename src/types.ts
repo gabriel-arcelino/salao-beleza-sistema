@@ -4,6 +4,10 @@
 // schema estabilizar, mas nesta fase (schema ainda mudando) a geração
 // automática atrapalha mais do que ajuda.
 
+// Perfis do enum perfil_usuario do banco. A ordem e a do enum, e o valor
+// e o texto que o banco devolve - o gate compara strings com ele.
+export type PerfilUsuario = "ADMIN" | "GERENTE" | "RECEPCAO" | "PROFISSIONAL";
+
 export interface Profissional {
   id: string;
   salon_id: string;

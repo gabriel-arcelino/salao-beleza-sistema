@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ConfigComissao, Profissional, Servico } from "../types";
 import { listConfigComissoes, createConfigComissao } from "../lib/api/config_comissoes";
+import { usePerfil } from "../lib/perfil";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
 import { listProfissionais } from "../lib/api/profissionais";
 import { listServicos } from "../lib/api/servicos";
 import { EmptyState } from "../ui/components/EmptyState";
@@ -22,6 +24,11 @@ export function ConfigComissoesPage() {
   const [profissionaisAtivos, setProfissionaisAtivos] = useState<Profissional[]>([]);
   const [servicosAtivos, setServicosAtivos] = useState<Servico[]>([]);
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita. RECEPCAO LE a configuracao e nao a escreve: a listagem
+  // continua inteira, so o formulario some.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("config_comissoes");
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
 
   const [profissionalId, setProfissionalId] = useState("");
   const [servicoId, setServicoId] = useState(""); // "" = aplica a qualquer serviço
@@ -91,6 +98,7 @@ export function ConfigComissoesPage() {
         tenha uma configuração específica — Seção 10.9.1 do plano).
       </p>
 
+      {podeGravar ? (
       <form
         onSubmit={handleCriar}
         aria-label="Formulário de configuração de comissão"
@@ -210,6 +218,9 @@ export function ConfigComissoesPage() {
 
         <Button type="submit" variant="primary">Salvar configuração</Button>
       </form>
+      ) : (
+        <AvisoPerfilSemEscrita perfil={perfilCarregado!} oQue="configurações de comissão" />
+      )}
 
       <section aria-label="Lista de configurações de comissão" style={{ marginTop: SPACING_LG }}>
         {erro && <ErrorMessage message={erro} onRetry={carregar} />}
@@ -235,3 +246,4 @@ export function ConfigComissoesPage() {
     </section>
   );
 }
+

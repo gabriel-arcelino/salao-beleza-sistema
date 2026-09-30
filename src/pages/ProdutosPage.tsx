@@ -5,6 +5,8 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
+import { usePerfil } from "../lib/perfil";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -16,6 +18,12 @@ export function ProdutosPage() {
   const [precoVenda, setPrecoVenda] = useState("");
   const [percentualComissao, setPercentualComissao] = useState(""); // vazio = herda default (10.5)
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita: a RLS ja recusa, o gate evita oferecer o clique que vai falhar.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("produtos");
+  // O aviso so aparece com o perfil em maos: enquanto carrega, ou se a leitura
+  // falhou (D-3), as acoes continuam visiveis e nao ha o que avisar.
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
   // null = modo cadastro. Preenchido = modo edicao. O mesmo formulario atende os
   // dois, com uma excecao deliberada: o campo de preco de custo so existe no
   // cadastro (ver o comentario no JSX).
@@ -120,6 +128,7 @@ export function ProdutosPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Produtos</h2>
 
+      {podeGravar ? (
       <form
         onSubmit={handleSalvar}
         aria-label={
@@ -201,6 +210,12 @@ export function ProdutosPage() {
           </Button>
         )}
       </form>
+      ) : (
+        <AvisoPerfilSemEscrita
+          perfil={perfilCarregado!}
+          oQue="cadastros de produto"
+        />
+      )}
 
       <section aria-label="Lista de produtos" style={{ marginTop: SPACING_LG }}>
         <Card>
@@ -216,24 +231,28 @@ export function ProdutosPage() {
                   {p.preco_custo.toFixed(2)}
                   {p.percentual_comissao != null && ` — comissão própria: ${p.percentual_comissao}%`}
                   {!p.ativo && <em> (inativo)</em>}{" "}
-                  <Button variant="neutral" onClick={() => iniciarEdicao(p)}>
-                    Editar
-                  </Button>{" "}
-                  {p.ativo ? (
-                    <Button
-                      variant="destructive"
-                      onClick={async () => {
-                        if (confirm("Desativar este produto?")) {
-                          await alternarAtivo(p.id, false);
-                        }
-                      }}
-                    >
-                      Desativar
-                    </Button>
-                  ) : (
-                    <Button variant="primary" onClick={() => alternarAtivo(p.id, true)}>
-                      Reativar
-                    </Button>
+                  {podeGravar && (
+                    <>
+                      <Button variant="neutral" onClick={() => iniciarEdicao(p)}>
+                        Editar
+                      </Button>{" "}
+                      {p.ativo ? (
+                        <Button
+                          variant="destructive"
+                          onClick={async () => {
+                            if (confirm("Desativar este produto?")) {
+                              await alternarAtivo(p.id, false);
+                            }
+                          }}
+                        >
+                          Desativar
+                        </Button>
+                      ) : (
+                        <Button variant="primary" onClick={() => alternarAtivo(p.id, true)}>
+                          Reativar
+                        </Button>
+                      )}
+                    </>
                   )}
                 </li>
               ))}
@@ -244,3 +263,4 @@ export function ProdutosPage() {
     </section>
   );
 }
+

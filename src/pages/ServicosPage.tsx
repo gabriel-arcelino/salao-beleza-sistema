@@ -5,6 +5,8 @@ import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
 import { ErrorMessage } from "../ui/components/ErrorMessage";
+import { usePerfil } from "../lib/perfil";
+import { AvisoPerfilSemEscrita } from "../ui/components/AvisoPerfilSemEscrita";
 import { SPACING_LG } from "../ui/tokens/spacing";
 import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
@@ -15,6 +17,12 @@ export function ServicosPage() {
   const [preco, setPreco] = useState("");
   const [duracao, setDuracao] = useState("");
   const [erro, setErro] = useState<string | null>(null);
+  // Gate de escrita: a RLS ja recusa, o gate evita oferecer o clique que vai falhar.
+  const { leitura, pode } = usePerfil();
+  const podeGravar = pode("servicos");
+  // O aviso so aparece com o perfil em maos: enquanto carrega, ou se a leitura
+  // falhou (D-3), as acoes continuam visiveis e nao ha o que avisar.
+  const perfilCarregado = leitura?.estado === "carregado" ? leitura.perfil : null;
 
 
   // Ver a nota em ClientesPage: try/catch e o que impede a falha silenciosa, e a
@@ -70,6 +78,7 @@ export function ServicosPage() {
     <section>
       <h2 style={{ fontFamily: FONT_HEADING, fontSize: FONT_SIZE_HEADING }}>Serviços</h2>
 
+      {podeGravar ? (
       <form
         onSubmit={handleCriar}
         aria-label="Formulário de cadastro de serviço"
@@ -110,6 +119,12 @@ export function ServicosPage() {
         />
         <Button type="submit" variant="primary">Cadastrar serviço</Button>
       </form>
+      ) : (
+        <AvisoPerfilSemEscrita
+          perfil={perfilCarregado!}
+          oQue="cadastros de serviço"
+        />
+      )}
 
       <section aria-label="Lista de serviços" style={{ marginTop: SPACING_LG }}>
         <Card>
@@ -122,22 +137,23 @@ export function ServicosPage() {
               {servicos.map((s) => (
                 <li key={s.id}>
                   <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
-                  {s.ativo ? (
-                    <Button
-                      variant="destructive"
-                      onClick={async () => {
-                        if (confirm("Desativar este serviço?")) {
-                          await alternarAtivo(s.id, false);
-                        }
-                      }}
-                    >
-                      Desativar
-                    </Button>
-                  ) : (
-                    <Button variant="primary" onClick={() => alternarAtivo(s.id, true)}>
-                      Reativar
-                    </Button>
-                  )}
+                  {podeGravar &&
+                    (s.ativo ? (
+                      <Button
+                        variant="destructive"
+                        onClick={async () => {
+                          if (confirm("Desativar este serviço?")) {
+                            await alternarAtivo(s.id, false);
+                          }
+                        }}
+                      >
+                        Desativar
+                      </Button>
+                    ) : (
+                      <Button variant="primary" onClick={() => alternarAtivo(s.id, true)}>
+                        Reativar
+                      </Button>
+                    ))}
                 </li>
               ))}
             </ul>
@@ -147,3 +163,4 @@ export function ServicosPage() {
     </section>
   );
 }
+
