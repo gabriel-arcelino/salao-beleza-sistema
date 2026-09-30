@@ -4,3 +4,7 @@ dist/
 .env.local
 .DS_Store
 supabase/.temp/
+
+# artefatos gerados pelo build/motor ONP
+tsconfig.tsbuildinfo
+.spec/verification/sinais.json
