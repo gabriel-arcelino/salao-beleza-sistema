@@ -425,6 +425,45 @@ Nenhuma bloqueia a execução. Nenhuma decisão de produto ficou pendente nesta 
 | Q-027 | A edição de `clientes.nome` reescreve o nome em relatórios de comissão já emitidos. Aceitável? | respondida | Aceitável, e por isso mesmo: um relatório deve mostrar o nome atual do cliente. O que não muda são os valores — `comissao_valor_snapshot`, `total` e `subtotal` vivem no item. Snapshot de nome exigiria migration e decisão de modelagem, e está fora de escopo. |
 | Q-028 | O campo de observações passou a aparecer no formulário de cadastro junto com o de edição. | respondida | O campo já existia no tipo e na API, e era editável, mas não aparecia em nenhum formulário. A inconsistência vinha da própria tela, não de uma escolha. Exibi-lo nos dois modos é o que torna a edição coerente com o que a API permite. |
 
+## Evidência G4 e G5 — verificação no aplicativo
+
+Executado em 2026-09-30 contra o **build de produção** (`tsc -b && vite build`, 103
+módulos, `exit 0`) servido por `vite preview` em `localhost:4173`, com usuário ADMIN
+autenticado pela tela de login real. Docker/Supabase local reinitializados no início da
+rodada; o `db reset` do `onp-feature-verify` havia zerado `clientes` e deixado o produto
+do seed.
+
+| # | Passo | Resultado no aplicativo | Confirmado no banco |
+|---|---|---|---|
+| 1 | cadastrar cliente com nome, telefone, e-mail e observações | formulário limpou, listagem exibiu | 1 linha, 4 campos gravados |
+| 2 | abrir a edição do cliente | formulário preenchido com os 4 valores, botão virou "Salvar alterações", "Cancelar edição" apareceu | — |
+| 3 | alterar o nome e salvar | listagem passou a exibir o nome novo, formulário voltou ao modo cadastro | `nome` novo gravado |
+| 4 | editar com e-mail inválido e salvar | "E-mail inválido. Confira o endereço informado." em vermelho, formulário permaneceu em edição | e-mail **inalterado** |
+| 5 | abrir a edição do produto | **sem** campo de preço de custo; aviso "custo e estoque atual não são editáveis aqui"; preço preenchido; **texto de consequência presente** | — |
+| 6 | alterar preço de venda e percentual e salvar | listagem exibiu `venda R$ 30.00 / comissão própria: 15%`; campo de custo reapareceu ao voltar ao cadastro | `preco_custo = 10.00` e `estoque_atual = 100.00` **intactos**; `preco_venda = 30.00`, `percentual_comissao = 15.00` |
+| 7 | editar com percentual 150 e salvar | "Percentual de comissão inválido. Informe um valor entre 0 e 100."; percentual permaneceu 15 | `percentual_comissao = 15.00` |
+| 8 | **salvar edição como usuário RECEPCAO** | "Não foi possível salvar a alteração do cliente. O registro não foi encontrado ou você não tem permissão para editá-lo." — mensagem de domínio, **sem** distinguir a causa e sem detalhe técnico | nome **inalterado**; PATCH retornou HTTP 406 |
+
+**O que o passo 8 acrescenta à prova automatizada.** A tradução de `PGRST116` estava
+provada apenas com o cliente Supabase mockado. Este passo a exercita ponta a ponta: a
+aplicação real recebe HTTP 406 do PostgREST, `updateCliente` traduz, e a tela exibe a
+mensagem de domínio. É a mesma medida de fronteira da investigação — aqui no caminho
+completo, do clique ao texto na tela.
+
+**Sobre o passo 6 e a semântica de comissão.** O passo 6 confirma o que a spec declara
+para o usuário: o percentual alterado passa a valer, e o formulário avisa que comandas
+ainda abertas usam o novo valor. O que o passo 6 **não** confirma, e o pgTAP `018` confirma,
+é a outra face: comanda já fechada mantém o valor apurado. Uma tela não prova a semântica
+de banco, e o registro honesto é que a prova dela continua sendo o `018`.
+
+**Ressalva de ambiente.** As capturas são do build de produção servido localmente. Não
+houve verificação em dispositivo real nem em navegador distinto do usado nesta rodada.
+
+**Resíduo deixado pela rodada:** dois usuários descartáveis no Auth local
+(`qa-edicao@exemplo.invalid` ADMIN e `qa-recepcao@exemplo.invalid` RECEPCAO), um
+cliente e as duas colunas alteradas do produto do seed. O banco de aplicação é
+descartável e nenhum dado de produto real foi tocado.
+
 ## Fora de escopo
 
 - Edição de `profissionais` e de `config_comissoes`: editam a origem do cálculo de
