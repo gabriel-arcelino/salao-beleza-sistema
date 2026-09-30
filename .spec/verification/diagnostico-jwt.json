@@ -1,7 +1,7 @@
 {
   "feature": "diagnostico-jwt",
-  "timestamp": "2026-09-29T03:05:07.908Z",
-  "gitRev": "f93154c",
+  "timestamp": "2026-09-30T19:26:10.550Z",
+  "gitRev": "0463a8a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,22 +9,22 @@
   "results": {
     "AC-058": {
       "status": "pass",
-      "testName": "mantém a evidência sem segredos e registra o diagnóstico inconclusivo @spec:AC-058 @spec:AC-059 # time=15.52ms",
+      "testName": "mantém a evidência sem segredos e registra o diagnóstico inconclusivo @spec:AC-058 @spec:AC-059 # time=16.09ms",
       "method": "tap"
     },
     "AC-059": {
       "status": "pass",
-      "testName": "mantém a evidência sem segredos e registra o diagnóstico inconclusivo @spec:AC-058 @spec:AC-059 # time=15.52ms",
+      "testName": "mantém a evidência sem segredos e registra o diagnóstico inconclusivo @spec:AC-058 @spec:AC-059 # time=16.09ms",
       "method": "tap"
     },
     "AC-061": {
       "status": "pass",
-      "testName": "Diagnóstico JWT — evidência e login @spec:AC-061 # time=829.35ms {",
+      "testName": "Diagnóstico JWT — evidência e login @spec:AC-061 # time=1069.83ms {",
       "method": "tap"
     },
     "AC-062": {
       "status": "pass",
-      "testName": "reexecuta a carga e limpa o erro quando a nova tentativa funciona @spec:AC-042 @spec:AC-043 @spec:AC-062 # time=732.29ms",
+      "testName": "reexecuta a carga e limpa o erro quando a nova tentativa funciona @spec:AC-042 @spec:AC-043 @spec:AC-062 # time=925.26ms",
       "method": "tap"
     }
   },

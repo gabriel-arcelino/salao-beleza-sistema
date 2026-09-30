@@ -1,7 +1,7 @@
 {
   "feature": "dashboard-gerencial",
-  "timestamp": "2026-09-29T02:36:33.136Z",
-  "gitRev": "f93154c",
+  "timestamp": "2026-09-30T19:42:51.357Z",
+  "gitRev": "0463a8a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,7 +9,7 @@
   "results": {
     "AC-047": {
       "status": "pass",
-      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=987.67ms {",
+      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=2964.97ms {",
       "method": "tap"
     },
     "AC-048": {
@@ -34,7 +34,7 @@
     },
     "AC-052": {
       "status": "pass",
-      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=987.67ms {",
+      "testName": "Dashboard gerencial — competência selecionável @spec:AC-047 @spec:AC-052 # time=2964.97ms {",
       "method": "tap"
     },
     "AC-053": {
@@ -44,12 +44,12 @@
     },
     "AC-054": {
       "status": "pass",
-      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=1000.34ms {",
+      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=3410.68ms {",
       "method": "tap"
     },
     "AC-055": {
       "status": "pass",
-      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=1000.34ms {",
+      "testName": "Dashboard gerencial — conteúdo preexistente preservado @spec:AC-054 @spec:AC-055 # time=3410.68ms {",
       "method": "tap"
     },
     "AC-056": {

@@ -1,7 +1,7 @@
 {
   "feature": "edicao-clientes-produtos",
-  "timestamp": "2026-09-30T02:42:01.770Z",
-  "gitRev": "2884cfc",
+  "timestamp": "2026-09-30T19:28:13.739Z",
+  "gitRev": "0463a8a",
   "command": "node scripts/onp-combined-verify.cjs",
   "reporter": "tap",
   "exitCode": 0,
@@ -9,47 +9,47 @@
   "results": {
     "AC-066": {
       "status": "pass",
-      "testName": "a edicao salva e a listagem passa a exibir os dados novos @spec:AC-066 # time=1402.64ms",
+      "testName": "a edicao salva e a listagem passa a exibir os dados novos @spec:AC-066 # time=768.58ms",
       "method": "tap"
     },
     "AC-067": {
       "status": "pass",
-      "testName": "a edicao abre com os quatro campos preenchidos e alteraveis @spec:AC-067 # time=247.47ms",
+      "testName": "a edicao abre com os quatro campos preenchidos e alteraveis @spec:AC-067 # time=217.46ms",
       "method": "tap"
     },
     "AC-068": {
       "status": "pass",
-      "testName": "cancelar a edicao volta ao modo de cadastro sem gravar @spec:AC-068 # time=233.89ms",
+      "testName": "cancelar a edicao volta ao modo de cadastro sem gravar @spec:AC-068 # time=240.48ms",
       "method": "tap"
     },
     "AC-069": {
       "status": "pass",
-      "testName": "PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida @spec:AC-069 @spec:AC-071 # time=16.93ms",
+      "testName": "PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida @spec:AC-069 @spec:AC-071 # time=5.75ms",
       "method": "tap"
     },
     "AC-070": {
       "status": "pass",
-      "testName": "e-mail invalido nao e submetido e o responsavel e avisado @spec:AC-070 # time=202.55ms",
+      "testName": "e-mail invalido nao e submetido e o responsavel e avisado @spec:AC-070 # time=142.39ms",
       "method": "tap"
     },
     "AC-071": {
       "status": "pass",
-      "testName": "PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida @spec:AC-069 @spec:AC-071 # time=16.93ms",
+      "testName": "PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida @spec:AC-069 @spec:AC-071 # time=5.75ms",
       "method": "tap"
     },
     "AC-072": {
       "status": "pass",
-      "testName": "a edicao salva e a listagem passa a exibir preco e percentual novos @spec:AC-072 # time=211.58ms",
+      "testName": "a edicao salva e a listagem passa a exibir preco e percentual novos @spec:AC-072 # time=158.55ms",
       "method": "tap"
     },
     "AC-073": {
       "status": "pass",
-      "testName": "o patch enviado nao alcanca preco_custo nem estoque_atual @spec:AC-073 # time=10.65ms",
+      "testName": "o patch enviado nao alcanca preco_custo nem estoque_atual @spec:AC-073 # time=7.76ms",
       "method": "tap"
     },
     "AC-074": {
       "status": "pass",
-      "testName": "o percentual gravado e null quando o campo e esvaziado @spec:AC-074 # time=109.97ms",
+      "testName": "o percentual gravado e null quando o campo e esvaziado @spec:AC-074 # time=148.63ms",
       "method": "tap"
     },
     "AC-075": {
@@ -64,17 +64,17 @@
     },
     "AC-077": {
       "status": "pass",
-      "testName": "a mensagem de dominio nao carrega nenhum detalhe do banco @spec:AC-069 @spec:AC-077 # time=7.49ms",
+      "testName": "a mensagem de dominio nao carrega nenhum detalhe do banco @spec:AC-069 @spec:AC-077 # time=4.50ms",
       "method": "tap"
     },
     "AC-078": {
       "status": "pass",
-      "testName": "percentual negativo ou acima de 100 nao e submetido @spec:AC-078 # time=297.63ms",
+      "testName": "percentual negativo ou acima de 100 nao e submetido @spec:AC-078 # time=195.33ms",
       "method": "tap"
     },
     "AC-079": {
       "status": "pass",
-      "testName": "a mensagem nao distingue 'sem permissao' de 'registro inexistente' (D-6) @spec:AC-071 @spec:AC-079 # time=2.47ms",
+      "testName": "a mensagem nao distingue 'sem permissao' de 'registro inexistente' (D-6) @spec:AC-071 @spec:AC-079 # time=1.64ms",
       "method": "tap"
     }
   },
