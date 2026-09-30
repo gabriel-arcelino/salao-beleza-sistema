@@ -29,7 +29,25 @@ export async function updateCliente(
   input: Partial<Pick<Cliente, "nome" | "telefone" | "email" | "observacoes">>
 ): Promise<Cliente> {
   const { data, error } = await supabase.from("clientes").update(input).eq("id", id).select().single();
-  if (error) throw error;
+  if (error) {
+    // PGRST116: a cadeia update().eq().select().single() nao devolveu uma linha.
+    // Medido em 2026-09-29 pela fronteira real: e o que chega quando o id nao
+    // existe E quando o RLS esconde a linha, porque a policy clientes_write so
+    // admite ADMIN e GERENTE. As duas situacoes sao INDISTINGUEIVEIS de proposito
+    // - a interface nao as separa, e separar seria um oraculo de existencia para
+    // quem nao tem permissao. A mensagem fala so que a gravacao falhou.
+    if (error.code === "PGRST116") {
+      throw new Error(
+        "Não foi possível salvar a alteração do cliente. O registro não foi encontrado ou você não tem permissão para editá-lo."
+      );
+    }
+    // 23502: `nome` e NOT NULL. A mensagem original traz o nome da coluna, o da
+    // tabela e "not-null constraint" - nada disso deve chegar a tela.
+    if (error.code === "23502") {
+      throw new Error("O nome do cliente é obrigatório.");
+    }
+    throw error;
+  }
   return data as Cliente;
 }
 

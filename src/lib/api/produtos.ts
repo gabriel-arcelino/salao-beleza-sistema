@@ -39,7 +39,22 @@ export async function updateProduto(
   // de custo. Se precisar corrigir custo, isso é uma ENTRADA de ajuste,
   // não um UPDATE de cadastro.
   const { data, error } = await supabase.from("produtos").update(input).eq("id", id).select().single();
-  if (error) throw error;
+  if (error) {
+    // PGRST116 e 23502: ver o comentario equivalente em clientes.ts. A medicao de
+    // fronteira e a mesma para as duas entidades: nao existe 23505 aqui (produtos
+    // nao tem nenhuma UNIQUE nem CHECK) e nao existe 42501 (o RLS negado devolve
+    // zero linhas em silencio, e o erro nasce do .single() do cliente). Traduzir
+    // um codigo que a fronteira nao entrega seria codigo morto.
+    if (error.code === "PGRST116") {
+      throw new Error(
+        "Não foi possível salvar a alteração do produto. O registro não foi encontrado ou você não tem permissão para editá-lo."
+      );
+    }
+    if (error.code === "23502") {
+      throw new Error("O nome e o preço de venda do produto são obrigatórios.");
+    }
+    throw error;
+  }
   return data as Produto;
 }
 
