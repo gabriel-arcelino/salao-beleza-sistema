@@ -1,3 +1,11 @@
+afterEach(() => {
+  // Desfaz o spyOn no singleton `supabase`. O config do vitest nao define
+  // restoreMocks, entao sem isto o stub de getMeuPerfil vaza para o resto do
+  // arquivo. Atribuir `supabase.from` direto, sem spyOn, seria pior: nao
+  // haveria como desfazer.
+  vi.restoreAllMocks();
+});
+
 // Prova das DUAS direcoes do gate de perfil.
 //
 // Feature gate-perfil-escrita, tasks T-072, T-074, T-075, T-076 e T-078.
@@ -16,9 +24,9 @@
 // modo de falha novo (uma falha de rede esconderia a "Abrir comanda" de quem pode),
 // e nao seria buraco de seguranca, porque a RLS continua sendo a autoridade.
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom/vitest";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ClientesPage } from "../../src/pages/ClientesPage";
 import { ProdutosPage } from "../../src/pages/ProdutosPage";
 import { ServicosPage } from "../../src/pages/ServicosPage";
@@ -294,16 +302,20 @@ describe("Os tres desfechos do carregamento do perfil (D-3)", () => {
 });
 
 describe("A leitura do perfil em si (T-072)", () => {
-  it("getMeuPerfil distingue linha, ausencia de linha e erro", async () => {
+  it("getMeuPerfil distingue linha, ausencia de linha e erro @spec:AC-101", async () => {
     const { getMeuPerfil } = await import("../../src/lib/api/usuarios");
     const { supabase } = await import("../../src/lib/supabaseClient");
 
-    // linha presente
+    // `supabase` e um SINGLETON e o config do vitest nao define restoreMocks nem
+    // isolate. Atribuir `supabase.from = ...` direto corromperia o modulo para o
+    // resto da execucao sem nenhuma forma de desfazer; por isso o stub entra por
+    // spyOn, que o afterEach desfaz. Isto e higiene de teste: um teste que corrompe
+    // um singleton e uma mina, mesmo que a falha nao apareca hoje.
     let select = vi.fn(async () => ({ data: [{ perfil: "GERENTE" }], error: null }));
-    let from = vi.fn(() => ({
+    const from = vi.fn(() => ({
       select: (...a: unknown[]) => { void a; return { eq: () => ({ limit: async () => select() }) }; },
     }));
-    (supabase as unknown as { from: unknown }).from = from;
+    vi.spyOn(supabase, "from").mockImplementation(from as never);
     vi.spyOn(supabase.auth, "getSession").mockResolvedValue({
       data: { session: { user: { id: "u1" } } },
     } as never);
