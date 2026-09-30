@@ -1,0 +1,57 @@
+{
+  "feature": "cadastros-inativos-operacoes-novas",
+  "timestamp": "2026-09-30T12:10:06.763Z",
+  "gitRev": "67877fc",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 12,
+  "results": {
+    "AC-080": {
+      "status": "pass",
+      "testName": "o item novo nao oferece servico inativo @spec:AC-080 # time=994.67ms",
+      "method": "tap"
+    },
+    "AC-081": {
+      "status": "pass",
+      "testName": "item JA registrado de servico desativado continua exibindo descricao e preco @spec:AC-081 # time=281.59ms",
+      "method": "tap"
+    },
+    "AC-082": {
+      "status": "pass",
+      "testName": "o item novo nao oferece produto inativo @spec:AC-082 # time=308.17ms",
+      "method": "tap"
+    },
+    "AC-083": {
+      "status": "pass",
+      "testName": "o item novo nao oferece profissional inativo @spec:AC-083 # time=213.67ms",
+      "method": "tap"
+    },
+    "AC-084": {
+      "status": "pass",
+      "testName": "a comanda nao e atribuida a profissional inativo @spec:AC-084 # time=52.53ms",
+      "method": "tap"
+    },
+    "AC-085": {
+      "status": "pass",
+      "testName": "a configuracao nova nao oferece profissional nem servico inativos @spec:AC-085 # time=68.55ms",
+      "method": "tap"
+    },
+    "AC-086": {
+      "status": "pass",
+      "testName": "config existente de profissional desativado continua exibindo o nome @spec:AC-086 # time=42.94ms",
+      "method": "tap"
+    },
+    "AC-087": {
+      "status": "pass",
+      "testName": "a tela de cadastro continua listando o inativo, marcado como inativo @spec:AC-087 # time=64.61ms",
+      "method": "tap"
+    },
+    "AC-088": {
+      "status": "pass",
+      "testName": "o relatorio de comissao continua oferecendo o profissional inativo @spec:AC-088 # time=102.99ms",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
