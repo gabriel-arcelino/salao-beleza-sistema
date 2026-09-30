@@ -17,8 +17,7 @@ permite reativar, medido, e o tipo já impede reativar por edição, medido.
 ## T-067 - Criar ativar* e fazer desativar* detectar a escrita recusada [concluida]
 
 - Refs: US-033, US-035, AC-094
-- Arquivos: src/lib/api/clientes.ts, src/lib/api/produtos.ts,
-  src/lib/api/profissionais.ts, src/lib/api/servicos.ts
+- Arquivos: src/lib/api/clientes.ts, src/lib/api/produtos.ts, src/lib/api/profissionais.ts, src/lib/api/servicos.ts
 - Descrição: em cada um dos quatro arquivos, criar `ativar*`, simétrico a `desativar*`:
   `update({ ativo: true }).eq("id", id).select().single()`. E alterar `desativar*` para
   usar a mesma cadeia, que hoje é `update(...).eq("id", id)` sem `.select()` — por isso
@@ -32,8 +31,7 @@ permite reativar, medido, e o tipo já impede reativar por edição, medido.
 ## T-068 - Oferecer a ação de reativar na linha inativa, nas quatro telas [concluida]
 
 - Refs: US-033, US-034, AC-089, AC-091, AC-092, AC-093
-- Arquivos: src/pages/ClientesPage.tsx, src/pages/ProdutosPage.tsx,
-  src/pages/ProfissionaisPage.tsx, src/pages/ServicosPage.tsx
+- Arquivos: src/pages/ClientesPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ServicosPage.tsx
 - Descrição: onde a linha traz `{c.ativo && <Button variant="destructive">Desativar`,
   acrescentar o ramo inverso, `{!c.ativo && <Button variant="primary">Reativar}`, com
   o mesmo encadeamento de `await` e recarga. Em `ProfissionaisPage` a reativação entra

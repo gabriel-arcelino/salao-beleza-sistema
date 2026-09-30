@@ -43,9 +43,7 @@ quem usa, e a tradução é o que garante a regra depois dele.
 ## T-074 - Gate das quatro telas de cadastro, com a linha que diz por quê [concluida]
 
 - Refs: US-036, US-037, AC-095, AC-098, AC-099, AC-100
-- Arquivos: src/pages/ClientesPage.tsx, src/pages/ProdutosPage.tsx,
-  src/pages/ProfissionaisPage.tsx, src/pages/ServicosPage.tsx,
-  src/ui/components/AvisoPerfilSemEscrita.tsx
+- Arquivos: src/pages/ClientesPage.tsx, src/pages/ProdutosPage.tsx, src/pages/ProfissionaisPage.tsx, src/pages/ServicosPage.tsx, src/ui/components/AvisoPerfilSemEscrita.tsx
 - Descrição: as quatro telas escondem formulário de cadastro, "Editar", "Desativar" e
   "Reativar", e exibem o componente novo com o nome do perfil (D-4, D-5). Componente
   único nas quatro, não quatro frases — a mensagem é a mesma, e divergir entre telas é
@@ -70,9 +68,7 @@ quem usa, e a tradução é o que garante a regra depois dele.
 ## T-076 - Traduzir a recusa de escrita no create* [concluida]
 
 - Refs: US-038, AC-101, AC-102
-- Arquivos: src/lib/api/clientes.ts, src/lib/api/produtos.ts,
-  src/lib/api/profissionais.ts, src/lib/api/servicos.ts, src/lib/api/comandas.ts,
-  src/lib/api/config_comissoes.ts
+- Arquivos: src/lib/api/clientes.ts, src/lib/api/produtos.ts, src/lib/api/profissionais.ts, src/lib/api/servicos.ts, src/lib/api/comandas.ts, src/lib/api/config_comissoes.ts
 - Descrição: os seis `create*` que a interface usa recebem tradução de `42501` — que,
   medido, **é o que o `INSERT` recusado levanta**, ao contrário do `UPDATE`, que é
   silencioso. A mensagem não cita código, tabela, `row-level security` nem `PostgREST`.
