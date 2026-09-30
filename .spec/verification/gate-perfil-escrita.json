@@ -1,0 +1,57 @@
+{
+  "feature": "gate-perfil-escrita",
+  "timestamp": "2026-09-30T17:25:51.571Z",
+  "gitRev": "0f4193f",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 36,
+  "results": {
+    "AC-095": {
+      "status": "pass",
+      "testName": "RECEPCAO nao ve nenhuma escrita de cadastro nas quatro telas @spec:AC-095 # time=902.02ms",
+      "method": "tap"
+    },
+    "AC-096": {
+      "status": "pass",
+      "testName": "RECEPCAO nao ve o formulario de configuracao de comissao, mas continua lendo @spec:AC-096 # time=83.11ms",
+      "method": "tap"
+    },
+    "AC-097": {
+      "status": "pass",
+      "testName": "RECEPCAO continua operando comandas: abrir, item, fechar, cancelar @spec:AC-097 # time=812.66ms",
+      "method": "tap"
+    },
+    "AC-098": {
+      "status": "pass",
+      "testName": "PROFISSIONAL, que nao grava nada, nao ve escrita em nenhuma das seis telas @spec:AC-098 # time=947.67ms",
+      "method": "tap"
+    },
+    "AC-099": {
+      "status": "pass",
+      "testName": "ADMIN nao perde nenhuma acao de cadastro @spec:AC-099 # time=905.92ms",
+      "method": "tap"
+    },
+    "AC-100": {
+      "status": "pass",
+      "testName": "a tela diz que o perfil nao grava, e nomeia o perfil @spec:AC-100 # time=66.30ms",
+      "method": "tap"
+    },
+    "AC-101": {
+      "status": "pass",
+      "testName": "as seis entidades traduzem, e nenhuma deixa passar o texto cru @spec:AC-101 # time=24.25ms",
+      "method": "tap"
+    },
+    "AC-102": {
+      "status": "pass",
+      "testName": "a mensagem nao vaza codigo, tabela, policy nem PostgREST @spec:AC-102 # time=14.89ms",
+      "method": "tap"
+    },
+    "AC-103": {
+      "status": "pass",
+      "testName": "a matriz de escrita da interface bate com a RLS nas 10 tabelas @spec:AC-103",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
