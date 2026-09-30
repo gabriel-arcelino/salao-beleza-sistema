@@ -58,7 +58,38 @@ export async function updateProduto(
   return data as Produto;
 }
 
+// Traducao do PGRST116 destas duas escritas. A cadeia precisa pedir .select():
+// medido, o RLS negado devolve zero linhas sem levantar erro, e sem o .single() a
+// falha e silenciosa. "Nao encontrado" e "sem permissao" ficam INDISTINGUEIVEIS de
+// proposito. Ver a nota longa em clientes.ts.
+function erroDeEscrita(acao: "desativar" | "reativar"): Error {
+  return new Error(
+    `Não foi possível ${acao} o produto. O registro não foi encontrado ou você não tem permissão.`
+  );
+}
+
 export async function desativarProduto(id: string): Promise<void> {
-  const { error } = await supabase.from("produtos").update({ ativo: false }).eq("id", id);
-  if (error) throw error;
+  const { error } = await supabase
+    .from("produtos")
+    .update({ ativo: false })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("desativar");
+    throw error;
+  }
+}
+
+export async function ativarProduto(id: string): Promise<void> {
+  const { error } = await supabase
+    .from("produtos")
+    .update({ ativo: true })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("reativar");
+    throw error;
+  }
 }

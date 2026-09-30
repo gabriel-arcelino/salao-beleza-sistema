@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Cliente } from "../types";
-import { listClientes, createCliente, updateCliente, desativarCliente } from "../lib/api/clientes";
+import { listClientes, createCliente, updateCliente, desativarCliente, ativarCliente } from "../lib/api/clientes";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
@@ -27,6 +27,25 @@ export function ClientesPage() {
   // dois casos: os campos e o tratamento de erro sao identicos, e duas copias
   // divergem no primeiro ajuste sem dar sinal.
   const [editando, setEditando] = useState<Cliente | null>(null);
+
+  // Desativar e reativar sao a mesma escrita com valores opostos, entao ficam
+  // juntos. O try/catch e o que impede a falha silenciosa: sem ele, a recusa da
+  // escrita levanta erro nao tratado e a pessoa nao ve nada. A recarga so
+  // acontece DEPOIS do sucesso - se falhou, a lista fica como estava, que e o
+  // que AC-094 exige.
+  async function alternarAtivo(id: string, ativando: boolean) {
+    setErro(null);
+    try {
+      if (ativando) {
+        await ativarCliente(id);
+      } else {
+        await desativarCliente(id);
+      }
+      await carregar();
+    } catch (e) {
+      setErro((e as Error).message);
+    }
+  }
 
   async function carregar() {
     setErro(null);
@@ -159,17 +178,20 @@ export function ClientesPage() {
                   <Button variant="neutral" onClick={() => iniciarEdicao(c)}>
                     Editar
                   </Button>{" "}
-                  {c.ativo && (
+                  {c.ativo ? (
                     <Button
                       variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este cliente?")) {
-                          await desativarCliente(c.id);
-                          await carregar();
+                          await alternarAtivo(c.id, false);
                         }
                       }}
                     >
                       Desativar
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => alternarAtivo(c.id, true)}>
+                      Reativar
                     </Button>
                   )}
                 </li>

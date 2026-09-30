@@ -47,11 +47,40 @@ export async function updateProfissional(
 // Nunca DELETE de verdade num profissional que já tem histórico de
 // comanda/comissão vinculado — desativa, não apaga (mesmo princípio de
 // qualquer cadastro referenciado por dado financeiro).
+//
+// A cadeia pede .select().single() para que a recusa de RLS vire erro: medido, o
+// RLS negado não levanta nada, devolve zero linhas, e sem o .single() a falha é
+// silenciosa. Ver a nota longa em clientes.ts, que traz a medição.
+function erroDeEscrita(acao: "desativar" | "reativar"): Error {
+  return new Error(
+    `Não foi possível ${acao} o profissional. O registro não foi encontrado ou você não tem permissão.`
+  );
+}
+
 export async function desativarProfissional(id: string): Promise<void> {
   const { error } = await supabase
     .from("profissionais")
     .update({ ativo: false })
-    .eq("id", id);
+    .eq("id", id)
+    .select()
+    .single();
 
-  if (error) throw error;
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("desativar");
+    throw error;
+  }
+}
+
+export async function ativarProfissional(id: string): Promise<void> {
+  const { error } = await supabase
+    .from("profissionais")
+    .update({ ativo: true })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("reativar");
+    throw error;
+  }
 }

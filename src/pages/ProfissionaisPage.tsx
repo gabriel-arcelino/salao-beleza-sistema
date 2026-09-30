@@ -4,6 +4,7 @@ import {
   listProfissionais,
   createProfissional,
   desativarProfissional,
+  ativarProfissional,
 } from "../lib/api/profissionais";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
@@ -54,10 +55,22 @@ export function ProfissionaisPage() {
     }
   }
 
-  async function handleDesativar(id: string) {
-    if (!confirm("Desativar este profissional?")) return;
-    await desativarProfissional(id);
-    await carregar();
+  // Reativar e o mesmo par de escrita, e aqui a funcao ja existia - por isso ela
+  // virou "alternar" em vez de ganhar uma irma. Nesta tela a linha fica com UM
+  // botao so: nao existe "Editar" porque updateProfissional e orfa (medido).
+  async function handleAlternarAtivo(id: string, ativando: boolean) {
+    if (!ativando && !confirm("Desativar este profissional?")) return;
+    setErro(null);
+    try {
+      if (ativando) {
+        await ativarProfissional(id);
+      } else {
+        await desativarProfissional(id);
+      }
+      await carregar();
+    } catch (e) {
+      setErro((e as Error).message);
+    }
   }
 
   return (
@@ -111,9 +124,13 @@ export function ProfissionaisPage() {
                 <li key={p.id}>
                   <strong>{p.nome}</strong> — {p.comissao_percentual_padrao}%{" "}
                   {!p.ativo && <em>(inativo)</em>}{" "}
-                  {p.ativo && (
-                    <Button variant="destructive" onClick={() => handleDesativar(p.id)}>
+                  {p.ativo ? (
+                    <Button variant="destructive" onClick={() => handleAlternarAtivo(p.id, false)}>
                       Desativar
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleAlternarAtivo(p.id, true)}>
+                      Reativar
                     </Button>
                   )}
                 </li>

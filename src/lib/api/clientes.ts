@@ -51,7 +51,43 @@ export async function updateCliente(
   return data as Cliente;
 }
 
+// Traducao do PGRST116 destas duas escritas. Medido: o RLS negado NAO levanta erro,
+// devolve zero linhas, e o erro nasce do .single() do cliente - por isso a cadeia
+// precisa pedir .select(). Sem isso a falha e silenciosa: o UPDATE afeta 0 linhas,
+// nenhum erro e levantado, e a tela recarrega como se tivesse gravado. Medido como
+// RECEPCAO em 2026-09-30: "UPDATE 0", registro continua ativo.
+//
+// "Nao encontrado" e "sem permissao" sao INDISTINGUEIVEIS de proposito, pela mesma
+// razao de D-6: separar as duas seria oraculo de existencia para quem nao enxerga
+// a linha. A mensagem fala so que a gravacao nao foi feita.
+function erroDeEscrita(acao: "desativar" | "reativar"): Error {
+  return new Error(
+    `Não foi possível ${acao} o cliente. O registro não foi encontrado ou você não tem permissão.`
+  );
+}
+
 export async function desativarCliente(id: string): Promise<void> {
-  const { error } = await supabase.from("clientes").update({ ativo: false }).eq("id", id);
-  if (error) throw error;
+  const { error } = await supabase
+    .from("clientes")
+    .update({ ativo: false })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("desativar");
+    throw error;
+  }
+}
+
+export async function ativarCliente(id: string): Promise<void> {
+  const { error } = await supabase
+    .from("clientes")
+    .update({ ativo: true })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    if (error.code === "PGRST116") throw erroDeEscrita("reativar");
+    throw error;
+  }
 }

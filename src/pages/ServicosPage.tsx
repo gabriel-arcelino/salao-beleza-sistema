@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Servico } from "../types";
-import { listServicos, createServico, desativarServico } from "../lib/api/servicos";
+import { listServicos, createServico, desativarServico, ativarServico } from "../lib/api/servicos";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
@@ -15,6 +15,23 @@ export function ServicosPage() {
   const [preco, setPreco] = useState("");
   const [duracao, setDuracao] = useState("");
   const [erro, setErro] = useState<string | null>(null);
+
+
+  // Ver a nota em ClientesPage: try/catch e o que impede a falha silenciosa, e a
+  // recarga so acontece depois do sucesso.
+  async function alternarAtivo(id: string, ativando: boolean) {
+    setErro(null);
+    try {
+      if (ativando) {
+        await ativarServico(id);
+      } else {
+        await desativarServico(id);
+      }
+      await carregar();
+    } catch (e) {
+      setErro((e as Error).message);
+    }
+  }
 
   async function carregar() {
     setErro(null);
@@ -105,17 +122,20 @@ export function ServicosPage() {
               {servicos.map((s) => (
                 <li key={s.id}>
                   <strong>{s.nome}</strong> — R$ {s.preco.toFixed(2)} {!s.ativo && <em>(inativo)</em>}{" "}
-                  {s.ativo && (
+                  {s.ativo ? (
                     <Button
                       variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este serviço?")) {
-                          await desativarServico(s.id);
-                          await carregar();
+                          await alternarAtivo(s.id, false);
                         }
                       }}
                     >
                       Desativar
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => alternarAtivo(s.id, true)}>
+                      Reativar
                     </Button>
                   )}
                 </li>

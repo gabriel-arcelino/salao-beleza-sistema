@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Produto } from "../types";
-import { listProdutos, createProduto, updateProduto, desativarProduto } from "../lib/api/produtos";
+import { listProdutos, createProduto, updateProduto, desativarProduto, ativarProduto } from "../lib/api/produtos";
 import { Card } from "../ui/components/Card";
 import { Button } from "../ui/components/Button";
 import { EmptyState } from "../ui/components/EmptyState";
@@ -20,6 +20,23 @@ export function ProdutosPage() {
   // dois, com uma excecao deliberada: o campo de preco de custo so existe no
   // cadastro (ver o comentario no JSX).
   const [editando, setEditando] = useState<Produto | null>(null);
+
+
+  // Ver a nota em ClientesPage: try/catch e o que impede a falha silenciosa, e a
+  // recarga so acontece depois do sucesso.
+  async function alternarAtivo(id: string, ativando: boolean) {
+    setErro(null);
+    try {
+      if (ativando) {
+        await ativarProduto(id);
+      } else {
+        await desativarProduto(id);
+      }
+      await carregar();
+    } catch (e) {
+      setErro((e as Error).message);
+    }
+  }
 
   async function carregar() {
     setErro(null);
@@ -202,17 +219,20 @@ export function ProdutosPage() {
                   <Button variant="neutral" onClick={() => iniciarEdicao(p)}>
                     Editar
                   </Button>{" "}
-                  {p.ativo && (
+                  {p.ativo ? (
                     <Button
                       variant="destructive"
                       onClick={async () => {
                         if (confirm("Desativar este produto?")) {
-                          await desativarProduto(p.id);
-                          await carregar();
+                          await alternarAtivo(p.id, false);
                         }
                       }}
                     >
                       Desativar
+                    </Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => alternarAtivo(p.id, true)}>
+                      Reativar
                     </Button>
                   )}
                 </li>
