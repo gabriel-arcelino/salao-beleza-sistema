@@ -1,0 +1,42 @@
+{
+  "feature": "reativar-cadastros",
+  "timestamp": "2026-09-30T14:18:32.667Z",
+  "gitRev": "00d296b",
+  "command": "node scripts/onp-combined-verify.cjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 16,
+  "results": {
+    "AC-089": {
+      "status": "pass",
+      "testName": "a linha inativa oferece Reativar nas quatro telas @spec:AC-089 # time=1389.73ms",
+      "method": "tap"
+    },
+    "AC-090": {
+      "status": "pass",
+      "testName": "o servico reativado volta a ser oferecido na comanda nova @spec:AC-090 # time=492.69ms",
+      "method": "tap"
+    },
+    "AC-091": {
+      "status": "pass",
+      "testName": "apos reativar, a linha perde a marca de inativo e ganha Desativar @spec:AC-091 # time=205.02ms",
+      "method": "tap"
+    },
+    "AC-092": {
+      "status": "pass",
+      "testName": "a linha ativa oferece Desativar e NAO oferece Reativar @spec:AC-092 # time=606.70ms",
+      "method": "tap"
+    },
+    "AC-093": {
+      "status": "pass",
+      "testName": "salvar a edicao de um inativo nao o reativa @spec:AC-093 # time=206.25ms",
+      "method": "tap"
+    },
+    "AC-094": {
+      "status": "pass",
+      "testName": "uma escrita recusada vira mensagem e o cadastro fica como estava @spec:AC-094 # time=127.16ms",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
