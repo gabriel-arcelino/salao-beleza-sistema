@@ -13,8 +13,14 @@ const METODOS_PAGAMENTO = ["DINHEIRO", "PIX", "DEBITO", "CREDITO"] as const;
 
 export function ConfigComissoesPage() {
   const [configs, setConfigs] = useState<ConfigComissao[]>([]);
+  // Duas listas por entidade, de proposito. As *Ativas alimentam os <select> de
+  // operacao NOVA; as completas alimentam os find() da listagem de configuracoes,
+  // que resolvem o nome a exibir. Se o filtro alcanasse a lista completa, a
+  // configuracao de um profissional desativado passaria a exibir o UUID.
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
   const [servicos, setServicos] = useState<Servico[]>([]);
+  const [profissionaisAtivos, setProfissionaisAtivos] = useState<Profissional[]>([]);
+  const [servicosAtivos, setServicosAtivos] = useState<Servico[]>([]);
   const [erro, setErro] = useState<string | null>(null);
 
   const [profissionalId, setProfissionalId] = useState("");
@@ -39,6 +45,8 @@ export function ConfigComissoesPage() {
       setConfigs(c);
       setProfissionais(p);
       setServicos(s);
+      setProfissionaisAtivos(p.filter((x) => x.ativo));
+      setServicosAtivos(s.filter((x) => x.ativo));
     } catch (e) {
       setErro((e as Error).message);
     }
@@ -97,7 +105,7 @@ export function ConfigComissoesPage() {
             required
           >
             <option value="">Selecione</option>
-            {profissionais.map((p) => (
+            {profissionaisAtivos.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.nome}
               </option>
@@ -109,7 +117,7 @@ export function ConfigComissoesPage() {
           Serviço (vazio = default do profissional)
           <select id="config-comissao-servico" value={servicoId} onChange={(e) => setServicoId(e.target.value)}>
             <option value="">Qualquer serviço (default)</option>
-            {servicos.map((s) => (
+            {servicosAtivos.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.nome}
               </option>

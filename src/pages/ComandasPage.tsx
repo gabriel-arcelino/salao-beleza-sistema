@@ -20,6 +20,13 @@ import { FONT_HEADING, FONT_SIZE_HEADING } from "../ui/tokens/typography";
 
 export function ComandasPage() {
   const [comandas, setComandas] = useState<Comanda[]>([]);
+  // Listas das operacoes NOVAS, ja filtradas para ativos: um servico, produto ou
+  // profissional desativado nao deve poder entrar numa comanda. O filtro e aqui,
+  // e nao em list*, porque list* tambem alimenta as telas de cadastro, onde o
+  // inativo precisa continuar visivel. Esta tela nao precisa da lista completa:
+  // o item ja registrado exibe por descricao_snapshot, e o fechamento le
+  // preco_unitario - medido: com servico e profissional desativados, a comanda
+  // fecha normalmente.
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
   const [servicos, setServicos] = useState<Servico[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -49,9 +56,11 @@ export function ComandasPage() {
         listProdutos(),
       ]);
       setComandas(c);
-      setProfissionais(p);
-      setServicos(s);
-      setProdutos(prod);
+      // O filtro de ativos acontece na atribuicao: e o unico ponto onde a
+      // lista muda de forma, e mantem a tela sem estado duplicado.
+      setProfissionais(p.filter((x) => x.ativo));
+      setServicos(s.filter((x) => x.ativo));
+      setProdutos(prod.filter((x) => x.ativo));
     } catch (e) {
       setErro((e as Error).message);
     } finally {
