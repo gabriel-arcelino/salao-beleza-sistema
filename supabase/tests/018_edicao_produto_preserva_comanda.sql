@@ -2,16 +2,16 @@
 -- Teste pgTAP: editar um produto nao reescreve o historico de comandas, e o
 -- percentual novo vale para a comanda que ainda esta aberta.
 --
--- Feature edicao-clientes-produtos, task 4.1. Cobre AC-010 e AC-011.
+-- Feature edicao-clientes-produtos, task 4.1. Cobre AC-075 e AC-076.
 --
 -- Cobre as DUAS faces da semantica de `percentual_comissao`, que so fazem sentido
 -- juntas:
 --
---   AC-010 - editar ANTES de fechar: o fechamento usa o percentual NOVO
+--   AC-075 - editar ANTES de fechar: o fechamento usa o percentual NOVO
 --             (leitura ao vivo). Medido na fronteira em 2026-09-29, cenario A:
 --             10 -> 25 antes de fechar rendeu comissao_valor_snapshot = 25.00.
 --
---   AC-011 - editar DEPOIS de fechar: comissao_percentual_snapshot e
+--   AC-076 - editar DEPOIS de fechar: comissao_percentual_snapshot e
 --             comissao_valor_snapshot permanecem. Medido no mesmo dia, cenario B:
 --             fechou em 10.00 e continuou 10.00 depois de o produto ir a 40.
 --             O mesmo criterio verifica `preco_unitario` e `total` de um item
@@ -37,7 +37,7 @@ select plan(9);
 
 -- ---------------------------------------------------------------------------
 -- Cenario 1: percentual alterado ANTES do fechamento de comanda ABERTA.
--- O fechamento deve usar o valor novo. (AC-010)
+-- O fechamento deve usar o valor novo. (AC-075)
 -- ---------------------------------------------------------------------------
 
 -- Fixture de identidade: o role authenticated precisa de um ADMIN para ler os
@@ -89,7 +89,7 @@ where id = '18000000-0000-0000-0000-000000000010';
 select is(
   (select percentual_comissao from produtos where id = '18000000-0000-0000-0000-000000000010'),
   25.00::numeric,
-  'CONTROLE: o percentual do produto foi de fato alterado antes do fechamento'
+  'CONTROLE: o percentual do produto foi de fato alterado antes do fechamento @spec:AC-075'
 );
 
 -- Fecha a comanda pela porta real da aplicacao.
@@ -103,18 +103,18 @@ select fn_fechar_comanda(
 select is(
   (select comissao_valor_snapshot from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   25.00::numeric,
-  'comanda aberta: o fechamento usou o percentual NOVO do produto (AC-010)'
+  'comanda aberta: o fechamento usou o percentual NOVO do produto @spec:AC-075'
 );
 
 select is(
   (select comissao_percentual_snapshot from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   25.00::numeric,
-  'comanda aberta: o percentual gravado no item e o novo'
+  'comanda aberta: o percentual gravado no item e o novo @spec:AC-075'
 );
 
 -- ---------------------------------------------------------------------------
 -- Cenario 2: percentual e preco de venda alterados DEPOIS do fechamento.
--- Nada do que foi apurado pode mudar. (AC-011)
+-- Nada do que foi apurado pode mudar. (AC-076)
 -- ---------------------------------------------------------------------------
 
 update produtos
@@ -124,19 +124,19 @@ where id = '18000000-0000-0000-0000-000000000010';
 select is(
   (select percentual_comissao from produtos where id = '18000000-0000-0000-0000-000000000010'),
   40.00::numeric,
-  'CONTROLE: o percentual foi de fato alterado depois do fechamento'
+  'CONTROLE: o percentual foi de fato alterado depois do fechamento @spec:AC-076'
 );
 
 select is(
   (select comissao_valor_snapshot from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   25.00::numeric,
-  'comanda fechada: o valor de comissao apurado permanece (AC-011)'
+  'comanda fechada: o valor de comissao apurado permanece @spec:AC-076'
 );
 
 select is(
   (select comissao_percentual_snapshot from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   25.00::numeric,
-  'comanda fechada: o percentual apurado permanece (AC-011)'
+  'comanda fechada: o percentual apurado permanece @spec:AC-076'
 );
 
 -- O preco unitario e o total do item tambem nao podem mudar: sao gravados no
@@ -145,20 +145,20 @@ select is(
 select is(
   (select preco_unitario from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   100.00::numeric,
-  'preco_unitario do item permanece, mesmo com preco_venda alterado (AC-011)'
+  'preco_unitario do item permanece, mesmo com preco_venda alterado @spec:AC-076'
 );
 
 select is(
   (select total from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   100.00::numeric,
-  'total do item permanece, mesmo com preco_venda alterado (AC-011)'
+  'total do item permanece, mesmo com preco_venda alterado @spec:AC-076'
 );
 
 -- A descricao tambem e snapshot do momento da adicao.
 select is(
   (select descricao_snapshot from comanda_itens where id = '18000000-0000-0000-0000-000000000021'),
   'Produto Edicao 018',
-  'descricao_snapshot do item permanece'
+  'descricao_snapshot do item permanece @spec:AC-076'
 );
 
 select * from finish();

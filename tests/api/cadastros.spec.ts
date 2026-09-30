@@ -1,7 +1,7 @@
 // Prova de que a falha de gravacao de updateCliente e updateProduto chega ao
 // chamador como erro de dominio, sem detalhe tecnico do banco.
 //
-// Feature edicao-clientes-produtos, task 1.2. Cobre AC-004, AC-006, AC-012, AC-014.
+// Feature edicao-clientes-produtos, task 1.2. Cobre AC-069, AC-071, AC-077, AC-079.
 //
 // O cliente Supabase e mockado. O que se prova aqui e a traducao feita pelo codigo
 // da aplicacao, e NAO o comportamento do PostgREST: esse foi medido em 2026-09-29
@@ -79,7 +79,7 @@ const DOM_PGRST116_PRODUTO =
 const DOM_23502_PRODUTO = "O nome e o preço de venda do produto são obrigatórios.";
 
 // Reproduz a cadeia que as duas funcoes montam: update().eq().select().single().
-// Devolve tambem o patch efetivamente enviado, que e o que AC-008 exige inspecionar.
+// Devolve tambem o patch efetivamente enviado, que e o que AC-073 exige inspecionar.
 function encadear(retorno: { data: unknown; error: unknown }) {
   const enviado: { patch: unknown } = { patch: undefined };
   const single = vi.fn(async () => retorno);
@@ -103,17 +103,17 @@ async function falharProduto(code: string, message: string) {
   return await updateProduto(ID, { preco_venda: 10 }).catch((e: Error) => e);
 }
 
-describe("updateCliente — traducao da falha de gravacao (AC-004, AC-006)", () => {
+describe("updateCliente — traducao da falha de gravacao (AC-069, AC-071)", () => {
   beforeEach(() => mocks.from.mockReset());
 
-  it("PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida", async () => {
+  it("PGRST116 vira mensagem de dominio, e nao a mensagem tecnica medida @spec:AC-069 @spec:AC-071", async () => {
     const erro = await falharCliente("PGRST116", MSG_PGRST116);
     expect(erro).toBeInstanceOf(Error);
     expect((erro as Error).message).toBe(DOM_PGRST116_CLIENTE);
     expect((erro as Error).message).not.toBe(MSG_PGRST116);
   });
 
-  it("23502 vira mensagem de dominio distinta da de PGRST116", async () => {
+  it("23502 vira mensagem de dominio distinta da de PGRST116 @spec:AC-069", async () => {
     const erro = await falharCliente("23502", MSG_23502_CLIENTE);
     expect((erro as Error).message).toBe(DOM_23502_CLIENTE);
     expect((erro as Error).message).not.toBe(MSG_23502_CLIENTE);
@@ -121,7 +121,7 @@ describe("updateCliente — traducao da falha de gravacao (AC-004, AC-006)", () 
     expect((erro as Error).message).not.toBe(DOM_PGRST116_CLIENTE);
   });
 
-  it("a mensagem de dominio nao carrega nenhum detalhe do banco", async () => {
+  it("a mensagem de dominio nao carrega nenhum detalhe do banco @spec:AC-069 @spec:AC-077", async () => {
     const msg = (await falharCliente("23502", MSG_23502_CLIENTE) as Error).message;
     expect(msg).not.toContain("23502");
     expect(msg).not.toContain("not-null constraint");
@@ -135,7 +135,7 @@ describe("updateCliente — traducao da falha de gravacao (AC-004, AC-006)", () 
     expect(msg2).not.toContain("0 rows");
   });
 
-  it("a mensagem nao distingue 'sem permissao' de 'registro inexistente' (D-6)", async () => {
+  it("a mensagem nao distingue 'sem permissao' de 'registro inexistente' (D-6) @spec:AC-071 @spec:AC-079", async () => {
     // As duas produzem o MESMO erro na fronteira (medido). A traducao nao pode
     // inventar uma distincao que o banco nao faz: seria prometer ao usuario uma
     // informacao que ele nao tem. Verifica-se que existe UMA traducao para o
@@ -149,7 +149,7 @@ describe("updateCliente — traducao da falha de gravacao (AC-004, AC-006)", () 
     expect(m).toMatch(/não foi encontrado[\s\S]*não tem permissão/);
   });
 
-  it("erro de codigo desconhecido continua sendo repassado sem traducao", async () => {
+  it("erro de codigo desconhecido continua sendo repassado sem traducao @spec:AC-069", async () => {
     const original = "canceling statement due to statement timeout";
     const erro = await falharCliente("57014", original);
     expect((erro as Error).message).toBe(original);
@@ -162,10 +162,10 @@ describe("updateCliente — traducao da falha de gravacao (AC-004, AC-006)", () 
   });
 });
 
-describe("updateProduto — traducao e restricao de campos (AC-008, AC-012, AC-014)", () => {
+describe("updateProduto — traducao e restricao de campos (AC-073, AC-077, AC-079)", () => {
   beforeEach(() => mocks.from.mockReset());
 
-  it("PGRST116 e 23502 viram mensagens de dominio distintas e distintas do tecnico", async () => {
+  it("PGRST116 e 23502 viram mensagens de dominio distintas e distintas do tecnico @spec:AC-077", async () => {
     const a = (await falharProduto("PGRST116", MSG_PGRST116) as Error).message;
     const b = (await falharProduto("23502", MSG_23502_PRODUTO) as Error).message;
     expect(a).toBe(DOM_PGRST116_PRODUTO);
@@ -175,7 +175,7 @@ describe("updateProduto — traducao e restricao de campos (AC-008, AC-012, AC-0
     expect(b).not.toBe(MSG_23502_PRODUTO);
   });
 
-  it("a mensagem nao carrega nome de coluna, de tabela nem o codigo", async () => {
+  it("a mensagem nao carrega nome de coluna, de tabela nem o codigo @spec:AC-077", async () => {
     const m = (await falharProduto("23502", MSG_23502_PRODUTO) as Error).message;
     expect(m).not.toContain("23502");
     expect(m).not.toContain("not-null constraint");
@@ -183,10 +183,10 @@ describe("updateProduto — traducao e restricao de campos (AC-008, AC-012, AC-0
     expect(m).not.toContain('"preco_venda"');
   });
 
-  // AC-008: o banco ACEITA preco_custo e estoque_atual (medido). A unica
+  // AC-073: o banco ACEITA preco_custo e estoque_atual (medido). A unica
   // protecao real e o tipo de updateProduto, entao a prova inspeciona o patch
   // que efetivamente chega ao cliente — nao apenas a ausencia de campo na tela.
-  it("o patch enviado nao alcanca preco_custo nem estoque_atual (AC-008)", async () => {
+  it("o patch enviado nao alcanca preco_custo nem estoque_atual @spec:AC-073", async () => {
     const { enviado } = encadear({ data: null, error: null });
     await updateProduto(ID, { nome: "P", preco_venda: 10 });
     expect(enviado.patch).not.toHaveProperty("preco_custo");
@@ -195,7 +195,7 @@ describe("updateProduto — traducao e restricao de campos (AC-008, AC-012, AC-0
     expect(enviado.patch).toMatchObject({ nome: "P", preco_venda: 10 });
   });
 
-  it("erro de codigo desconhecido continua sendo repassado sem traducao", async () => {
+  it("erro de codigo desconhecido continua sendo repassado sem traducao @spec:AC-069", async () => {
     const original = "canceling statement due to statement timeout";
     const erro = await falharProduto("57014", original);
     expect((erro as Error).message).toBe(original);

@@ -2,11 +2,11 @@
 //
 // Feature edicao-clientes-produtos, task 4.2.
 //
-// Cobre AC-001, AC-002, AC-003, AC-005, AC-007, AC-008, AC-009, AC-013 e a parte
-// de comunicacao de AC-014. A parte de integridade de AC-006 e AC-012 tem prova na
+// Cobre AC-066, AC-067, AC-068, AC-070, AC-072, AC-073, AC-074, AC-078 e a parte
+// de comunicacao de AC-079. A parte de integridade de AC-071 e AC-077 tem prova na
 // camada de API (tests/api/cadastros.spec.ts), onde a traducao e verificavel.
 //
-// A semantica de comanda de AC-010 e AC-011 tem prova em
+// A semantica de comanda de AC-075 e AC-076 tem prova em
 // supabase/tests/018_edicao_produto_preserva_comanda.sql — e a interface nao tem
 // como provar isso sem subir uma comanda de verdade.
 //
@@ -93,7 +93,7 @@ async function abrirEdicaoDeProduto() {
   return screen.findByRole("form", { name: "Formulário de edição de produto" });
 }
 
-describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", () => {
+describe("ClientesPage — edicao de cliente (AC-066, AC-067, AC-068, AC-070)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.listClientes.mockResolvedValue([CLIENTE]);
@@ -101,7 +101,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     mocks.desativarCliente.mockResolvedValue(undefined);
   });
 
-  it("a edicao salva e a listagem passa a exibir os dados novos (AC-001)", async () => {
+  it("a edicao salva e a listagem passa a exibir os dados novos @spec:AC-066", async () => {
     clientesQueMudamAoGravar();
     const form = await abrirEdicaoDeCliente();
 
@@ -117,7 +117,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     expect(await screen.findByText("Ana Souza Lima")).toBeInTheDocument();
   });
 
-  it("a edicao abre com os quatro campos preenchidos e alteraveis (AC-002)", async () => {
+  it("a edicao abre com os quatro campos preenchidos e alteraveis @spec:AC-067", async () => {
     const form = await abrirEdicaoDeCliente();
     expect(within(form).getByLabelText("Nome")).toHaveValue("Ana Souza");
     expect(within(form).getByLabelText("Telefone")).toHaveValue("111");
@@ -125,7 +125,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     expect(within(form).getByLabelText("Observações")).toHaveValue("prefere manha");
   });
 
-  it("cancelar a edicao volta ao modo de cadastro sem gravar (AC-003)", async () => {
+  it("cancelar a edicao volta ao modo de cadastro sem gravar @spec:AC-068", async () => {
     const form = await abrirEdicaoDeCliente();
     fireEvent.change(within(form).getByLabelText("Nome"), { target: { value: "Nao deve gravar" } });
     fireEvent.click(within(form).getByRole("button", { name: "Cancelar edição" }));
@@ -134,11 +134,11 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     expect(mocks.updateCliente).not.toHaveBeenCalled();
   });
 
-  // AC-005: o banco aceita e-mail invalido (medido). A prova exige as DUAS
+  // AC-070: o banco aceita e-mail invalido (medido). A prova exige as DUAS
   // coisas: que a gravacao nao saiu, e que o usuario foi avisado. Um teste que
   // verificasse so "nao persistiu" passaria com uma implementacao que apenas
   // ignorasse o campo.
-  it("e-mail invalido nao e submetido e o responsavel e avisado (AC-005)", async () => {
+  it("e-mail invalido nao e submetido e o responsavel e avisado @spec:AC-070", async () => {
     const form = await abrirEdicaoDeCliente();
     fireEvent.change(within(form).getByLabelText("E-mail"), {
       target: { value: "nao-e-email" },
@@ -149,7 +149,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     expect(mocks.updateCliente).not.toHaveBeenCalled();
   });
 
-  it("falha da API aparece como a mensagem de dominio, sem detalhe do banco (AC-012)", async () => {
+  it("falha da API aparece como a mensagem de dominio, sem detalhe do banco @spec:AC-077", async () => {
     const DOMINIO =
       "Não foi possível salvar a alteração do cliente. O registro não foi encontrado ou você não tem permissão para editá-lo.";
     mocks.updateCliente.mockRejectedValue(new Error(DOMINIO));
@@ -162,7 +162,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
     expect(alerta.textContent).not.toContain("coerce");
   });
 
-  it("o cadastro de cliente continua funcionando (nao regrediu)", async () => {
+  it("o cadastro de cliente continua funcionando (nao regrediu) @spec:AC-066", async () => {
     render(<ClientesPage />);
     const form = await screen.findByRole("form", { name: "Formulário de cadastro de cliente" });
     fireEvent.change(within(form).getByLabelText("Nome"), { target: { value: "Novo" } });
@@ -174,7 +174,7 @@ describe("ClientesPage — edicao de cliente (AC-001, AC-002, AC-003, AC-005)", 
   });
 });
 
-describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC-014)", () => {
+describe("ProdutosPage — edicao de produto (AC-072, AC-073, AC-074, AC-078, AC-079)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.listProdutos.mockResolvedValue([PRODUTO]);
@@ -182,7 +182,7 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     mocks.desativarProduto.mockResolvedValue(undefined);
   });
 
-  it("a edicao salva e a listagem passa a exibir preco e percentual novos (AC-007)", async () => {
+  it("a edicao salva e a listagem passa a exibir preco e percentual novos @spec:AC-072", async () => {
     produtosQueMudamAoGravar();
     const form = await abrirEdicaoDeProduto();
 
@@ -206,16 +206,16 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     expect(await screen.findByText(/R\$ 40\.00/)).toBeInTheDocument();
   });
 
-  // AC-008, interface: o formulario de edicao nao tem preco de custo nem estoque.
+  // AC-073, interface: o formulario de edicao nao tem preco de custo nem estoque.
   // A outra metade (o patch nao os alcanca) tem prova em tests/api/cadastros.spec.ts,
   // porque e ali que o objeto enviado e inspecionavel.
-  it("o formulario de edicao nao oferece preco de custo nem estoque (AC-008)", async () => {
+  it("o formulario de edicao nao oferece preco de custo nem estoque @spec:AC-073", async () => {
     const form = await abrirEdicaoDeProduto();
     expect(within(form).queryByLabelText(/custo/i)).not.toBeInTheDocument();
     expect(within(form).queryByLabelText(/estoque/i)).not.toBeInTheDocument();
   });
 
-  it("o percentual gravado e null quando o campo e esvaziado (AC-009)", async () => {
+  it("o percentual gravado e null quando o campo e esvaziado @spec:AC-074", async () => {
     mocks.updateProduto.mockResolvedValue(PRODUTO);
     const form = await abrirEdicaoDeProduto();
 
@@ -229,7 +229,7 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     expect(patch).toHaveProperty("percentual_comissao", null);
   });
 
-  it("percentual negativo ou acima de 100 nao e submetido (AC-013)", async () => {
+  it("percentual negativo ou acima de 100 nao e submetido @spec:AC-078", async () => {
     const form = await abrirEdicaoDeProduto();
     const campo = within(form).getByLabelText(/comissão específica/i);
 
@@ -244,7 +244,7 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     expect(mocks.updateProduto).not.toHaveBeenCalled();
   });
 
-  it("preco de venda negativo nao e submetido (AC-013)", async () => {
+  it("preco de venda negativo nao e submetido @spec:AC-078", async () => {
     const form = await abrirEdicaoDeProduto();
     fireEvent.change(within(form).getByLabelText("Preço de venda"), { target: { value: "-1" } });
     fireEvent.click(within(form).getByRole("button", { name: "Salvar alterações" }));
@@ -253,9 +253,9 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     expect(mocks.updateProduto).not.toHaveBeenCalled();
   });
 
-  // AC-014, comunicacao: o criterio e sobre o que a TELA DIZ. A semantica que
+  // AC-079, comunicacao: o criterio e sobre o que a TELA DIZ. A semantica que
   // esse texto descreve tem prova no pgTAP 018.
-  it("a tela comunica o efeito do percentual sobre comandas abertas (AC-014)", async () => {
+  it("a tela comunica o efeito do percentual sobre comandas abertas @spec:AC-079", async () => {
     const form = await abrirEdicaoDeProduto();
     const texto = form.textContent ?? "";
 
@@ -265,7 +265,7 @@ describe("ProdutosPage — edicao de produto (AC-007, AC-008, AC-009, AC-013, AC
     expect(texto).toMatch(/já\s*\n?\s*fechadas mantêm/);
   });
 
-  it("o cadastro de produto continua funcionando, com o campo de custo (nao regrediu)", async () => {
+  it("o cadastro de produto continua funcionando, com o campo de custo (nao regrediu) @spec:AC-072", async () => {
     render(<ProdutosPage />);
     const form = await screen.findByRole("form", { name: "Formulário de cadastro de produto" });
 

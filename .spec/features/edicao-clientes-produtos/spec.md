@@ -165,32 +165,32 @@ modelagem.
 
 ## Histórias
 
-### US-001 - O responsável corrige os dados de um cliente já cadastrado
+### US-027 - O responsável corrige os dados de um cliente já cadastrado
 
 Como responsável pelo salão, quero corrigir o telefone, o e-mail ou as observações de um
 cliente que já cadastrei, para não precisar desativá-lo e criar outro cadastro igual.
 
-#### AC-001 - A edição de cliente salva e aparece na listagem
+#### AC-066 - A edição de cliente salva e aparece na listagem
 
 - **Dado** um cliente cadastrado e visível na listagem
 - **Quando** o responsável abre a edição, altera os dados, e confirma a gravação sem erro
 - **Então** a listagem passa a exibir os dados novos para aquele cliente
 
-#### AC-002 - A edição abre preenchida com os valores atuais e permite alterá-los
+#### AC-067 - A edição abre preenchida com os valores atuais e permite alterá-los
 
 - **Dado** um cliente com nome, telefone, e-mail e observações gravados
 - **Quando** o responsável inicia a edição desse cliente
 - **Então** os quatro campos aparecem preenchidos com os valores atuais e podem ser
   alterados
 
-#### AC-003 - Cancelar a edição não altera o cadastro
+#### AC-068 - Cancelar a edição não altera o cadastro
 
 - **Dado** um cliente em edição, com alterações ainda não salvas
 - **Quando** o responsável cancela a edição
 - **Então** o formulário volta ao modo de cadastro e o cadastro do cliente permanece
   como estava
 
-#### AC-004 - Falha ao salvar apresenta mensagem compreensível, sem detalhe técnico
+#### AC-069 - Falha ao salvar apresenta mensagem compreensível, sem detalhe técnico
 
 - **Dado** um cliente em edição
 - **Quando** a gravação falha
@@ -206,7 +206,7 @@ A falha de `23502` e a de `PGRST116` são exercitadas separadamente na prova, po
 produzem traduções que devem ser distintas entre si. E a mensagem de `PGRST116` **não
 distingue** "sem permissão" de "registro inexistente": ver D-6.
 
-#### AC-005 - O e-mail e o telefone são validados antes de salvar
+#### AC-070 - O e-mail e o telefone são validados antes de salvar
 
 - **Dado** um cliente em edição
 - **Quando** o responsável informa um e-mail que não é um endereço válido
@@ -216,7 +216,7 @@ distingue** "sem permissão" de "registro inexistente": ver D-6.
 Este critério existe porque o banco **não** valida: medido, `"nao-e-email"` foi aceito
 pela fronteira real.
 
-#### AC-006 - Uma edição que não pode ser concluída não altera o cadastro
+#### AC-071 - Uma edição que não pode ser concluída não altera o cadastro
 
 - **Dado** um cliente cadastrado, e uma tentativa de edição que a aplicação não consiga
   gravar — seja por falta de permissão de escrita, seja por o registro não existir, as
@@ -231,19 +231,19 @@ anteriores") é a que discrimina: sem ela, uma implementação que falhasse em s
 depois de gravar passaria. A de **não-distinguir** é o que impede que a interface
 prometa ao usuário uma informação que a fronteira não entrega.
 
-### US-002 - O responsável corrige o preço e o percentual de um produto
+### US-028 - O responsável corrige o preço e o percentual de um produto
 
 Como responsável pelo salão, quero corrigir o preço de venda e o percentual de comissão
 de um produto, para manter o cadastro coerente sem duplicar o SKU.
 
-#### AC-007 - A edição de produto salva e aparece na listagem
+#### AC-072 - A edição de produto salva e aparece na listagem
 
 - **Dado** um produto cadastrado e visível na listagem
 - **Quando** o responsável abre a edição, altera os campos permitidos, e confirma a
   gravação sem erro
 - **Então** a listagem passa a exibir o preço e o percentual novos
 
-#### AC-008 - `preco_custo` e `estoque_atual` não são editáveis pela tela
+#### AC-073 - `preco_custo` e `estoque_atual` não são editáveis pela tela
 
 - **Dado** um produto com preço de custo e estoque atual gravados
 - **Quando** o responsável abre a edição desse produto
@@ -254,7 +254,7 @@ A segunda cláusula é a que carrega o critério. A ausência de campo na interf
 verificável por inspeção do formulário; a ausência de alteração no banco é o que
 protege a auditoria de custo, já que `fn_fechar_comanda` lê `preco_custo` ao vivo.
 
-#### AC-009 - `percentual_comissao` é editável, persiste, e vazio significa herdar o padrão
+#### AC-074 - `percentual_comissao` é editável, persiste, e vazio significa herdar o padrão
 
 - **Dado** um produto com percentual de comissão próprio gravado
 - **Quando** o responsável abre a edição e altera o percentual para outro valor
@@ -269,7 +269,7 @@ Duas propriedades no mesmo critério porque são o mesmo campo. Campo vazio prec
 `null` (herda), e não `undefined` (que é descartado na serialização e deixaria o valor
 antigo intacto) — mesma armadilha medida no experimento de `servicos`.
 
-#### AC-010 - A edição de `percentual_comissao` vale para comandas ainda abertas
+#### AC-075 - A edição de `percentual_comissao` vale para comandas ainda abertas
 
 - **Dado** uma comanda **aberta** cujo item é do produto, e uma configuração do
   profissional com comissão sobre produto habilitada
@@ -283,7 +283,7 @@ a implementação poderia "resolver" o problema de duas maneiras incompatíveis 
 percentual no momento em que o item é adicionado, ou ler ao vivo — e ambas as respostas
 passariam num teste que só olhasse comanda fechada.
 
-#### AC-011 - A edição de produto não altera comissão nem valor já apurados
+#### AC-076 - A edição de produto não altera comissão nem valor já apurados
 
 - **Dado** uma comanda **já fechada** cujo item é do produto sendo editado, com o
   percentual e o valor de comissão apurados
@@ -297,13 +297,13 @@ passariam num teste que só olhasse comanda fechada.
 - **Então** o preço unitário e o total gravados naquele item permanecem os mesmos
 
 Duas preservação de histórico no mesmo critério, e ambas discricinam. A primeira é o
-contraponto direto do AC-010: os dois juntos são o que torna a semântica de A e B
+contraponto direto do AC-075: os dois juntos são o que torna a semântica de A e B
 verificável, porque um teste que só verificasse a comanda fechada passaria mesmo com a
 leitura errada. A segunda é o mesmo mecanismo em `preco_unitario`, que é `NOT NULL` e é
 escrito no momento em que o item é adicionado — medido, nenhuma função do banco lê
 `produtos.preco_venda` no cálculo.
 
-#### AC-012 - Falha ao salvar produto apresenta mensagem compreensível
+#### AC-077 - Falha ao salvar produto apresenta mensagem compreensível
 
 - **Dado** um produto em edição
 - **Quando** a gravação falha
@@ -315,7 +315,7 @@ A cláusula de integridade ("permanece com os valores anteriores") é exigível 
 discrimina por si só: um teste que verificasse apenas a presença de um erro na tela
 passaria com uma implementação que gravasse e depois falhasse ao exibir.
 
-#### AC-013 - O preço de venda e o percentual são validados antes de salvar
+#### AC-078 - O preço de venda e o percentual são validados antes de salvar
 
 - **Dado** um produto em edição
 - **Quando** o responsável informa preço de venda ou percentual de comissão negativo, ou
@@ -324,7 +324,7 @@ passaria com uma implementação que gravasse e depois falhasse ao exibir.
 
 Medido: o banco aceitou `preco_venda = -1`, `percentual_comissao = 150` e `= -5`.
 
-#### AC-014 - Uma edição de produto que não pode ser concluída não altera o produto
+#### AC-079 - Uma edição de produto que não pode ser concluída não altera o produto
 
 - **Dado** um produto cadastrado, e uma tentativa de edição que a aplicação não consiga
   gravar — por falta de permissão de escrita ou por o registro não existir, as duas
@@ -350,26 +350,26 @@ objetivo.
 
 | Onde | ACs | O que a prova discrimina |
 |---|---|---|
-| pgTAP, novo arquivo | AC-010, AC-011 | a semântica completa de comissão: leitura ao vivo no fechamento de comanda aberta (AC-010) **e** congelamento depois do fechamento, para percentual e para preço (AC-011) — com asserções de controle que provam que a edição de fato ocorreu, e o par só tem valor junto |
-| Vitest, API (cliente e produto) | AC-004, AC-006, AC-012, AC-014 | a tradução por igualdade de mensagem, ancorada nas mensagens técnicas medidas; que `23502` e `PGRST116` dão traduções distintas entre si; que código de erro desconhecido segue repassado sem tradução; e que a função de produto não alcança `preco_custo` nem `estoque_atual` |
-| Vitest, interface | AC-001, AC-002, AC-003, AC-005, AC-007, AC-008, AC-009, AC-013, AC-014 | abertura preenchida, persistência, exclusão dos campos de custo e estoque, limpeza e gravação do percentual, validação, cancelamento, e o texto que comunica o efeito sobre comandas abertas |
+| pgTAP, novo arquivo | AC-075, AC-076 | a semântica completa de comissão: leitura ao vivo no fechamento de comanda aberta (AC-075) **e** congelamento depois do fechamento, para percentual e para preço (AC-076) — com asserções de controle que provam que a edição de fato ocorreu, e o par só tem valor junto |
+| Vitest, API (cliente e produto) | AC-069, AC-071, AC-077, AC-079 | a tradução por igualdade de mensagem, ancorada nas mensagens técnicas medidas; que `23502` e `PGRST116` dão traduções distintas entre si; que código de erro desconhecido segue repassado sem tradução; e que a função de produto não alcança `preco_custo` nem `estoque_atual` |
+| Vitest, interface | AC-066, AC-067, AC-068, AC-070, AC-072, AC-073, AC-074, AC-078, AC-079 | abertura preenchida, persistência, exclusão dos campos de custo e estoque, limpeza e gravação do percentual, validação, cancelamento, e o texto que comunica o efeito sobre comandas abertas |
 
-Justificativa de não haver teste 1:1: AC-003, AC-005 e AC-013 são comportamentos de
+Justificativa de não haver teste 1:1: AC-068, AC-070 e AC-078 são comportamentos de
 formulário discriminados no mesmo teste de interação que comprova a abertura e a
-gravação. AC-010 e AC-011 ficam no mesmo arquivo pgTAP porque são as duas faces da mesma
+gravação. AC-075 e AC-076 ficam no mesmo arquivo pgTAP porque são as duas faces da mesma
 semântica — separá-los produziria um arquivo que passa com metade da regra implementada.
-AC-014 tem a parte de integridade comprovada na API e a parte de comunicação
+AC-079 tem a parte de integridade comprovada na API e a parte de comunicação
 discriminada na interface, e as duas são verificadas, cada uma na camada onde a
 afirmação é verificável.
 
-**Sobre AC-006 e AC-014, que citam duas causas.** A prova exercita `PGRST116` pelo
+**Sobre AC-071 e AC-079, que citam duas causas.** A prova exercita `PGRST116` pelo
 caminho que o produz — permissão insuficiente e `id` inexistente — e verifica que
 **ambos** deixam o cadastro íntegro e chegam ao chamador sob a **mesma** tradução. Isso é
 o que confirma D-6 de forma discriminante: uma implementação que distinguisse as duas, ou
 que inventasse um erro diferente para "sem permissão", falharia nesta prova. Nenhuma das
 duas causas é invocada pelo nome na tradução, porque a fronteira não as separa.
 
-**O AC-008 exige prova em duas camadas.** A ausência do campo é verificada na interface;
+**O AC-073 exige prova em duas camadas.** A ausência do campo é verificada na interface;
 a ausência de alteração no banco é verificada na prova de API, com asserção sobre o
 *patch efetivamente enviado* — o objeto que chega ao cliente Supabase não contém
 `preco_custo` nem `estoque_atual`. Isso discrimina a proteção real, já que o banco aceita
@@ -397,11 +397,33 @@ presença da indicação de inválido.
   de observações (que existia na API mas não no formulário) e validação de e-mail.
 - `src/pages/ProdutosPage.tsx` — estado de edição, ação na listagem, reconsulta;
   formulário de edição sem os campos de custo e estoque, e com o texto que comunica o
-  efeito do percentual sobre comandas ainda abertas (AC-014) sem alterar o formulário
+  efeito do percentual sobre comandas ainda abertas (AC-079) sem alterar o formulário
   de criação; validação de faixa.
-- `supabase/tests/` — um arquivo pgTAP novo para AC-010 e AC-011.
+- `supabase/tests/` — um arquivo pgTAP novo para AC-075 e AC-076.
 - `tests/` — arquivos Vitest de API e de interface.
 - Sem migration. Sem alteração de RLS, de schema ou de seed.
+
+## Suposições
+
+| ID | Suposição | Status | Resolução |
+|---|---|---|---|
+| ASM-040 | As funções `updateCliente` e `updateProduto` existentes são corretas como contrato e precisam apenas de tradução de erro. | confirmada | Medido em 2026-09-29 pela fronteira real: as duas montam a cadeia `update().eq().select().single()`, e é essa cadeia que produz o `PGRST116`. A assinatura de `updateProduto` exclui `preco_custo` e `estoque_atual`, verificado por diff. |
+| ASM-041 | A restriçao `PGRST116` é o único erro de escrita a traduzir nas duas entidades. | confirmada | A fronteira real não produz `23505` (nenhuma das duas tabelas tem `UNIQUE` ou `CHECK`, medido) nem `42501` (o RLS negado devolve zero linhas em silêncio, medido). Os únicos códigos observados foram `PGRST116` e `23502`. |
+| ASM-042 | O banco não é responsável por validar faixa nem formato, então a validação deve viver no formulário. | confirmada | Medido: `preco_venda = -1`, `percentual_comissao = 150` e `-5`, `estoque_minimo = -3`, e-mail `"nao-e-email"` e observação de 5000 caracteres foram aceitos. Criar `CHECK` em banco seria migration sem necessidade demonstrada. |
+| ASM-043 | Editar `percentual_comissao` não reescreve comissão já apurada. | confirmada | Cenário B da medição: comanda fechada manteve `comissao_percentual_snapshot = 10.00` e `comissao_valor_snapshot = 10.00` após o produto ir a 40. Provado em `supabase/tests/018_*.sql`. |
+| ASM-044 | O percentual vigente é usado no fechamento de comanda ainda aberta. | confirmada | Cenário A da medição: com o produto em 25 antes do fechamento, o apurado foi 25.00. Provado em `supabase/tests/018_*.sql`. |
+| ASM-045 | Reconsultar a listagem após gravar é preferível a aplicar a linha devolvida ao estado local. | confirmada | `setClientes` e `setProdutos` aparecem uma única vez em cada tela, dentro de `carregar()`. A alternativa criaria um segundo caminho de atualização de estado, onde divergência silenciosa nasce. |
+| ASM-046 | O campo de preço de custo deve existir no cadastro e não na edição. | confirmada | O custo é a entrada inicial do custo médio ponderável, calculado pela RPC de movimentação de estoque. Editá-lo pela tela quebraria a auditoria, e `fn_fechar_comanda` o lê ao vivo para gravar `custo_unitario` (medido). |
+
+## Perguntas em aberto
+
+Nenhuma bloqueia a execução. Nenhuma decisão de produto ficou pendente nesta feature.
+
+| ID | Pergunta | Status | Resposta |
+|---|---|---|---|
+| Q-026 | Um e-mail semanticamente inválido deve ser rejeitado no cadastro também, ou só na edição? | respondida | Só na edição, por escopo declarado. O caminho de criação mantém o tratamento que já tinha, para que esta feature seja exclusivamente a edição. O mesmo valeria para preço e percentual. Se a rejeição for desejada no cadastro, é feature própria. |
+| Q-027 | A edição de `clientes.nome` reescreve o nome em relatórios de comissão já emitidos. Aceitável? | respondida | Aceitável, e por isso mesmo: um relatório deve mostrar o nome atual do cliente. O que não muda são os valores — `comissao_valor_snapshot`, `total` e `subtotal` vivem no item. Snapshot de nome exigiria migration e decisão de modelagem, e está fora de escopo. |
+| Q-028 | O campo de observações passou a aparecer no formulário de cadastro junto com o de edição. | respondida | O campo já existia no tipo e na API, e era editável, mas não aparecia em nenhum formulário. A inconsistência vinha da própria tela, não de uma escolha. Exibi-lo nos dois modos é o que torna a edição coerente com o que a API permite. |
 
 ## Fora de escopo
 
